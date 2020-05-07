@@ -28,7 +28,7 @@
     "docker:run": "docker run -p 3000:3000 -d backend-loopback",
     "migrate": "node ./dist/migrate",
     "prestart": "npm run build",
-    "start": "node -r source-map-support/register .",
+    "start": "node .",
     "clean": "lb-clean dist *.tsbuildinfo .eslintcache"
   },
   "repository": {
@@ -53,6 +53,7 @@
     "@loopback/rest": "^3.3.2",
     "@loopback/rest-explorer": "^2.1.2",
     "@loopback/service-proxy": "^2.1.2",
+    "pm2": "^4.4.0",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
