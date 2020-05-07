@@ -1,5 +1,37 @@
-# Created by https://www.gitignore.io/api/vue,node,vuejs,webstorm
-# Edit at https://www.gitignore.io/?templates=vue,node,vuejs,webstorm
+
+# Created by https://www.gitignore.io/api/angular,webstorm,node
+# Edit at https://www.gitignore.io/?templates=angular,webstorm,node
+
+### Angular ###
+## Angular ##
+# compiled output
+dist/
+tmp/
+app/**/*.js
+app/**/*.js.map
+
+# dependencies
+node_modules/
+bower_components/
+
+# IDEs and editors
+.idea/
+
+# misc
+.sass-cache/
+connect.lock/
+coverage/
+libpeerconnection.log/
+npm-debug.log
+testem.log
+typings/
+
+# e2e
+e2e/*.js
+e2e/*.map
+
+#System Files
+.DS_Store/
 
 ### Node ###
 # Logs
@@ -42,11 +74,9 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
 jspm_packages/
 
 # TypeScript v1 declaration files
-typings/
 
 # TypeScript cache
 *.tsbuildinfo
@@ -80,7 +110,6 @@ typings/
 .nuxt
 
 # rollup.js default build output
-dist/
 
 # Uncomment the public line if your project uses Gatsby
 # https://nextjs.org/blog/next-9-1#public-directory-support
@@ -104,27 +133,7 @@ dist/
 .dynamodb/
 
 # Temporary folders
-tmp/
 temp/
-
-### Vue ###
-.DS_*
-**/*.backup.*
-**/*.back.*
-
-node_modules
-
-*.sublime*
-
-psd
-thumb
-sketch
-
-### Vuejs ###
-# Recommended template: Node.gitignore
-
-npm-debug.log
-yarn-error.log
 
 ### WebStorm ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
@@ -214,5 +223,4 @@ fabric.properties
 .idea/**/markdown-navigator.xml
 .idea/**/markdown-navigator/
 
-# End of https://www.gitignore.io/api/vue,node,vuejs,webstorm
-
+# End of https://www.gitignore.io/api/angular,webstorm,node
