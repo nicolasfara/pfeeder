@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
         name: String,
         weight: Number,
         age: Number,
-        type: String,
+        petType: String,
         breed: String,
         supply_mode: String,
         rations_per_day: [{
