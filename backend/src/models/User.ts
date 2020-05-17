@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt-nodejs";
 import crypto from "crypto";
 import mongoose from "mongoose";
-import {PetDocument} from "./Pet";
 
 export type UserDocument = mongoose.Document & {
     email: string;
@@ -11,7 +10,7 @@ export type UserDocument = mongoose.Document & {
 
     facebook: string;
     tokens: AuthToken[];
-    apiKeys: ApiKeys[];
+    apiKeys: string[];
 
     profile: {
         name: string;
@@ -29,10 +28,6 @@ type comparePasswordFunction = (candidatePassword: string, cb: (err: any, isMatc
 export interface AuthToken {
     accessToken: string;
     kind: string;
-}
-
-export interface ApiKeys {
-    accessApi: string;
 }
 
 export enum SupplyMode {
