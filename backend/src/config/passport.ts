@@ -1,6 +1,7 @@
 import passport from "passport";
 import passportLocal from "passport-local";
 import passportFacebook from "passport-facebook";
+import UniqueTokenStrategy from "passport-unique-token";
 import _ from "lodash";
 
 // import { User, UserType } from '../models/User';
@@ -40,6 +41,19 @@ passport.use(new LocalStrategy({ usernameField: "email" }, (email, password, don
     });
 }));
 
+/**
+ * Authenticate the user throw API token.
+ */
+passport.use(new UniqueTokenStrategy((token, done) => {
+    User.findOne({apiKeys: {$in: [token]}})
+        .then(user => {
+            if (!user) return done(undefined, false, {message: "No tokens found."});
+            return done(null, user);
+        })
+        .catch(err => {
+            return done(err, {message: "No token found"});
+        });
+}));
 
 /**
  * OAuth Strategy Overview
@@ -116,6 +130,18 @@ passport.use(new FacebookStrategy({
         });
     }
 }));
+
+/**
+ * Token auth middleware.
+ */
+export const isTokenValid = (req: Request, res: Response, next: NextFunction) => {
+    passport.authenticate("token", (err, user) => {
+        if (err) return next(err);
+        if (!user) return res.status(401).json({ message: "Incorrect token credentials" });
+        req.user = user;
+        next();
+    })(req, res, next);
+};
 
 /**
  * Login Required middleware.
