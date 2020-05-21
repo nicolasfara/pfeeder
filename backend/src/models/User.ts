@@ -1,6 +1,7 @@
-import bcrypt from "bcrypt-nodejs";
+import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import mongoose from "mongoose";
+import has = Reflect.has;
 
 export type UserDocument = mongoose.Document & {
     email: string;
@@ -23,7 +24,7 @@ export type UserDocument = mongoose.Document & {
     gravatar: (size: number) => string;
 };
 
-type comparePasswordFunction = (candidatePassword: string, cb: (err: any, isMatch: any) => {}) => void;
+type comparePasswordFunction = (candidatePassword: string, cb: (err: any, isMatch: any) => void) => void;
 
 export interface AuthToken {
     accessToken: string;
@@ -46,7 +47,6 @@ const userSchema = new mongoose.Schema({
     google: String,
     tokens: Array,
     apiKeys: Array,
-    
 
     profile: {
         name: String,
@@ -64,19 +64,24 @@ userSchema.pre("save", function save(next) {
     if (!user.isModified("password")) { return next(); }
     bcrypt.genSalt(10, (err, salt) => {
         if (err) { return next(err); }
-        bcrypt.hash(user.password, salt, undefined, (err: mongoose.Error, hash) => {
-            if (err) { return next(err); }
-            user.password = hash;
-            next();
-        });
+        bcrypt.hash(user.password, salt)
+            .then(hash => {
+                user.password = hash;
+                next();
+            })
+            .catch(err => {
+                next(err);
+            });
     });
 });
+
 
 const comparePassword: comparePasswordFunction = function (candidatePassword, cb) {
     bcrypt.compare(candidatePassword, this.password, (err: mongoose.Error, isMatch: boolean) => {
         cb(err, isMatch);
     });
 };
+
 
 userSchema.methods.comparePassword = comparePassword;
 
