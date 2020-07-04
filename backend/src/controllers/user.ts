@@ -7,7 +7,9 @@ import { Request, Response, NextFunction } from "express";
 import { IVerifyOptions } from "passport-local";
 import { WriteError } from "mongodb";
 import {body, check, validationResult} from "express-validator";
+import jwt from "jsonwebtoken";
 import "../config/passport";
+import {env} from "shelljs";
 
 /**
  * GET /login
@@ -62,21 +64,22 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        req.flash("errors", errors.array());
-        return res.redirect("/login");
+        return res.status(400).json({
+            errors: errors.array()
+        });
     }
 
     passport.authenticate("local", {session: false}, (err: Error, user: UserDocument, info: IVerifyOptions) => {
-        if (err) { return next(err); }
-        if (!user) {
-            req.flash("errors", {msg: info.message});
-            return res.redirect("/login");
+        if (!user || err) {
+            return res.status(400).json({
+                message: "Something went wrong :(",
+                user: user
+            });
         }
-        req.logIn(user, (err) => {
-            if (err) { return next(err); }
-            req.flash("success", { msg: "Success! You are logged in." });
-            //res.redirect(req.session.returnTo || "/");
-            res.json({msg: "OK"});
+        req.logIn(user, {session: false}, (err) => {
+            if (err) { return res.send(err); }
+            const token = jwt.sign({id: user.email}, process.env.JWT_SECRET);
+            res.json({token: token, message: "User find and logged in"});
         });
     })(req, res, next);
 };
@@ -117,8 +120,9 @@ export const postSignup = async (req: Request, res: Response, next: NextFunction
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        req.flash("errors", errors.array());
-        return res.redirect("/signup");
+        return res.status(400).json({
+            errors: errors.array()
+        });
     }
 
     const user = new User({

@@ -12,7 +12,7 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: http://localhost:3000/v1
+  - url: http://pfeeder.nicolasfarabegoli.it/v1
 
 paths:
   /signup:
@@ -29,7 +29,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SignupUser'
-      response:
+      responses:
         '200':
           description: User signup response
           content:
@@ -70,11 +70,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-
+  /user:
+    get:
+      description: Get the current user details
+      operationId: userDetails
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: The user's details
+        default:
+          description: Error on get user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
+    SignupUser:
+      required:
+        - email
+        - password
+        - confirm-password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        confirm-password:
+          type: string
+
+    SignedUp:
+      allOf:
+        - $ref: '#/components/schemas/SignupUser'
+
     LoginUser:
       required:
         - email
@@ -86,13 +122,14 @@ components:
           type: string
 
     LoggedIn:
-      allOf:
-        - $ref: '#/components/schemas/LoginUser'
-        - required:
-            - jwt
-          properties:
-            jwt:
-              type: string
+      required:
+          - token
+          - message
+      properties:
+        token:
+          type: string
+        message:
+          type: string
 
     Error:
       required:

@@ -24,8 +24,9 @@ import * as notificationController from "./controllers/notification";
 // API keys and Passport configuration
 import * as passportConfig from "./config/passport";
 import {HttpError} from "express-openapi-validator/dist/framework/types";
+import logger from "./util/logger";
 
-const spec = path.join(__dirname, "openapi-spec.yml");
+const spec = path.join(__dirname, "../openapi/openapi-spec.yml");
 
 // Create Express server
 const app = express();
@@ -66,7 +67,7 @@ app.use((req, res, next) => {
     res.locals.user = req.user;
     next();
 });
-app.use((req, res, next) => {
+/*app.use((req, res, next) => {
     // After successful login, redirect back to the intended page
     if (!req.user &&
     req.path !== "/login" &&
@@ -79,7 +80,7 @@ app.use((req, res, next) => {
         req.session.returnTo = req.path;
     }
     next();
-});
+});*/
 
 app.use(
     express.static(path.join(__dirname, "public"), { maxAge: 31557600000 }),
@@ -92,16 +93,20 @@ new OpenApiValidator({
     validateResponses: true, // false by default
 }).install(app)
     .then(() => {
-        app.post("/v1/login", (req, res, next) => {
-            res.json({email: "nellkd", password: "fjfdjjd", jwt: "fkjdjfj"});
-        });
         /**
          * Primary app routes.
          */
-        /*app.get("/", homeController.index);
-        app.get("/login", userController.getLogin);
-        app.post("/login", userController.postLogin);
-        app.get("/logout", userController.logout);
+        app.get("/", homeController.index);
+        app.post("/v1/login", userController.postLogin);
+        app.get("/v1/user", passport.authenticate("jwt", {session: false}), (req, res, next) => {
+            logger.info("Here");
+            return res.status(200).json({
+                code: "5",
+                message: "Yess",
+                user: req.user
+            });
+        });
+        /*app.get("/logout", userController.logout);
         app.get("/forgot", userController.getForgot);
         app.post("/forgot", userController.postForgot);
         app.get("/reset/:token", userController.getReset);

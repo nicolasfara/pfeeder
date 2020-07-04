@@ -8,6 +8,7 @@ import _ from "lodash";
 // import { User, UserType } from '../models/User';
 import { User, UserDocument } from "../models/User";
 import { Request, Response, NextFunction } from "express";
+import logger from "../util/logger";
 
 const LocalStrategy = passportLocal.Strategy;
 const FacebookStrategy = passportFacebook.Strategy;
@@ -64,10 +65,10 @@ passport.use(new UniqueTokenStrategy((token, done) => {
  */
 passport.use(new JwtStrategy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: "TOKEN"
+    secretOrKey: process.env.JWT_SECRET
 }, (jwtPayload, done) => {
     // find the use in the DB.
-    User.findOne({ jwt: jwtPayload.id })
+    User.findOne({ email: jwtPayload.id })
         .then(user => {
             if (!user) return done(undefined, false, { message: "No user valid" });
             return done(null, user);
