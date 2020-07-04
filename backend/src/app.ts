@@ -1,4 +1,4 @@
-import express from "express";
+import express, {NextFunction, Request, Response} from "express";
 import compression from "compression";  // compresses requests
 import session from "express-session";
 import bodyParser from "body-parser";
@@ -10,6 +10,7 @@ import mongoose from "mongoose";
 import passport from "passport";
 import bluebird from "bluebird";
 import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
+import { OpenApiValidator } from "express-openapi-validator";
 
 const MongoStore = mongo(session);
 
@@ -20,9 +21,11 @@ import * as apiController from "./controllers/api";
 import * as contactController from "./controllers/contact";
 import * as notificationController from "./controllers/notification";
 
-
 // API keys and Passport configuration
 import * as passportConfig from "./config/passport";
+import {HttpError} from "express-openapi-validator/dist/framework/types";
+
+const spec = path.join(__dirname, "openapi-spec.yml");
 
 // Create Express server
 const app = express();
@@ -79,29 +82,48 @@ app.use((req, res, next) => {
 });
 
 app.use(
-    express.static(path.join(__dirname, "public"), { maxAge: 31557600000 })
+    express.static(path.join(__dirname, "public"), { maxAge: 31557600000 }),
+    express.static(spec)
 );
 
-/**
- * Primary app routes.
- */
-app.get("/", homeController.index);
-app.get("/login", userController.getLogin);
-app.post("/login", userController.postLogin);
-app.get("/logout", userController.logout);
-app.get("/forgot", userController.getForgot);
-app.post("/forgot", userController.postForgot);
-app.get("/reset/:token", userController.getReset);
-app.post("/reset/:token", userController.postReset);
-app.get("/signup", userController.getSignup);
-app.post("/signup", userController.postSignup);
-app.get("/contact", contactController.getContact);
-app.post("/contact", contactController.postContact);
-app.get("/account", passportConfig.isAuthenticated, userController.getAccount);
-app.post("/account/profile", passportConfig.isAuthenticated, userController.postUpdateProfile);
-app.post("/account/password", passportConfig.isAuthenticated, userController.postUpdatePassword);
-app.post("/account/delete", passportConfig.isAuthenticated, userController.postDeleteAccount);
-app.get("/account/unlink/:provider", passportConfig.isAuthenticated, userController.getOauthUnlink);
+new OpenApiValidator({
+    apiSpec: spec,
+    validateRequests: true, // (default)
+    validateResponses: true, // false by default
+}).install(app)
+    .then(() => {
+        app.post("/v1/login", (req, res, next) => {
+            res.json({email: "nellkd", password: "fjfdjjd", jwt: "fkjdjfj"});
+        });
+        /**
+         * Primary app routes.
+         */
+        /*app.get("/", homeController.index);
+        app.get("/login", userController.getLogin);
+        app.post("/login", userController.postLogin);
+        app.get("/logout", userController.logout);
+        app.get("/forgot", userController.getForgot);
+        app.post("/forgot", userController.postForgot);
+        app.get("/reset/:token", userController.getReset);
+        app.post("/reset/:token", userController.postReset);
+        app.get("/signup", userController.getSignup);
+        app.post("/signup", userController.postSignup);
+        app.get("/contact", contactController.getContact);
+        app.post("/contact", contactController.postContact);
+        app.get("/account", passportConfig.isAuthenticated, userController.getAccount);
+        app.post("/account/profile", passportConfig.isAuthenticated, userController.postUpdateProfile);
+        app.post("/account/password", passportConfig.isAuthenticated, userController.postUpdatePassword);
+        app.post("/account/delete", passportConfig.isAuthenticated, userController.postDeleteAccount);
+        app.get("/account/unlink/:provider", passportConfig.isAuthenticated, userController.getOauthUnlink);*/
+        app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
+            res.status(err.status || 500).json({
+                message: err.message,
+                errors: err.errors,
+            });
+        });
+
+    });
+
 
 /**
  * API examples routes.

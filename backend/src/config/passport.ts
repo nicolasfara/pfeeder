@@ -2,6 +2,7 @@ import passport from "passport";
 import passportLocal from "passport-local";
 import passportFacebook from "passport-facebook";
 import UniqueTokenStrategy from "passport-unique-token";
+import passportJwt from "passport-jwt";
 import _ from "lodash";
 
 // import { User, UserType } from '../models/User';
@@ -10,6 +11,8 @@ import { Request, Response, NextFunction } from "express";
 
 const LocalStrategy = passportLocal.Strategy;
 const FacebookStrategy = passportFacebook.Strategy;
+const JwtStrategy = passportJwt.Strategy;
+const ExtractJWT = passportJwt.ExtractJwt;
 
 passport.serializeUser<any, any>((user, done) => {
     done(undefined, user.id);
@@ -53,6 +56,24 @@ passport.use(new UniqueTokenStrategy((token, done) => {
         })
         .catch(err => {
             return done(err, {message: "No token found"});
+        });
+}));
+
+/**
+ * Authentication with JWT Token.
+ */
+passport.use(new JwtStrategy({
+    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+    secretOrKey: "TOKEN"
+}, (jwtPayload, done) => {
+    // find the use in the DB.
+    User.findOne({ jwt: jwtPayload.id })
+        .then(user => {
+            if (!user) return done(undefined, false, { message: "No user valid" });
+            return done(null, user);
+        })
+        .catch(err => {
+            return done(err);
         });
 }));
 
