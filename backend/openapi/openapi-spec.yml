@@ -1,0 +1,144 @@
+openapi: '3.0.0'
+info:
+  version: 1.0.0
+  title: Pfeeder
+  description: A platform to automate the food feeding for your pets.
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: Pfeeder API Team
+    email: nicolas.farabegoli@gmail.com
+    url: http://pfeeder.nicolasfarabegoli.it
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: http://pfeeder.nicolasfarabegoli.it/v1
+
+paths:
+  /signup:
+    post:
+      description: |
+        Use for register a new user.
+
+        Email, password, confirm password are mandatory.
+      operationId: userSignup
+      requestBody:
+        description: Email, password, confirm password are required.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupUser'
+      responses:
+        '200':
+          description: User signup response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignedUp'
+        default:
+          description: Error on signup new user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /login:
+    post:
+      description: |
+        Use for login a user into the system.
+
+        Return a JWT token, use that in the future request for auth the request.
+      operationId: loginUser
+      requestBody:
+        description: Credential for login the user.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUser'
+      responses:
+        '200':
+          description: Login response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoggedIn'
+        default:
+          description: Error on login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user:
+    get:
+      description: Get the current user details
+      operationId: userDetails
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: The user's details
+        default:
+          description: Error on get user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    SignupUser:
+      required:
+        - email
+        - password
+        - confirm-password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        confirm-password:
+          type: string
+
+    SignedUp:
+      allOf:
+        - $ref: '#/components/schemas/SignupUser'
+
+    LoginUser:
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    LoggedIn:
+      required:
+          - token
+          - message
+      properties:
+        token:
+          type: string
+        message:
+          type: string
+
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+
