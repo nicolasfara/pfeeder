@@ -17,7 +17,6 @@ const MongoStore = mongo(session);
 // Controllers (route handlers)
 import * as homeController from "./controllers/home";
 import * as userController from "./controllers/user";
-import * as apiController from "./controllers/api";
 import * as contactController from "./controllers/contact";
 import * as notificationController from "./controllers/notification";
 
@@ -65,10 +64,8 @@ app.use((req, res, next) => {
     res.locals.user = req.user;
     next();
 });
-app.use("/spec", express.static(spec));
 
 app.use(
-    express.static(path.join(__dirname, "public"), { maxAge: 31557600000 }),
     express.static(spec)
 );
 
