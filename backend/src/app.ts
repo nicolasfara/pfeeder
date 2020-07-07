@@ -44,8 +44,6 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true, useCreateIndex: true, useUni
 
 // Express configuration
 app.set("port", process.env.PORT || 3000);
-app.set("views", path.join(__dirname, "../views"));
-app.set("view engine", "pug");
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -98,6 +96,7 @@ new OpenApiValidator({
          */
         app.get("/", homeController.index);
         app.post("/v1/login", userController.postLogin);
+        app.post("/v1/signup", userController.postSignup);
         app.get("/v1/user", passport.authenticate("jwt", {session: false}), (req, res, next) => {
             logger.info("Here");
             return res.status(200).json({
@@ -106,13 +105,13 @@ new OpenApiValidator({
                 user: req.user
             });
         });
+        //app.get("/v1/signup", userController.getSignup);
         /*app.get("/logout", userController.logout);
         app.get("/forgot", userController.getForgot);
         app.post("/forgot", userController.postForgot);
         app.get("/reset/:token", userController.getReset);
         app.post("/reset/:token", userController.postReset);
-        app.get("/signup", userController.getSignup);
-        app.post("/signup", userController.postSignup);
+
         app.get("/contact", contactController.getContact);
         app.post("/contact", contactController.postContact);
         app.get("/account", passportConfig.isAuthenticated, userController.getAccount);
@@ -128,22 +127,5 @@ new OpenApiValidator({
         });
 
     });
-
-
-/**
- * API examples routes.
- */
-app.get("/api", apiController.getApi);
-app.get("/api/facebook", passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
-
-app.get("/api/notification", passportConfig.isAuthenticated, notificationController.getNotifications);
-
-/**
- * OAuth authentication routes. (Sign in)
- */
-app.get("/auth/facebook", passport.authenticate("facebook", { scope: ["email", "public_profile"] }));
-app.get("/auth/facebook/callback", passport.authenticate("facebook", { failureRedirect: "/login" }), (req, res) => {
-    res.redirect(req.session.returnTo || "/");
-});
 
 export default app;

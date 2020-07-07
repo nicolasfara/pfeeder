@@ -2,46 +2,29 @@ import request from "supertest";
 import app from "../src/app";
 import { expect } from "chai";
 
-describe("GET /login", () => {
-    it("should return 200 OK", () => {
-        return request(app).get("/login")
-            .expect(200);
-    });
-});
-
-
-describe("GET /forgot", () => {
-    it("should return 200 OK", () => {
-        return request(app).get("/forgot")
-            .expect(200);
-    });
-});
-
-describe("GET /signup", () => {
-    it("should return 200 OK", () => {
-        return request(app).get("/signup")
-            .expect(200);
-    });
-});
-
-describe("GET /reset", () => {
-    it("should return 302 Found for redirection", () => {
-        return request(app).get("/reset/1")
-            .expect(302);
-    });
-});
-
-describe("POST /login", () => {
-    it("should return some defined error message with valid parameters", (done) => {
-        return request(app).post("/login")
-            .field("email", "john@me.com")
-            .field("password", "Hunter2")
-            .expect(302)
+describe("POST /v1/login", () => {
+    it("should return 400 err code for unauthorized user", (done) => {
+        return request(app).post("/v1/login")
+            .set("content-type", "application/json")
+            .send({email: "john@apple.com", password: "qwerty"})
+            .expect(400)
             .end(function(err, res) {
-                console.log(res.error);
-                expect(res.error).not.to.be.undefined;
+                console.log(res.text);
+                if (err) done(err);
                 done();
             });
 
+    });
+
+    it("should return 200 for a valid user login", done => {
+        return request(app).post("/v1/login")
+            .set("content-type", "application/json")
+            .send({ email: "foo@bar.com", password: "foobar"})
+            .expect(200)
+            .end((err, res) => {
+                console.log(res.text);
+               if (err) done(err);
+               done();
+            });
     });
 });

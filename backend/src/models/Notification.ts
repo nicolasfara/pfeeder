@@ -15,11 +15,10 @@ export enum NotificationType {
 }
 
 const notificationSchema = new mongoose.Schema({
-    timestamp: Date,
-    read: Boolean,
-    notificationType: {type: String, enum: ["err", "info", "warn"]},
-    message: String,
-    userId: mongoose.Types.ObjectId
+    read: { type: Boolean, required: true },
+    notificationType: {type: String, enum: ["err", "info", "warn"], required: true },
+    message: { type: String, required: true },
+    userId: { type: Types.ObjectId, ref: "User" }
 }, { timestamps: true });
 
 export const Notification = mongoose.model<NotificationDocument>("Notification", notificationSchema);

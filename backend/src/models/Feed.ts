@@ -9,12 +9,11 @@ export type FeedDocument = mongoose.Document & {
 }
 
 const feedSchema = new mongoose.Schema({
-    data: Date,
     quantity: Number,
     kcal: Number,
-    fodderId: mongoose.Types.ObjectId,
-    petId: mongoose.Types.ObjectId
-});
+    fodderId: { type: Types.ObjectId, ref: "Fodder" },
+    petId: { type: Types.ObjectId, ref: "Pet" }
+}, { timestamps: true });
 
 export const Feed = mongoose.model<FeedDocument>("Feed", feedSchema);
 

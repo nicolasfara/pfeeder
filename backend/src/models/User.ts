@@ -8,11 +8,11 @@ export type UserDocument = mongoose.Document & {
     passwordResetToken: string;
     passwordResetExpires: Date;
 
-    facebook: string;
     tokens: AuthToken[];
     apiKeys: string[];
 
     profile: {
+        surname: string;
         name: string;
         gender: string;
         location: string;
@@ -48,6 +48,7 @@ const userSchema = new mongoose.Schema({
     apiKeys: Array,
 
     profile: {
+        surname: { type: String },
         name: String,
         gender: String,
         location: String,

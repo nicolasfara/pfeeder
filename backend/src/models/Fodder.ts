@@ -14,7 +14,7 @@ export type FodderDocument = mongoose.Document & {
 }
 
 const fodderSchema = new mongoose.Schema({
-    name: String,
+    name: { type: String, required: true },
     companyName: String,
     price: Number,
     weight: Number,

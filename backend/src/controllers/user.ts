@@ -133,19 +133,18 @@ export const postSignup = async (req: Request, res: Response, next: NextFunction
     User.findOne({ email: req.body.email })
         .then(existingUser => {
             if (existingUser) {
-                req.flash("errors", { msg: "Account with that email address already exists." });
-                return res.redirect("/signup");
+                return res.status(401).json({code: 5, message: "Account with that email address already exists."});
             }
             user.save()
                 .then(user => {
                     req.logIn(user, (err) => {
                         if (err) {
-                            return next(err);
+                            return res.status(401).json({code: 6, message: "Unable to login: " + err });
                         }
-                        res.redirect("/");
+                        res.json({status: 0});
                     });
                 })
-                .catch(err => { return next(err);});
+                .catch(err => { return res.status(401).json({code: 6, message: "Unable to save the user into DB: " + err}); });
         })
         .catch(err => next(err));
 };

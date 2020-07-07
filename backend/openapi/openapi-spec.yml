@@ -98,18 +98,22 @@ components:
       required:
         - email
         - password
-        - confirm-password
+        - confirmPassword
       properties:
         email:
           type: string
         password:
           type: string
-        confirm-password:
+        confirmPassword:
           type: string
 
     SignedUp:
-      allOf:
-        - $ref: '#/components/schemas/SignupUser'
+      required:
+        - status
+      properties:
+        status:
+          type: integer
+          format: int32
 
     LoginUser:
       required:
