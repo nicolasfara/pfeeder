@@ -1,0 +1,4 @@
+UnexpectedError:
+  $ref: "./UnexpectedError.yaml"
+SignupResponse:
+  $ref: "./SignupResponse.yaml"

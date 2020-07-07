@@ -9,7 +9,6 @@ import { WriteError } from "mongodb";
 import {body, check, validationResult} from "express-validator";
 import jwt from "jsonwebtoken";
 import "../config/passport";
-import {env} from "shelljs";
 
 /**
  * GET /login
@@ -28,33 +27,6 @@ export const getLogin = (req: Request, res: Response) => {
  * POST /login
  * Sign in using email and password.
  */
-/*export const postLogin = async (req: Request, res: Response, next: NextFunction) => {
-    await check("email", "Email is not valid").isEmail().run(req);
-    await check("password", "Password cannot be blank").isLength({min: 1}).run(req);
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    await check("email").normalizeEmail({ gmail_remove_dots: false }).run(req);
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        req.flash("errors", errors.array());
-        return res.redirect("/login");
-    }
-
-    passport.authenticate("local", {session: false}, (err: Error, user: UserDocument, info: IVerifyOptions) => {
-        if (err) { return next(err); }
-        if (!user) {
-            req.flash("errors", {msg: info.message});
-            return res.redirect("/login");
-        }
-        req.logIn(user, (err) => {
-            if (err) { return next(err); }
-            req.flash("success", { msg: "Success! You are logged in." });
-            res.redirect(req.session.returnTo || "/");
-        });
-    })(req, res, next);
-};*/
-
 export const postLogin = async (req: Request, res: Response, next: NextFunction) => {
     await check("email", "Email is not valid").isEmail().run(req);
     await check("password", "Password cannot be blank").isLength({min: 1}).run(req);
@@ -70,14 +42,15 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
     }
 
     passport.authenticate("local", {session: false}, (err: Error, user: UserDocument, info: IVerifyOptions) => {
-        if (!user || err) {
-            return res.status(400).json({
-                message: "Something went wrong :(",
-                user: user
+        if (err) return res.status(500).json({code: 1, message: "Internal error"});
+        if (!user) {
+            return res.status(401).json({
+                code: 2,
+                message: "Something went wrong :( Unable to find you in our system",
             });
         }
         req.logIn(user, {session: false}, (err) => {
-            if (err) { return res.send(err); }
+            if (err) { return res.send({code: 2, message: err}); }
             const token = jwt.sign({id: user.email}, process.env.JWT_SECRET);
             res.json({token: token, message: "User find and logged in"});
         });
@@ -121,7 +94,8 @@ export const postSignup = async (req: Request, res: Response, next: NextFunction
 
     if (!errors.isEmpty()) {
         return res.status(400).json({
-            errors: errors.array()
+            code: 1,
+            message: errors.array()
         });
     }
 
@@ -133,18 +107,18 @@ export const postSignup = async (req: Request, res: Response, next: NextFunction
     User.findOne({ email: req.body.email })
         .then(existingUser => {
             if (existingUser) {
-                return res.status(401).json({code: 5, message: "Account with that email address already exists."});
+                return res.status(403).json({code: 1, message: "Account with that email address already exists."});
             }
             user.save()
                 .then(user => {
                     req.logIn(user, (err) => {
                         if (err) {
-                            return res.status(401).json({code: 6, message: "Unable to login: " + err });
+                            return res.status(500).json({code: 2, message: "Unable to login: " + err });
                         }
-                        res.json({status: 0});
+                        res.json({email: user.email, message: "New user create successfully"});
                     });
                 })
-                .catch(err => { return res.status(401).json({code: 6, message: "Unable to save the user into DB: " + err}); });
+                .catch(err => { return res.status(500).json({code: 3, message: "Unable to save the user into DB: " + err}); });
         })
         .catch(err => next(err));
 };
@@ -242,28 +216,6 @@ export const postDeleteAccount = (req: Request, res: Response, next: NextFunctio
             req.flash("info", { msg: "Your account has been deleted." });
             res.redirect("/");
         })
-        .catch(err => { return next(err); });
-};
-
-/**
- * GET /account/unlink/:provider
- * Unlink OAuth provider.
- */
-export const getOauthUnlink = (req: Request, res: Response, next: NextFunction) => {
-    const provider = req.params.provider;
-    const user = req.user as UserDocument;
-    User.findById(user.id)
-        .then((user: any) => {
-            user[provider] = undefined;
-            user.tokens = user.tokens.filter((token: AuthToken) => token.kind !== provider);
-            user.save()
-                .then(() => {
-                    req.flash("info", { msg: `${provider} account has been unlinked.` });
-                    res.redirect("/account");
-                })
-                .catch((err: WriteError) => { return next(err); });
-
-            })
         .catch(err => { return next(err); });
 };
 

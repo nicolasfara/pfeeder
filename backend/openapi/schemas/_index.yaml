@@ -1,0 +1,10 @@
+Error:
+  $ref: "./Error.yaml"
+SignUpUser:
+  $ref: "./SignUpUser.yaml"
+SignUpUserRes:
+  $ref: "./SignUpUserRes.yaml"
+LoginUser:
+  $ref: "./LoginUser.yaml"
+LoginUserRes:
+  $ref: "./LoginUserRes.yaml"
