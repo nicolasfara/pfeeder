@@ -85,6 +85,10 @@ new OpenApiValidator({
         app.get('/', homeController.index);
         app.post('/v1/login', userController.postLogin);
         app.post('/v1/signup', userController.postSignup);
+        app.post('/forgot', userController.postForgot);
+        app.get('/reset/:token', userController.getReset);
+        app.post('/reset/:token', userController.postReset);
+
         app.get('/v1/user', passport.authenticate('jwt', { session: false }), (req, res, next) => {
             logger.info('Here');
             return res.status(200).json({
@@ -96,9 +100,8 @@ new OpenApiValidator({
         //app.get("/v1/signup", userController.getSignup);
         /*app.get("/logout", userController.logout);
         app.get("/forgot", userController.getForgot);
-        app.post("/forgot", userController.postForgot);
-        app.get("/reset/:token", userController.getReset);
-        app.post("/reset/:token", userController.postReset);
+
+        
 
         app.get("/contact", contactController.getContact);
         app.post("/contact", contactController.postContact);

@@ -8,3 +8,7 @@ LoginUser:
   $ref: "./LoginUser.yaml"
 LoginUserRes:
   $ref: "./LoginUserRes.yaml"
+EmailOnly:
+  $ref: "./EmailOnly.yaml"
+MessageRes:
+  $ref: "./MessageRes.yaml"
