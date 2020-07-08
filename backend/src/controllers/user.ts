@@ -2,7 +2,7 @@ import async from 'async';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import passport from 'passport';
-import { User, UserDocument, AuthToken } from '../models/User';
+import { AuthToken, User, UserDocument } from '../models/User';
 import { Request, Response, NextFunction } from 'express';
 import { IVerifyOptions } from 'passport-local';
 import { WriteError } from 'mongodb';
@@ -145,8 +145,6 @@ export const postUpdateProfile = async (req: Request, res: Response, next: NextF
         .then((user) => {
             user.email = req.body.email || '';
             user.profile.name = req.body.name || '';
-            user.profile.gender = req.body.gender || '';
-            user.profile.location = req.body.location || '';
             user.save()
                 .then(() => {
                     req.flash('success', { msg: 'Profile information has been updated.' });

@@ -7,15 +7,12 @@ export type UserDocument = mongoose.Document & {
     password: string;
     passwordResetToken: string;
     passwordResetExpires: Date;
-
     tokens: AuthToken[];
     apiKeys: string[];
 
     profile: {
         surname: string;
         name: string;
-        gender: string;
-        location: string;
         picture: string;
     };
 
@@ -30,29 +27,18 @@ export interface AuthToken {
     kind: string;
 }
 
-export enum SupplyMode {
-    Auto,
-    Manual,
-}
-
 const userSchema = new mongoose.Schema(
     {
-        email: { type: String, unique: true },
-        password: String,
+        email: { type: String, unique: true, required: true },
+        password: { type: String, required: true },
         passwordResetToken: String,
         passwordResetExpires: Date,
-
-        facebook: String,
-        twitter: String,
-        google: String,
         tokens: Array,
         apiKeys: Array,
 
         profile: {
-            surname: { type: String },
-            name: String,
-            gender: String,
-            location: String,
+            surname: { type: String, required: true },
+            name: { type: String, required: true },
             picture: String,
         },
     },

@@ -9,6 +9,14 @@ requestBody:
         $ref: '../schemas/LoginUser.yaml'
 responses:
   '200':
-    $ref: "../responses/LoginResponse.yaml"
+    description: Return the JWT token for authentication
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/LoginUserRes.yaml"
   default:
-    $ref: "../responses/UnexpectedError.yaml"
+    description: Error on login the user
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/Error.yaml"

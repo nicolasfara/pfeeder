@@ -9,6 +9,14 @@ requestBody:
         $ref: '../schemas/SignUpUser.yaml'
 responses:
   '200':
-    $ref: '../responses/SignupResponse.yaml'
+    description: Return the new user created
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/SignUpUserRes.yaml"
   default:
-    $ref: '../responses/UnexpectedError.yaml'
+    description: Error on registering new user.
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/Error.yaml"
