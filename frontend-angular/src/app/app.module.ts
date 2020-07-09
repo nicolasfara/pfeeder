@@ -10,6 +10,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/authconfig.interceptor';
 import {ReactiveFormsModule} from '@angular/forms';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     LoginComponent,
     RegisterComponent,
     NavbarComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
