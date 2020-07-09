@@ -3,7 +3,7 @@
   <h5 class="my-0 mr-md-auto font-weight-normal">Angular Mean Auth</h5>
   <nav class="my-2 my-md-0 mr-md-3">
     <a *ngIf="this.authService.isLoggedIn" class="p-2 text-dark">User Profile</a>
-    <a *ngIf="!this.authService.isLoggedIn" class="p-2 text-dark" routerLinkActive="active" routerLink="/log-in">Sign
+    <a *ngIf="!this.authService.isLoggedIn" class="p-2 text-dark" routerLinkActive="active" routerLink="/login">Sign
       in</a>
   </nav>
   <a *ngIf="!this.authService.isLoggedIn" class="btn btn-outline-primary" routerLinkActive="active"
