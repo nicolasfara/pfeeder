@@ -1,4 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
+import cors from 'cors';
 import compression from 'compression'; // compresses requests
 import bodyParser from 'body-parser';
 import lusca from 'lusca';
@@ -39,6 +40,7 @@ mongoose
 
 // Express configuration
 app.set('port', process.env.PORT || 3000);
+app.use(cors());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
