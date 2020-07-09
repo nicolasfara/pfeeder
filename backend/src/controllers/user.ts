@@ -228,8 +228,9 @@ export const postReset = async (req: Request, res: Response, next: NextFunction)
                     .exec()
                     .then((user) => {
                         if (!user) {
-                            req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
-                            return res.redirect('back');
+                            return res
+                                .status(500)
+                                .json({ code: 2, message: 'Password reset token is invalid or has expired.' });
                         }
                         user.password = req.body.password;
                         user.passwordResetToken = undefined;
@@ -271,7 +272,7 @@ export const postReset = async (req: Request, res: Response, next: NextFunction)
             if (err) {
                 return res.status(500).json({ code: 3, message: err });
             }
-            return res.json({ message: 'The password has just benn changed' });
+            return res.json({ message: 'The password has just been changed' });
         },
     );
 };
