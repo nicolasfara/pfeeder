@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export type FodderDocument = mongoose.Document & {
     name: string;
@@ -11,10 +11,10 @@ export type FodderDocument = mongoose.Document & {
         vitamins: number;
         carbohydrates: number;
     };
-}
+};
 
 const fodderSchema = new mongoose.Schema({
-    name: String,
+    name: { type: String, required: true },
     companyName: String,
     price: Number,
     weight: Number,
@@ -22,8 +22,8 @@ const fodderSchema = new mongoose.Schema({
         proteins: Number,
         fats: Number,
         vitamins: Number,
-        carbohydrates: Number
-    }
+        carbohydrates: Number,
+    },
 });
 
-export const Fodder = mongoose.model<FodderDocument>("Fodder", fodderSchema);
+export const Fodder = mongoose.model<FodderDocument>('Fodder', fodderSchema);

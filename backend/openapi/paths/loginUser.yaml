@@ -1,0 +1,22 @@
+description: Use for login a user into the system. Return a JWT token, use that in the future request for auth the request.
+operationId: loginUser
+requestBody:
+  description: Credential for login the user.
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '../schemas/LoginUser.yaml'
+responses:
+  '200':
+    description: Return the JWT token for authentication
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/LoginUserRes.yaml"
+  default:
+    description: Error on login the user
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/Error.yaml"

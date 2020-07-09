@@ -1,0 +1,14 @@
+/signup:
+  post:
+    $ref: "./signupUser.yaml"
+
+/login:
+  post:
+    $ref: "./loginUser.yaml"
+
+/forgot:
+  post:
+    $ref: "./forgotPassword.yaml"
+
+/reset/{token}:
+  $ref: "./reset.yaml"
