@@ -1,14 +1,12 @@
 import express, { NextFunction, Request, Response } from 'express';
 import compression from 'compression'; // compresses requests
-import session from 'express-session';
 import bodyParser from 'body-parser';
 import lusca from 'lusca';
-import mongo from 'connect-mongo';
 import path from 'path';
 import mongoose from 'mongoose';
 import passport from 'passport';
 import bluebird from 'bluebird';
-import { MONGODB_URI, SESSION_SECRET } from './util/secrets';
+import { MONGODB_URI } from './util/secrets';
 import { OpenApiValidator } from 'express-openapi-validator';
 
 // Controllers (route handlers)
@@ -70,21 +68,8 @@ new OpenApiValidator({
         app.post('/forgot', userController.postForgot);
         app.get('/reset/:token', userController.getReset);
         app.post('/reset/:token', userController.postReset);
-
-        app.get('/v1/user', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-            logger.info('Here');
-            return res.status(200).json({
-                code: '5',
-                message: 'Yess',
-                user: req.user,
-            });
-        });
-        //app.get("/v1/signup", userController.getSignup);
         /*app.get("/logout", userController.logout);
         app.get("/forgot", userController.getForgot);
-
-        
-
         app.get("/contact", contactController.getContact);
         app.post("/contact", contactController.postContact);
         app.get("/account", passportConfig.isAuthenticated, userController.getAccount);
