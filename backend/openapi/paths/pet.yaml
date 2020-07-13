@@ -1,0 +1,24 @@
+post:
+  operationId: insertPet
+  requestBody:
+    description: Insert a new pet into user account.
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/Pet.yaml"
+  responses:
+    '200':
+      description: Pet insert correctly
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/MessageRes.yaml"
+    default:
+      description: Error on insert a new pet
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/Error.yaml"
+
+

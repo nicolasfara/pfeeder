@@ -1,12 +1,12 @@
 | Metodo |              Route              |                  Description                  |        Return       | Authentication type  |
 |:------:|:-------------------------------:|:---------------------------------------------:|:-------------------:|----------------------|
 |  POST  |         /user/newdevice         |           Aggiunta nuovo dispositivo          |       Api Key       | Local authentication |
-|   GET  |            /pets/:id            |    Lista di animali appartenenti ad utente    |      List<Pet>      | Local authentication |
-|  POST  |              /pets              |          Aggiunta di un nuovo animale         |   Animale inserito  | Local authentication |
-|  PATCH |            /pets/:id            |       Aggiornamento dati  di un animale       |  Animale modificato | Local authentication |
-| DELETE |            /pets/:id            |            Rimozione di un animale            |   Animale rimosso   | Local authentication |
-|  POST  |         /pets/:id/ration        |            Aggiunta di una razione            |   Razione inserita  | Local authentication |
-|   GET  |         /pets/:id/ration        |         Lista di razioni di un animale        |    Lista razioni    | Local authentication |
+|   GET  |            /pet/:id            |    Lista di animali appartenenti ad utente    |      List<Pet>      | Local authentication |
+|  POST  |              /pet              |          Aggiunta di un nuovo animale         |   Animale inserito  | Local authentication |
+|  PATCH |            /pet/:id            |       Aggiornamento dati  di un animale       |  Animale modificato | Local authentication |
+| DELETE |            /pet/:id            |            Rimozione di un animale            |   Animale rimosso   | Local authentication |
+|  POST  |         /pet/:id/ration        |            Aggiunta di una razione            |   Razione inserita  | Local authentication |
+|   GET  |         /pet/:id/ration        |         Lista di razioni di un animale        |    Lista razioni    | Local authentication |
 |  PATCH | /pets/:pet_id/ration/:ration_id |   Aggiornamento di una razione di un animale  |  Razione aggiornata | Local authentication |
 | DELETE | /pets/:pet_id/ration/:ration_id |       Eliminazione razione di un animale      |   Razione rimossa   | Local authentication |
 |  POST  |         /pets/:id/fodder        |            Aggiunta di un mangime             |   Mangime inserito  | Local authentication |

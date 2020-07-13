@@ -13,6 +13,7 @@ import { OpenApiValidator } from 'express-openapi-validator';
 // Controllers (route handlers)
 import * as homeController from './controllers/home';
 import * as userController from './controllers/user';
+import * as petController from './controllers/pet';
 import * as notificationController from './controllers/notification';
 
 // API keys and Passport configuration
@@ -61,15 +62,16 @@ new OpenApiValidator({
 })
     .install(app)
     .then(() => {
-        /**
-         * Primary app routes.
-         */
+        // User API
         app.get('/', homeController.index);
         app.post('/v1/login', userController.postLogin);
         app.post('/v1/signup', userController.postSignup);
         app.post('/forgot', userController.postForgot);
         app.get('/reset/:token', userController.getReset);
         app.post('/reset/:token', userController.postReset);
+        //Pet API
+        app.get('/v1/pet/:pet_id', passport.authenticate('jwt', { session: false }), petController.getPet);
+        app.post('/v1/pet', passport.authenticate('jwt', { session: false }), petController.postPet);
         /*app.get("/logout", userController.logout);
         app.get("/forgot", userController.getForgot);
         app.get("/contact", contactController.getContact);

@@ -1,0 +1,18 @@
+get:
+  parameters:
+    - $ref: "../parameters/petParameters.yaml"
+  description: Get a pet's information given a valid id. If a wrong id is provided no data were given.
+  operationId: getPet
+  responses:
+    '200':
+      description: All pet's info.
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/Pet.yaml"
+    default:
+      description: Error on get a pet info.
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/Error.yaml"

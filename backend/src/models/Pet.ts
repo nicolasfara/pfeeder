@@ -13,19 +13,19 @@ export type PetDocument = mongoose.Document & {
 
 const petSchema = new mongoose.Schema(
     {
-        userId: { type: Types.ObjectId, required: true, ref: 'User' },
+        userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
         name: { type: String, required: true },
         weight: Number,
         age: Number,
         petType: { type: String, enum: ['dog', 'cat', 'other'], required: true },
         breed: String,
+        currentFodder: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Fodder' },
         rationPerDay: [
             {
                 time: { type: Date, required: true },
                 dailyRation: { type: Number, required: true },
             },
         ],
-        currentFodder: { type: Types.ObjectId, required: true, ref: 'Fodder' },
     },
     { timestamps: true },
 );

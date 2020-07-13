@@ -1,0 +1,6 @@
+in: path
+name: pet_id
+required: true
+description: The pet id to get information for.
+schema:
+  type: string
