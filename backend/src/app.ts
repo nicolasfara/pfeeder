@@ -14,11 +14,9 @@ import { OpenApiValidator } from 'express-openapi-validator';
 import * as homeController from './controllers/home';
 import * as userController from './controllers/user';
 import * as petController from './controllers/pet';
-import * as notificationController from './controllers/notification';
 
 // API keys and Passport configuration
 import { HttpError } from 'express-openapi-validator/dist/framework/types';
-import logger from './util/logger';
 
 const spec = path.join(__dirname, '../openapi/openapi-spec.yml');
 
@@ -28,7 +26,7 @@ const app = express();
 // Connect to MongoDB
 const mongoUrl = MONGODB_URI;
 mongoose.Promise = bluebird;
-
+mongoose.set('useFindAndModify', false);
 mongoose
     .connect(mongoUrl, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
     .then(() => {
@@ -72,6 +70,8 @@ new OpenApiValidator({
         //Pet API
         app.get('/v1/pet/:pet_id', passport.authenticate('jwt', { session: false }), petController.getPet);
         app.post('/v1/pet', passport.authenticate('jwt', { session: false }), petController.postPet);
+        app.put('/v1/pet/:pet_id', passport.authenticate('jwt', { session: false }), petController.putPet);
+        app.delete('/v1/pet/:pet_id', passport.authenticate('jwt', { session: false }), petController.deletePet);
         /*app.get("/logout", userController.logout);
         app.get("/forgot", userController.getForgot);
         app.get("/contact", contactController.getContact);

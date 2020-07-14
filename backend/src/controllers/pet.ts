@@ -1,11 +1,25 @@
 import { NextFunction, Request, Response } from 'express';
-import { body, check, validationResult } from 'express-validator';
+import { check, validationResult } from 'express-validator';
 import { Pet } from '../models/Pet';
 import { UserDocument } from '../models/User';
-import { isNumber } from 'util';
+import logger from '../util/logger';
+import { DocumentQuery } from 'mongoose';
 
 export const getPet = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    res.json({ message: 'OK' });
+    const petId = req.params.pet_id;
+    const user = req.user as UserDocument;
+    Pet.findOne({ _id: petId, userId: user._id })
+        .then((pet) => {
+            if (!pet) {
+                res.status(500).json({ code: 1, message: 'Unable o find the pet' });
+            } else {
+                logger.info(`Pet found: ${pet}`);
+                res.json(pet);
+            }
+        })
+        .catch((err) => {
+            res.status(500).json({ code: 2, message: err });
+        });
 };
 
 export const postPet = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -38,4 +52,36 @@ export const postPet = async (req: Request, res: Response, next: NextFunction): 
         .catch((err) => {
             res.status(500).json({ code: 2, message: err });
         });
+};
+
+export const putPet = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const user = req.user as UserDocument;
+    const petId = req.params.pet_id;
+
+    try {
+        const updatedPet = await Pet.findOneAndUpdate({ _id: petId, userId: user._id }, req.body);
+        if (!updatedPet) {
+            res.status(500).json({ code: 1, message: 'Unable to find the pet' });
+        } else {
+            res.json({ message: 'Pet update successfully' });
+        }
+    } catch (e) {
+        res.status(500).json({ code: 3, message: e });
+    }
+};
+
+export const deletePet = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const user = req.user as UserDocument;
+    const petId = req.params.pet_id;
+
+    try {
+        const deleteResult = await Pet.findOneAndDelete({ _id: petId, userId: user._id });
+        if (deleteResult) {
+            res.json({ message: 'Pet delete successfully' });
+        } else {
+            res.status(500).json({ code: 1, message: 'Unable to delete the pet' });
+        }
+    } catch (e) {
+        res.status(500).json({ code: 2, message: e });
+    }
 };
