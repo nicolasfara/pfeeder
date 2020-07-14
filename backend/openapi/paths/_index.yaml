@@ -12,3 +12,9 @@
 
 /reset/{token}:
   $ref: "./reset.yaml"
+
+/pet:
+  $ref: "./pet.yaml"
+
+/pet/{pet_id}:
+  $ref: "./petArgs.yaml"
