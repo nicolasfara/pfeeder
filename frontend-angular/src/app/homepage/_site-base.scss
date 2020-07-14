@@ -7,11 +7,11 @@ body {
 	font-weight: 400;
 	font-size: $font-size-base;
 }
-::-moz-selection { 
+::-moz-selection {
 	background: $black;
 	color: $white;
 }
-::selection { 
+::selection {
 	background: $black;
 	color: $white;
 }
@@ -74,7 +74,7 @@ body {
 	font-size: 16px;
 	border-radius: 30px;
 	padding: 10px 30px;
-	
+
 	&:hover, &:active, &:focus {
 		outline: none;
 		box-shadow: none!important;
@@ -95,7 +95,7 @@ body {
 			}
 		}
 	}
-	
+
 }
 
 .line-height-1 {
@@ -147,21 +147,21 @@ body {
 	padding: 4em 0;
 	background: lighten($black, 20%);
 	@include media-breakpoint-up(md) {
-		padding: 8em 0;	
+		padding: 8em 0;
 	}
 	.border-top {
 		border-top: 1px solid rgba(255,255,255,.1)!important;
 	}
 	p {
-		color: lighten($black, 45%); 
+		color: lighten($black, 45%);
 	}
 	h2,h3,h4,h5 {
 		color: $white;
 	}
 	a {
-		color: lighten($black, 60%); 
+		color: lighten($black, 60%);
 		&:hover {
-			color: lighten($black, 100%); 
+			color: lighten($black, 100%);
 		}
 	}
 	ul {
@@ -261,7 +261,7 @@ body {
 	position: relative;
 	transition: .3s all ease-in-out;
 	> span {
-		font-size: 50px;	
+		font-size: 50px;
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -314,7 +314,7 @@ body {
 			}
 		}
 	}
-	
+
 }
 .ul-paw {
 	li {

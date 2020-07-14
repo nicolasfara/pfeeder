@@ -11,6 +11,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/authconfig.interceptor';
 import {ReactiveFormsModule} from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SidenavbarComponent } from './sidenavbar/sidenavbar.component';
+import { TopbarComponent } from './topbar/topbar.component';
+import { AddpetComponent } from './addpet/addpet.component';
 
 
 @NgModule({
@@ -21,6 +24,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     RegisterComponent,
     NavbarComponent,
     DashboardComponent,
+    SidenavbarComponent,
+    TopbarComponent,
+    AddpetComponent,
   ],
   imports: [
     BrowserModule,

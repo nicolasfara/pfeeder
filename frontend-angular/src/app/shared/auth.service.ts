@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import {Pet} from "./Pet";
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,19 @@ export class AuthService {
     public router: Router
   ) {
   }
+
+  //addPet
+  // Sign-up
+  addPet(pet: Pet): Observable<any> {
+    const api = `${this.endpoint}/signup`;
+    return this.http.post(api, pet)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+
+
 
   // Sign-up
   signUp(user: User): Observable<any> {
