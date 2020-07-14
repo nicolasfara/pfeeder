@@ -3,23 +3,21 @@ import { check, validationResult } from 'express-validator';
 import { Pet } from '../models/Pet';
 import { UserDocument } from '../models/User';
 import logger from '../util/logger';
-import { DocumentQuery } from 'mongoose';
 
 export const getPet = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const petId = req.params.pet_id;
     const user = req.user as UserDocument;
-    Pet.findOne({ _id: petId, userId: user._id })
-        .then((pet) => {
-            if (!pet) {
-                res.status(500).json({ code: 1, message: 'Unable o find the pet' });
-            } else {
-                logger.info(`Pet found: ${pet}`);
-                res.json(pet);
-            }
-        })
-        .catch((err) => {
-            res.status(500).json({ code: 2, message: err });
-        });
+    try {
+        const pet = await Pet.findOne({ _id: petId, userId: user._id });
+        if (!pet) {
+            res.status(500).json({ code: 1, message: 'Unable o find the pet' });
+        } else {
+            logger.info(`Pet found: ${pet}`);
+            res.json(pet);
+        }
+    } catch (e) {
+        res.status(500).json({ code: 2, message: e });
+    }
 };
 
 export const postPet = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -45,13 +43,16 @@ export const postPet = async (req: Request, res: Response, next: NextFunction): 
         currentFodder: req.body.currentFodder,
         breed: req.body.breed || 'other',
     });
-    pet.save()
-        .then((pet) => {
+    try {
+        const petSaved = await pet.save();
+        if (petSaved) {
             res.json({ message: 'Pet insert successfully', pet: pet });
-        })
-        .catch((err) => {
-            res.status(500).json({ code: 2, message: err });
-        });
+        } else {
+            res.status(500).json({ code: 2, message: 'Error on save pet' });
+        }
+    } catch (e) {
+        res.status(500).json({ code: 2, message: e });
+    }
 };
 
 export const putPet = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
