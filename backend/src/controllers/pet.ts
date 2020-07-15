@@ -86,3 +86,37 @@ export const deletePet = async (req: Request, res: Response, next: NextFunction)
         res.status(500).json({ code: 2, message: e });
     }
 };
+
+export const addRation = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const user = req.user as UserDocument;
+    const petId = req.params.pet_id;
+
+    try {
+        const addRationResult = await Pet.findOneAndUpdate(
+            { _id: petId, userId: user._id },
+            { $push: { rationPerDay: { time: req.body.time, dailyRation: req.body.dailyRation } } },
+        );
+        if (addRationResult) {
+            res.json({ message: 'Ration added successfully' });
+        } else {
+            res.status(500).json({ code: 1, message: 'Error on add ration: not pet found' });
+        }
+    } catch (e) {
+        res.status(500).json({ code: 2, message: e });
+    }
+};
+
+export const getRations = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const user = req.user as UserDocument;
+    const petId = req.params.pet_id;
+    try {
+        const rations = await Pet.findOne({ _id: petId, userId: user._id }).select('rationPerDay');
+        if (rations) {
+            res.json({ rations: rations });
+        } else {
+            res.status(500).json({ code: 1, message: 'Unable to find the rations for the given pet' });
+        }
+    } catch (e) {
+        res.status(500).json({ code: 2, message: e });
+    }
+};

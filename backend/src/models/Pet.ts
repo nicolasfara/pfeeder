@@ -22,7 +22,7 @@ const petSchema = new mongoose.Schema(
         currentFodder: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Fodder' },
         rationPerDay: [
             {
-                time: { type: Date, required: true },
+                time: { type: Date, unique: true, required: true },
                 dailyRation: { type: Number, required: true },
             },
         ],
