@@ -12,3 +12,9 @@ EmailOnly:
   $ref: "./EmailOnly.yaml"
 MessageRes:
   $ref: "./MessageRes.yaml"
+Pet:
+  $ref: "./Pet.yaml"
+PatchPet:
+  $ref: "./PatchPet.yaml"
+Ration:
+  $ref: "./Ration.yaml"

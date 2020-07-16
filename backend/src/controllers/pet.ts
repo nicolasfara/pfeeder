@@ -42,6 +42,7 @@ export const postPet = async (req: Request, res: Response, next: NextFunction): 
         petType: req.body.petType,
         currentFodder: req.body.currentFodder,
         breed: req.body.breed || 'other',
+        rationPerDay: [],
     });
     try {
         const petSaved = await pet.save();
@@ -84,5 +85,87 @@ export const deletePet = async (req: Request, res: Response, next: NextFunction)
         }
     } catch (e) {
         res.status(500).json({ code: 2, message: e });
+    }
+};
+
+export const addRation = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const user = req.user as UserDocument;
+    const petId = req.params.pet_id;
+    const name: string = req.body.name;
+    const time: Date = req.body.time;
+    const ration: number = req.body.ration;
+
+    try {
+        const addRationResult = await Pet.findOneAndUpdate(
+            { _id: petId, userId: user._id },
+            { $push: { rationPerDay: { name: name, time: time, ration: ration } } },
+        );
+        if (addRationResult) {
+            res.json({ message: 'Ration added successfully' });
+        } else {
+            res.status(500).json({ code: 1, message: 'Error on add ration: not pet found' });
+        }
+    } catch (e) {
+        res.status(500).json({ code: 2, message: e });
+    }
+};
+
+export const getRations = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const user = req.user as UserDocument;
+    const petId = req.params.pet_id;
+    try {
+        const rations = await Pet.findOne({ _id: petId, userId: user._id }).select('rationPerDay');
+        if (rations) {
+            res.json({ rations: rations });
+        } else {
+            res.status(500).json({ code: 1, message: 'Unable to find the rations for the given pet' });
+        }
+    } catch (e) {
+        res.status(500).json({ code: 2, message: e });
+    }
+};
+
+export const updateRations = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const user = req.user as UserDocument;
+    const petId = req.params.pet_id;
+    const rationId = req.params.ration_id;
+
+    try {
+        const pet = await Pet.findOneAndUpdate(
+            { _id: petId, userId: user._id, 'rationPerDay.name': rationId },
+            { $set: { 'rationPerDay.$': req.body } },
+        );
+        logger.info(pet);
+        if (pet) {
+            res.json({ message: 'Update successfully' });
+        } else {
+            res.status(500).json({ code: 1, message: 'Unable to find the rationUpdate for the given pet' });
+        }
+    } catch (e) {
+        res.status(500).json({ code: 2, message: e });
+    }
+};
+
+export const deleteRations = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const user = req.user as UserDocument;
+    const petId = req.params.pet_id;
+    const rationId = req.params.ration_id;
+
+    try {
+        const deletedRation = await Pet.findOneAndUpdate(
+            {
+                _id: petId,
+                userId: user._id,
+                'rationPerDay.name': rationId,
+            },
+            { $pull: { rationPerDay: { name: rationId } } },
+        );
+        if (deletedRation) {
+            res.json({ message: `delete ration successfully: ${deletedRation}` });
+        } else {
+            res.status(500).json({ code: 1, message: 'Unable to find the pet or the ration' });
+        }
+    } catch (e) {
+        res.status(500).json({ code: 1, message: e });
     }
 };

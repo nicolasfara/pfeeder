@@ -72,6 +72,18 @@ new OpenApiValidator({
         app.post('/v1/pet', passport.authenticate('jwt', { session: false }), petController.postPet);
         app.put('/v1/pet/:pet_id', passport.authenticate('jwt', { session: false }), petController.putPet);
         app.delete('/v1/pet/:pet_id', passport.authenticate('jwt', { session: false }), petController.deletePet);
+        app.post('/v1/pet/:pet_id/ration', passport.authenticate('jwt', { session: false }), petController.addRation);
+        app.get('/v1/pet/:pet_id/ration', passport.authenticate('jwt', { session: false }), petController.getRations);
+        app.put(
+            '/v1/pet/:pet_id/ration/:ration_id',
+            passport.authenticate('jwt', { session: false }),
+            petController.updateRations,
+        );
+        app.delete(
+            '/v1/pet/:pet_id/ration/:ration_id',
+            passport.authenticate('jwt', { session: false }),
+            petController.deleteRations,
+        );
         /*app.get("/logout", userController.logout);
         app.get("/forgot", userController.getForgot);
         app.get("/contact", contactController.getContact);
