@@ -7,7 +7,13 @@ export type PetDocument = mongoose.Document & {
     age: number;
     petType: PetType;
     breed: string;
-    rationPerDay: Ration[];
+    rationPerDay: [
+        {
+            name: string;
+            time: Date;
+            ration: number;
+        },
+    ];
     currentFodder: Types.ObjectId;
 };
 
@@ -22,8 +28,9 @@ const petSchema = new mongoose.Schema(
         currentFodder: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Fodder' },
         rationPerDay: [
             {
-                time: { type: Date, unique: true, required: true },
-                dailyRation: { type: Number, required: true },
+                name: { type: String, required: true, unique: true },
+                time: { type: Date, required: true, unique: true },
+                ration: { type: Number, required: true },
             },
         ],
     },
@@ -34,11 +41,6 @@ export enum PetType {
     Dog = 'dog',
     Cat = 'cat',
     Other = 'other',
-}
-
-export interface Ration {
-    time: Date;
-    dailyRation: number;
 }
 
 export const Pet = mongoose.model<PetDocument>('Pet', petSchema);

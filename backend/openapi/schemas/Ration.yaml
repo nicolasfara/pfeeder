@@ -1,11 +1,13 @@
 type: object
 required:
+  - name
   - time
-  - dailyRation
+  - ration
 properties:
+  name:
+    type: string
   time:
     type: string
     format: date-time
-  dailyRation:
+  ration:
     type: number
-

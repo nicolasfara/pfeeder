@@ -1,0 +1,66 @@
+put:
+  parameters:
+    - in: path
+      name: pet_id
+      required: true
+      description: pet id
+      schema:
+        type: string
+    - in: path
+      name: ration_id
+      required: true
+      description: ration id
+      schema:
+        type: string
+  description: Modify a ration for a pet.
+  operationId: updateRation
+  requestBody:
+    description: Update a ration for a pet.
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/Ration.yaml"
+  responses:
+    '200':
+      description: The update successfully
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/MessageRes.yaml"
+    default:
+      description: Error on update the rations.
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/Error.yaml"
+
+delete:
+  parameters:
+    - in: path
+      name: pet_id
+      required: true
+      description: pet id
+      schema:
+        type: string
+    - in: path
+      name: ration_id
+      required: true
+      description: ration id
+      schema:
+        type: string
+  description: Remove a ration for a pet.
+  operationId: removeRation
+  responses:
+    '200':
+      description: The remove successfully
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/MessageRes.yaml"
+    default:
+      description: Error on remove the rations.
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/Error.yaml"
