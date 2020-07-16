@@ -5,6 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {Pet} from "./Pet";
+import {logger} from "codelyzer/util/logger";
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +23,8 @@ export class AuthService {
   }
 
   //addPet
-  // Sign-up
   addPet(pet: Pet): Observable<any> {
-    const api = `${this.endpoint}/signup`;
+    const api = `${this.endpoint}/pet`;
     return this.http.post(api, pet)
       .pipe(
         catchError(this.handleError)
@@ -48,10 +48,11 @@ export class AuthService {
     return this.http.post<any>(`${this.endpoint}/login`, user)
       .subscribe((result: any) => {
         localStorage.setItem('access_token', result.token);
-        this.getUserProfile(result._id).subscribe((res) => {
+      /*  this.getUserProfile(result._id).subscribe((res) => {
           this.currentUser = res;
-          this.router.navigate(['dashboard/' + res.msg._id]);
-        });
+
+        });*/
+        this.router.navigate(['/dashboard']);
       });
   }
 

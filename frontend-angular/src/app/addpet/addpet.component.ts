@@ -3,12 +3,13 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {AuthService} from "../shared/auth.service";
 import {Router} from "@angular/router";
 import {first} from "rxjs/operators";
-
+declare var $ : any
 @Component({
   selector: 'app-addpet',
   templateUrl: './addpet.component.html',
   styleUrls: ['./addpet.component.scss']
 })
+
 export class AddpetComponent implements OnInit {
 
 
@@ -20,10 +21,11 @@ export class AddpetComponent implements OnInit {
   ) {
     this.addPetForm = this.fb.group({
       name: [''],
-      age: [''],
+      age: [''] ,
       weight: [''],
-      type: [''],
-      breed: ['']
+      petType: [''],
+      breed: [''],
+      currentFodder: ['']
     });
   }
   ngOnInit(): void {
@@ -33,7 +35,9 @@ export class AddpetComponent implements OnInit {
     this.authService.addPet(this.addPetForm.value) .pipe(first())
       .subscribe(
         data => {
-          this.router.navigate(['/dashboard']);
+          $('#addPet').click(function() {
+            $('#ModalExample').modal('hide');
+          });
         });
   }
 }

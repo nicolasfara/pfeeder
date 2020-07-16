@@ -28,6 +28,6 @@ export class LoginComponent implements OnInit {
   }
 
   loginUser() {
-    this.authService.signIn(this.signinForm.value);
+    this.authService.signIn(this.signinForm.value)
   }
  }
