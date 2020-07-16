@@ -147,5 +147,25 @@ export const updateRations = async (req: Request, res: Response, next: NextFunct
 };
 
 export const deleteRations = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const user = req.user as UserDocument;
+    const petId = req.params.pet_id;
+    const rationId = req.params.ration_id;
 
+    try {
+        const deletedRation = await Pet.findOneAndUpdate(
+            {
+                _id: petId,
+                userId: user._id,
+                'rationPerDay.name': rationId,
+            },
+            { $pull: { rationPerDay: { name: rationId } } },
+        );
+        if (deletedRation) {
+            res.json({ message: `delete ration successfully: ${deletedRation}` });
+        } else {
+            res.status(500).json({ code: 1, message: 'Unable to find the pet or the ration' });
+        }
+    } catch (e) {
+        res.status(500).json({ code: 1, message: e });
+    }
 };
