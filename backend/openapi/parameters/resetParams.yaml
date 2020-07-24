@@ -1,7 +1,0 @@
-in: path
-name: token
-required: true
-description: The token for change the password
-schema:
-  type: string
-
