@@ -51,11 +51,6 @@ export const env = {
         password: getOsEnvOptional('MONGO_PASSWORD'),
         database: getOsEnv('MONGO_DATABASE'),
     },
-    graphql: {
-        enabled: toBool(getOsEnv('GRAPHQL_ENABLED')),
-        route: getOsEnv('GRAPHQL_ROUTE'),
-        editor: toBool(getOsEnv('GRAPHQL_EDITOR')),
-    },
     swagger: {
         enabled: toBool(getOsEnv('SWAGGER_ENABLED')),
         route: getOsEnv('SWAGGER_ROUTE'),
