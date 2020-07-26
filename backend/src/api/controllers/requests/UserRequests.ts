@@ -1,6 +1,6 @@
-import {IsEmail, IsNotEmpty, IsString, IsUUID} from "class-validator";
+import {IsEmail, IsNotEmpty} from "class-validator";
 
-class BaseUser {
+export class BaseUser {
     @IsNotEmpty()
     public firstName: string;
 
@@ -15,21 +15,6 @@ class BaseUser {
 export class CreateUserBody extends BaseUser {
     @IsNotEmpty()
     public password: string;
-}
-
-export class UserResponse extends BaseUser {
-    @IsUUID()
-    public id: string;
-    @IsEmail()
-    public email: string;
-}
-
-export class LoginResponse {
-    constructor(token: string) {
-        this.token = token;
-    }
-    @IsString()
-    public token: string;
 }
 
 export class LoginBody {

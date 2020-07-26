@@ -5,7 +5,8 @@ import {UserService} from "../services/UserService";
 import jwt from 'jsonwebtoken';
 import {env} from "../../env";
 import {Logger, LoggerInterface} from "../../decorators/Logger";
-import {CreateUserBody, LoginBody, LoginResponse, UpdateUser, UserResponse} from "./request/UserRequests";
+import {CreateUserBody, LoginBody, UpdateUser} from "./requests/UserRequests";
+import {LoginResponse, UserResponse} from "./responses/UserResponses";
 
 
 @JsonController('/user')
