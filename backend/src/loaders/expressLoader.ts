@@ -1,6 +1,8 @@
 import { Application } from 'express';
 import { MicroframeworkLoader, MicroframeworkSettings } from 'microframework';
-import { createExpressServer } from 'routing-controllers';
+import {Action, createExpressServer} from 'routing-controllers';
+import jwt from 'jsonwebtoken';
+import {User} from '../api/models/User';
 
 import { env } from '../env';
 
@@ -22,6 +24,25 @@ export const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSett
             controllers: env.app.dirs.controllers,
             middlewares: env.app.dirs.middlewares,
             interceptors: env.app.dirs.interceptors,
+            currentUserChecker: async (action: Action, value?: any) => {
+                const token = action.request.headers["authorization"].split(' ')[1];
+                try {
+                    const decoded: any = jwt.verify(token, env.app.jwtSecret);
+                    return await User.findById(decoded.id);
+                } catch (e) {
+                    return undefined;
+                }
+            },
+            authorizationChecker: async (action: Action, roles?: string[]) => {
+                const token = action.request.headers["authorization"].split(' ')[1];
+                try {
+                    const decoded: any = jwt.verify(token, env.app.jwtSecret);
+                    const user = await User.findById(decoded.id);
+                    return !!user;
+                } catch (e) {
+                    return false;
+                }
+            }
         });
 
         // Run application to listen on given port

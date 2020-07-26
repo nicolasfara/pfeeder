@@ -23,7 +23,7 @@ export type UserDocument = mongoose.Document & {
     gravatar: (size: number) => string;
 };
 
-type comparePasswordFunction = (candidatePassword: string, userPassword: string) => Promise<boolean>;
+type comparePasswordFunction = (candidatePassword: string) => Promise<boolean>;
 
 export interface AuthToken {
     accessToken: string;
@@ -54,29 +54,25 @@ const userSchema = new mongoose.Schema({
 /**
  * Password hash middleware.
  */
-userSchema.pre("save", function save(next) {
+userSchema.pre("save", async function save(next) {
     const user = this as UserDocument;
     if (!user.isModified("password")) { return next(); }
-    bcrypt.genSalt(10, (err, salt) => {
-        if (err) { return next(err); }
-        bcrypt.hash(user.password, salt)
-            .then(hash => {
-                user.password = hash;
-                next();
-            })
-            .catch(err => {
-                next(err);
-            });
-    });
+    try {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(user.password, salt);
+        next();
+    } catch (e) {
+        next(e);
+    }
 });
 
-
-const comparePassword: comparePasswordFunction = async function (candidatePassword: string, userPassword: string) {
-    return bcrypt.compare(candidatePassword, userPassword);
+/**
+ * Helper method to check if the given password match the user password.
+ * @param data the password to check.
+ */
+userSchema.methods.comparePassword = function validatePassword(data) {
+    return bcrypt.compare(data, this.password);
 };
-
-
-userSchema.methods.comparePassword = comparePassword;
 
 /**
  * Helper method for getting user's gravatar.

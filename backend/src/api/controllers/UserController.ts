@@ -1,9 +1,12 @@
-import {Body, HttpError, JsonController, Post, UseBefore} from "routing-controllers";
-import {IsEmail, IsNotEmpty, IsUUID} from "class-validator";
-import {OpenAPI, ResponseSchema} from "routing-controllers-openapi";
-import {User} from '../models/User';
+import {Body, CurrentUser, Get, HttpError, JsonController, Post} from "routing-controllers";
+import {IsEmail, IsNotEmpty, IsString, IsUUID} from "class-validator";
+import {ResponseSchema} from "routing-controllers-openapi";
+import {User, UserDocument} from '../models/User';
 import {UserService} from "../services/UserService";
-import passport from "passport";
+import jwt from 'jsonwebtoken';
+import {env} from "../../env";
+import {Logger, LoggerInterface} from "../../decorators/Logger";
+
 
 class BaseUser {
     @IsNotEmpty()
@@ -15,9 +18,6 @@ class BaseUser {
     @IsEmail()
     @IsNotEmpty()
     public email: string;
-
-    @IsNotEmpty()
-    public username: string;
 }
 
 class CreateUserBody extends BaseUser {
@@ -32,11 +32,27 @@ export class UserResponse extends BaseUser {
     public email: string;
 }
 
+export class LoginResponse {
+    constructor(token: string) {
+        this.token = token;
+    }
+    @IsString()
+    public token: string;
+}
+
+class LoginBody {
+    @IsNotEmpty()
+    public email: string;
+    @IsNotEmpty()
+    public password: string;
+}
+
 @JsonController('/user')
 export class UserController {
 
     constructor(
-        private userService: UserService
+        private userService: UserService,
+        @Logger(__filename) private log: LoggerInterface
     ) { }
 
     /**
@@ -45,8 +61,6 @@ export class UserController {
      */
     @Post()
     @ResponseSchema(UserResponse)
-    @UseBefore(passport.authenticate('jwt'))
-    @OpenAPI({ security: [{ bearerAuth:[] }]})
     public async createNewUser(@Body() body: CreateUserBody): Promise<UserResponse | HttpError> {
         const user = new User({
             email: body.email,
@@ -56,12 +70,29 @@ export class UserController {
                 lastName: body.lastName
             }
         });
-        const userRes = await this.userService.newUser(user);
-        const res = new UserResponse();
-        res.id = userRes._id;
-        res.email = userRes.email;
-        res.firstName = userRes.profile.firstName;
-        res.lastName = userRes.profile.lastName;
-        return res;
+        this.log.info(`Try to create a user with the following value: ${user}`);
+        return await this.userService.newUser(user);
+    }
+
+    /**
+     * Login a user. return the JWT token.
+     * @param body username and password are required.
+     */
+    @Post('/login')
+    @ResponseSchema(LoginResponse)
+    public async loginUser(@Body() body: LoginBody): Promise<LoginResponse> {
+        const user = await User.findOne({ email: body.email });
+        if (!user || ! await user.comparePassword(body.password)) {
+            this.log.error(`Username or password not valid`);
+            throw new HttpError(401, `Email or password not match`);
+        }
+        const token = jwt.sign({ id: user._id, email: user.email}, env.app.jwtSecret, { expiresIn: 86400 });
+        return new LoginResponse(token);
+    }
+
+    @Get()
+    //@Authorized()
+    public async getUser(@CurrentUser() user: UserDocument): Promise<UserDocument> {
+        return user;
     }
 }
