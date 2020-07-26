@@ -27,6 +27,7 @@ export class LoginBody {
 export class UpdateUser {
     @IsNotEmpty()
     email: string;
+    @IsNotEmpty()
     profile: {
         lastName: string;
         firstName: string;

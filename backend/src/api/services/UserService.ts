@@ -37,4 +37,12 @@ export class UserService {
             throw new HttpError(500, `Unable to update the user`);
         }
     }
+
+    public async deleteUser(id: string): Promise<UserDocument> {
+        try {
+            return await User.findByIdAndDelete(id);
+        } catch (e) {
+            throw new Error(`Unable to delete the user with id: ${id}`);
+        }
+    }
 }

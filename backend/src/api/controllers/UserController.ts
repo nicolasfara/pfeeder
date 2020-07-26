@@ -1,5 +1,5 @@
-import {Authorized, Body, CurrentUser, Get, HttpError, JsonController, Patch, Post} from "routing-controllers";
-import {ResponseSchema} from "routing-controllers-openapi";
+import {Authorized, Body, CurrentUser, Delete, Get, HttpError, JsonController, Patch, Post} from "routing-controllers";
+import {OpenAPI, ResponseSchema} from "routing-controllers-openapi";
 import {User, UserDocument} from '../models/User';
 import {UserService} from "../services/UserService";
 import jwt from 'jsonwebtoken';
@@ -19,6 +19,7 @@ export class UserController {
 
     @Get()
     @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async getCurrentUser(@CurrentUser() user: UserDocument): Promise<UserDocument> {
         return user;
     }
@@ -58,9 +59,26 @@ export class UserController {
         return new LoginResponse(token);
     }
 
+    /**
+     * Update a profile for the authorized user.
+     * @param user The current user logged in.
+     * @param body Parameters to update.
+     */
     @Patch()
     @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async getUser(@CurrentUser() user: UserDocument, @Body() body: UpdateUser): Promise<UserDocument> {
-        return this.userService.updateUser(body as UserDocument);
+        return await this.userService.updateUser(body as UserDocument);
+    }
+
+    /**
+     * Delete a user with the given ID.
+     * @param user the user to delete.
+     */
+    @Delete()
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }] })
+    public async deleteUser(@CurrentUser() user: UserDocument): Promise<UserDocument> {
+        return await this.userService.deleteUser(user.id);
     }
 }
