@@ -1,51 +1,12 @@
-import {Body, CurrentUser, Get, HttpError, JsonController, Post} from "routing-controllers";
-import {IsEmail, IsNotEmpty, IsString, IsUUID} from "class-validator";
+import {Authorized, Body, CurrentUser, Get, HttpError, JsonController, Patch, Post} from "routing-controllers";
 import {ResponseSchema} from "routing-controllers-openapi";
 import {User, UserDocument} from '../models/User';
 import {UserService} from "../services/UserService";
 import jwt from 'jsonwebtoken';
 import {env} from "../../env";
 import {Logger, LoggerInterface} from "../../decorators/Logger";
+import {CreateUserBody, LoginBody, LoginResponse, UpdateUser, UserResponse} from "./request/UserRequests";
 
-
-class BaseUser {
-    @IsNotEmpty()
-    public firstName: string;
-
-    @IsNotEmpty()
-    public lastName: string;
-
-    @IsEmail()
-    @IsNotEmpty()
-    public email: string;
-}
-
-class CreateUserBody extends BaseUser {
-    @IsNotEmpty()
-    public password: string;
-}
-
-export class UserResponse extends BaseUser {
-    @IsUUID()
-    public id: string;
-    @IsEmail()
-    public email: string;
-}
-
-export class LoginResponse {
-    constructor(token: string) {
-        this.token = token;
-    }
-    @IsString()
-    public token: string;
-}
-
-class LoginBody {
-    @IsNotEmpty()
-    public email: string;
-    @IsNotEmpty()
-    public password: string;
-}
 
 @JsonController('/user')
 export class UserController {
@@ -55,13 +16,19 @@ export class UserController {
         @Logger(__filename) private log: LoggerInterface
     ) { }
 
+    @Get()
+    @Authorized()
+    public async getCurrentUser(@CurrentUser() user: UserDocument): Promise<UserDocument> {
+        return user;
+    }
+
     /**
      * Create a new user in the system.
      * @param body .
      */
     @Post()
     @ResponseSchema(UserResponse)
-    public async createNewUser(@Body() body: CreateUserBody): Promise<UserResponse | HttpError> {
+    public async createNewUser(@Body() body: CreateUserBody): Promise<UserDocument> {
         const user = new User({
             email: body.email,
             password: body.password,
@@ -90,9 +57,9 @@ export class UserController {
         return new LoginResponse(token);
     }
 
-    @Get()
-    //@Authorized()
-    public async getUser(@CurrentUser() user: UserDocument): Promise<UserDocument> {
-        return user;
+    @Patch()
+    @Authorized()
+    public async getUser(@CurrentUser() user: UserDocument, @Body() body: UpdateUser): Promise<UserDocument> {
+        return this.userService.updateUser(body as UserDocument);
     }
 }

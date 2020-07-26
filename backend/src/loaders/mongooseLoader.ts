@@ -11,7 +11,8 @@ export const mongooseLoader: MicroframeworkLoader = async (settings: Microframew
                 {
                     useNewUrlParser: true,
                     useCreateIndex: true,
-                    useUnifiedTopology: true
+                    useUnifiedTopology: true,
+                    useFindAndModify: false
                 }
             )
             console.log(`Connection to ${env.db.database} succeeded`);
