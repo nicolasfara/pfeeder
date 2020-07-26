@@ -1,12 +1,12 @@
-import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
+import {validationMetadatasToSchemas} from 'class-validator-jsonschema';
 import basicAuth from 'express-basic-auth';
-import { MicroframeworkLoader, MicroframeworkSettings } from 'microframework';
-import { getMetadataArgsStorage } from 'routing-controllers';
-import { routingControllersToSpec } from 'routing-controllers-openapi';
+import {MicroframeworkLoader, MicroframeworkSettings} from 'microframework';
+import {getMetadataArgsStorage} from 'routing-controllers';
+import {routingControllersToSpec} from 'routing-controllers-openapi';
 import * as swaggerUi from 'swagger-ui-express';
 import express from 'express';
 
-import { env } from '../env';
+import {env} from '../env';
 
 export const swaggerLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {
     if (settings && env.swagger.enabled) {

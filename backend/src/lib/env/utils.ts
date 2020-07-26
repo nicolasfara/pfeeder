@@ -1,4 +1,4 @@
-import { join } from 'path';
+import {join} from 'path';
 
 export function getOsEnv(key: string): string {
     if (typeof process.env[key] === 'undefined') {

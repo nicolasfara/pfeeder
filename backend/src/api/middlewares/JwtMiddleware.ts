@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as passport from 'passport';
-import { ExpressMiddlewareInterface, UnauthorizedError } from 'routing-controllers';
+import {ExpressMiddlewareInterface, UnauthorizedError} from 'routing-controllers';
 
 export class JWTMiddleware implements ExpressMiddlewareInterface {
     constructor(
