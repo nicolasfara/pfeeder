@@ -36,3 +36,12 @@ export class UpdateUser {
         picture: string;
     };
 }
+
+export class UpdatePassword {
+    @IsNotEmpty()
+    public oldPassword: string;
+    @IsNotEmpty()
+    public password: string;
+    @IsNotEmpty()
+    public confirmPassword: string;
+}

@@ -55,9 +55,9 @@ const userSchema = new mongoose.Schema({
  * Password hash middleware.
  */
 userSchema.pre("save", async function save(next) {
-    const user = this as UserDocument;
-    if (!user.isModified("password")) { return next(); }
     try {
+        const user = this as UserDocument;
+        if (!user.isModified("password")) { return next(); }
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
         next();

@@ -34,7 +34,7 @@ export class UserService {
             }
             return userUpdate;
         } catch (e) {
-            throw new HttpError(500, `Unable to update the user`);
+            throw new Error(`Unable to update the user: ${e}`);
         }
     }
 
@@ -42,7 +42,21 @@ export class UserService {
         try {
             return await User.findByIdAndDelete(id);
         } catch (e) {
-            throw new Error(`Unable to delete the user with id: ${id}`);
+            throw new Error(`Unable to delete the user with id: ${id}: ${e}`);
+        }
+    }
+
+    public async updatePassword(user: UserDocument, newPassword: string): Promise<UserDocument> {
+        try {
+            const updateUser = await User.findById(user.id);
+            updateUser.password = newPassword;
+            return updateUser.save()
+                .then(_ => {
+                    this.log.info(`Password update successfully`);
+                    return user;
+                });
+        } catch (e) {
+            throw new Error(`Unable to find the user: ${e}`);
         }
     }
 }
