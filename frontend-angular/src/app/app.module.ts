@@ -12,8 +12,8 @@ import { AuthInterceptor } from './shared/authconfig.interceptor';
 import {ReactiveFormsModule} from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SidenavbarComponent } from './sidenavbar/sidenavbar.component';
-import { TopbarComponent } from './topbar/topbar.component';
 import { AddpetComponent } from './addpet/addpet.component';
+import { TopbarComponent } from './topbar/topbar.component';
 
 
 @NgModule({
@@ -25,8 +25,8 @@ import { AddpetComponent } from './addpet/addpet.component';
     NavbarComponent,
     DashboardComponent,
     SidenavbarComponent,
-    TopbarComponent,
     AddpetComponent,
+    TopbarComponent,
   ],
   imports: [
     BrowserModule,

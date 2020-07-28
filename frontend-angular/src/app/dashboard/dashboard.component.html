@@ -1,13 +1,145 @@
-<body id="page-top">
 <!-- Page Wrapper -->
 <div id="wrapper">
   <app-sidenavbar></app-sidenavbar>
-
   <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- TODO METTERE TOP BAR --->
+
     <!-- Main Content -->
     <div id="content">
       <app-topbar></app-topbar>
+      <div class="container-fluid">
+
+
+        <!-- Content Row -->
+        <div class="row">
+          <div class="col-xl-8 col-lg-7">
+            <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-header">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Pets</div>
+                  </div>
+                  <table class="card-table table">
+                    <tbody>
+                    <tr>
+                      <td>Elly</td>
+                      <td>5 years</td>
+                      <td>Fisher</td>
+                      <td> 2000 kcal/day</td>
+                      <td> 12:00 am</td>
+                      <td><i class="fas fa-fw fa-cog"></i></td>
+                    </tr>
+                    <tr>
+                      <td>Shila</td>
+                      <td>11 years</td>
+                      <td> BioMangini</td>
+                      <td> 2000 kcal/day</td>
+                      <td> 12:00 am</td>
+                      <td><i class="fas fa-fw fa-cog"></i></td>
+                    </tr>
+                    <tr>
+                      <td>Chicco</td>
+                      <td>2 years</td>
+                      <td>Friskies</td>
+                      <td> 2000 kcal/day</td>
+                      <td> 12:00 am</td>
+                      <td><i class="fas fa-fw fa-cog"></i></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-5">
+            <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-header">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Fodder</div>
+                  </div>
+                  <table class="card-table table">
+                    <tbody>
+                    <tr>
+
+                      <td>Fisher</td>
+                      <td><i class="fas fa-fw fa-cog"></i></td>
+                    </tr>
+                    <tr>
+
+                      <td> BioMangini</td>
+                      <td><i class="fas fa-fw fa-cog"></i></td>
+                    </tr>
+                    <tr>
+
+                      <td>Friskies</td>
+                      <td><i class="fas fa-fw fa-cog"></i></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+
+          <p class="mb-4"></p>
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <div class="col-xl-8 col-lg-7">
+
+              <!-- Area Chart -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Ideal body mass index
+
+                  </h6>
+                </div>
+                <div class="card-body">
+                  <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                  </div>
+                  <hr>
+
+                </div>
+              </div>
+
+
+            </div>
+
+            <!-- Donut Chart -->
+            <div class="col-xl-4 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Average daily heat for each pet</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-pie pt-4">
+                    <canvas id="myPieChart"></canvas>
+                  </div>
+                  <hr>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- End of Page Wrapper -->
+
+      </div>
     </div>
   </div>
-</div>
-</body>
+
