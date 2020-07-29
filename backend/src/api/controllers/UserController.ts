@@ -9,7 +9,7 @@ import {CreateUserBody, LoginBody, UpdatePassword, UpdateUser} from "./requests/
 import {LoginResponse, UserResponse} from "./responses/UserResponses";
 
 
-@JsonController('/user')
+@JsonController('/users')
 export class UserController {
 
     constructor(
