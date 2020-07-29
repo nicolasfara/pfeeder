@@ -82,6 +82,11 @@ export class UserController {
         return await this.userService.deleteUser(user.id);
     }
 
+    /**
+     * Update the password for the current account.
+     * @param user the user to change the password.
+     * @param body the new password.
+     */
     @Post('/password')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }] })
@@ -90,5 +95,4 @@ export class UserController {
         if (body.password !== body.confirmPassword) throw new HttpError(400, `The two password not match`);
         return await this.userService.updatePassword(user, body.password);
     }
-
 }

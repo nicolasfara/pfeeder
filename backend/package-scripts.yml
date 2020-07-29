@@ -1,0 +1,9 @@
+scripts:
+  default: ts-node src/app.ts
+  serve:
+    script: nodemon --watch src --watch .env
+    description: Serves the current app and watches for changes to restart it
+  setup:
+    script: yarn install
+  lint:
+    script: tslint ./src/**/*.ts

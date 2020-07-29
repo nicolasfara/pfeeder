@@ -15,10 +15,9 @@ export const mongooseLoader: MicroframeworkLoader = async (settings: Microframew
                     useFindAndModify: false
                 }
             )
-            console.log(`Connection to ${env.db.database} succeeded`);
             settings.setData('mongoose', mongooseConnection);
         } catch (e) {
-            console.log("Error on DB connection: ", e);
+            throw new Error(e);
         }
     }
 }

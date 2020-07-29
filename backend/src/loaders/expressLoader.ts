@@ -25,7 +25,7 @@ export const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSett
             middlewares: env.app.dirs.middlewares,
             interceptors: env.app.dirs.interceptors,
             currentUserChecker: async (action: Action, value?: any) => {
-                const token = action.request.headers["authorization"].split(' ')[1];
+                const token = action.request.headers.authorization.split(' ')[1];
                 try {
                     const decoded: any = jwt.verify(token, env.app.jwtSecret);
                     return await User.findById(decoded.id);
@@ -34,7 +34,7 @@ export const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSett
                 }
             },
             authorizationChecker: async (action: Action, roles?: string[]) => {
-                const token = action.request.headers["authorization"].split(' ')[1];
+                const token = action.request.headers.authorization.split(' ')[1];
                 try {
                     const decoded: any = jwt.verify(token, env.app.jwtSecret);
                     const user = await User.findById(decoded.id);
