@@ -7,3 +7,7 @@ scripts:
     script: yarn install
   lint:
     script: tslint ./src/**/*.ts
+  db:
+    seed:
+      script: ts-node ./src/database/Seed.ts
+      description: Seed the database

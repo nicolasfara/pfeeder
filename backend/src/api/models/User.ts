@@ -31,25 +31,21 @@ export interface AuthToken {
 }
 
 const userSchema = new mongoose.Schema({
-    email: { type: String, unique: true },
-    password: String,
+    email: {type: String, unique: true, required: true},
+    password: {type: String, required: true},
     passwordResetToken: String,
     passwordResetExpires: Date,
 
-    facebook: String,
-    twitter: String,
-    google: String,
     tokens: Array,
     apiKeys: Array,
 
     profile: {
-        lastName: { type: String },
-        firstName: String,
+        lastName: {type: String, required: true},
+        firstName: {type: String, required: true},
         gender: String,
-        location: String,
         picture: String
     }
-}, { timestamps: true });
+}, {timestamps: true});
 
 /**
  * Password hash middleware.
@@ -57,9 +53,15 @@ const userSchema = new mongoose.Schema({
 userSchema.pre("save", async function save(next) {
     try {
         const user = this as UserDocument;
-        if (!user.isModified("password")) { return next(); }
+        if (!user.isModified("password")) {
+            return next();
+        }
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
+
+        const md5 = crypto.createHash("md5").update(user.email).digest("hex");
+        user.profile.picture = `https://gravatar.com/avatar/${md5}?s=200&d=retro`;
+
         next();
     } catch (e) {
         next(e);
