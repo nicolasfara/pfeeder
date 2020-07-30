@@ -38,7 +38,8 @@ export const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSett
                 try {
                     const decoded: any = jwt.verify(token, env.app.jwtSecret);
                     const user = await User.findById(decoded.id);
-                    return !!user;
+                    if (user && !roles.length) return true;
+                    return !!(user && roles.find(role => user.role.indexOf(role) !== -1));
                 } catch (e) {
                     return false;
                 }

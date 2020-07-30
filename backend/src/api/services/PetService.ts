@@ -11,4 +11,12 @@ export class PetService {
             throw new Error(e);
         }
     }
+
+    public async getAllPets(): Promise<PetDocument[]> {
+        try {
+            return await Pet.find();
+        } catch (e) {
+            throw new Error(e);
+        }
+    }
 }

@@ -8,6 +8,6 @@ export class FeedController {
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async addFeed(@CurrentUser() user: UserDocument) {
-        
+
     }
 }

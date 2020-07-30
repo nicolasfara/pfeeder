@@ -37,8 +37,18 @@ const run = async () => {
         new User({
             email: "john@ivy.com",
             password: "jonny",
+            role: ["admin"],
             profile: {
                 firstName: "john",
+                lastName: "ivy"
+            }
+        }),
+        new User({
+            email: "peter@ivy.com",
+            password: "peter",
+            role: ["user"],
+            profile: {
+                firstName: "peter",
                 lastName: "ivy"
             }
         })
@@ -54,6 +64,13 @@ const run = async () => {
         new Pet({
             userId: users[0]._id,
             name: "fufi",
+            petType: "cat",
+            breed: "siamese",
+            currentFodder: fodders[0]._id
+        }),
+        new Pet({
+            userId: users[1]._id,
+            name: "max",
             petType: "cat",
             breed: "siamese",
             currentFodder: fodders[0]._id

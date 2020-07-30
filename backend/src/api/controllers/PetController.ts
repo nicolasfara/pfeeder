@@ -19,7 +19,11 @@ export class PetController {
     public async getUserPets(@CurrentUser() user: UserDocument): Promise<PetDocument[]> {
         this.log.info(`Return all pets for user: ${user.email}`);
         try {
-            return await this.petService.getPetsByUser(user);
+            if (user.role.includes('admin')) {
+                return await this.petService.getAllPets();
+            } else {
+                return await this.petService.getPetsByUser(user);
+            }
         } catch (e) {
             throw new HttpError(500, e);
         }

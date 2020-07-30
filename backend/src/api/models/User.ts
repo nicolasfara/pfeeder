@@ -7,7 +7,7 @@ export type UserDocument = mongoose.Document & {
     password: string;
     passwordResetToken: string;
     passwordResetExpires: Date;
-
+    role: string[];
     tokens: AuthToken[];
     apiKeys: string[];
 
@@ -35,6 +35,7 @@ const userSchema = new mongoose.Schema({
     password: {type: String, required: true},
     passwordResetToken: String,
     passwordResetExpires: Date,
+    role: {type: Array, required: true},
 
     tokens: Array,
     apiKeys: Array,
