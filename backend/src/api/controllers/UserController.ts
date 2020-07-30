@@ -21,7 +21,7 @@ export class UserController {
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async getCurrentUser(@CurrentUser() user: UserDocument): Promise<UserDocument> {
-        return user;
+        return user.toObject();
     }
 
     /**

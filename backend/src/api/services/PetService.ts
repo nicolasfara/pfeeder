@@ -6,7 +6,7 @@ import {Pet, PetDocument} from "../models/Pet";
 export class PetService {
     public async getPetsByUser(user: UserDocument): Promise<PetDocument[]> {
         try {
-            return await Pet.find({userId: user._id});
+            return await Pet.find({userId: user._id}).lean();
         } catch (e) {
             throw new Error(e);
         }
@@ -14,7 +14,7 @@ export class PetService {
 
     public async getAllPets(): Promise<PetDocument[]> {
         try {
-            return await Pet.find();
+            return await Pet.find({}).lean();
         } catch (e) {
             throw new Error(e);
         }

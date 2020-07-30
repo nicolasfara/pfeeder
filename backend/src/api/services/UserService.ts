@@ -21,14 +21,15 @@ export class UserService {
             throw new HttpError(500, e);
         }
         if (!duplicateUser) {
-            return await user.save();
+            const savedUser = await user.save();
+            return savedUser.toObject();
         }
         throw new DuplicateError();
     }
 
     public async updateUser(user: UserDocument): Promise<UserDocument> {
         try {
-            const userUpdate = await User.findOneAndUpdate({ email: user.email }, user);
+            const userUpdate = await User.findOneAndUpdate({ email: user.email }, user).lean() as UserDocument;
             if (!userUpdate) {
                 throw new HttpError(500, `No user found`);
             }
@@ -40,7 +41,7 @@ export class UserService {
 
     public async deleteUser(id: string): Promise<UserDocument> {
         try {
-            return await User.findByIdAndDelete(id);
+            return await User.findByIdAndDelete(id).lean();
         } catch (e) {
             throw new Error(`Unable to delete the user with id: ${id}: ${e}`);
         }
@@ -50,11 +51,8 @@ export class UserService {
         try {
             const updateUser = await User.findById(user.id);
             updateUser.password = newPassword;
-            return updateUser.save()
-                .then(_ => {
-                    this.log.info(`Password update successfully`);
-                    return user;
-                });
+            const usr = await updateUser.save()
+            return usr.toObject();
         } catch (e) {
             throw new Error(`Unable to find the user: ${e}`);
         }
