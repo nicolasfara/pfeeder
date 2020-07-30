@@ -4,13 +4,15 @@ import {mongooseLoader} from "./loaders/mongooseLoader";
 import {swaggerLoader} from "./loaders/swaggerLoader";
 import {iocLoader} from "./loaders/iocLoader";
 import {winstonLoader} from "./loaders/winstonLoader";
+import {monitorLoader} from "./loaders/monitorLoaders";
 
 bootstrapMicroframework([
     mongooseLoader,
     expressLoader,
     swaggerLoader,
     iocLoader,
-    winstonLoader
+    winstonLoader,
+    monitorLoader
 ])
     .then(() => console.log("Application is up and running."))
     .catch(error => console.log("Application is crashed: " + error));
