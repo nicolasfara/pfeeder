@@ -14,6 +14,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SidenavbarComponent } from './sidenavbar/sidenavbar.component';
 import { AddpetComponent } from './addpet/addpet.component';
 import { TopbarComponent } from './topbar/topbar.component';
+import { AddfeedComponent } from './addfeed/addfeed.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { TopbarComponent } from './topbar/topbar.component';
     SidenavbarComponent,
     AddpetComponent,
     TopbarComponent,
+    AddfeedComponent,
   ],
   imports: [
     BrowserModule,

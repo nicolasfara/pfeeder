@@ -35,8 +35,8 @@ export class AddpetComponent implements OnInit {
     this.authService.addPet(this.addPetForm.value) .pipe(first())
       .subscribe(
         data => {
-          $('#addPet').click(function() {
-            $('#ModalExample').modal('hide');
+          $('#addPetButton').click(function() {
+            $('#addPet').modal('hide');
           });
         });
   }

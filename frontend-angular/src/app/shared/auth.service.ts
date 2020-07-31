@@ -5,6 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {Pet} from "./Pet";
+import {Feed} from "./Feed";
 import {logger} from "codelyzer/util/logger";
 
 @Injectable({
@@ -30,9 +31,14 @@ export class AuthService {
         catchError(this.handleError)
       );
   }
-
-
-
+  //addFeed
+  addFeed(feed: Feed): Observable<any> {
+    const api = `${this.endpoint}/feed`;
+    return this.http.post(api, feed)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
   // Sign-up
   signUp(user: User): Observable<any> {
