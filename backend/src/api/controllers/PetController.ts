@@ -14,7 +14,7 @@ import {PetService} from "../services/PetService";
 import {PetDocument} from "../models/Pet";
 import {UserDocument} from "../models/User";
 import {OpenAPI} from "routing-controllers-openapi";
-import {AddRation, UpdatePet} from "./requests/PetRequests";
+import {AddRation, UpdatePet, UpdateRation} from "./requests/PetRequests";
 
 @JsonController('/pets')
 export class PetController {
@@ -92,6 +92,37 @@ export class PetController {
             return await this.petService.getAllRations(user, id)
         } catch (e) {
             throw new HttpError(500, e)
+        }
+    }
+
+    @Patch('/:pet_id/rations/:ration_name')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }]})
+    public async patchRationByName(
+        @CurrentUser() user: UserDocument,
+        @Param("pet_id") pet_id: string,
+        @Param("ration_name") ration_name: string,
+        @Body() body: UpdateRation
+    ): Promise<PetDocument> {
+        try {
+            return await this.petService.updateRationByName(user, pet_id, ration_name, body)
+        } catch (e) {
+            throw new HttpError(500, e)
+        }
+    }
+
+    @Delete('/:pet_id/rations/:ration_name')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }]})
+    public async deleteRation(
+        @CurrentUser() user: UserDocument,
+        @Param("pet_id") pet_id: string,
+        @Param("ration_name") ration_name: string
+    ): Promise<PetDocument> {
+        try {
+            return await this.petService.deleteRationByName(user, pet_id, ration_name)
+        } catch (e) {
+            throw new HttpError(500, e);
         }
     }
 }
