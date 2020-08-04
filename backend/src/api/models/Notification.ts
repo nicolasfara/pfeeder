@@ -19,7 +19,7 @@ const notificationSchema = new mongoose.Schema(
         read: { type: Boolean, required: true },
         notificationType: { type: String, enum: ['err', 'info', 'warn'], required: true },
         message: { type: String, required: true },
-        userId: { type: Types.ObjectId, ref: 'User' },
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     },
     { timestamps: true },
 );
