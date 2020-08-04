@@ -19,4 +19,12 @@ export class PetService {
             throw new Error(e);
         }
     }
+
+    public async getPetById(user: UserDocument, petId: string): Promise<PetDocument> {
+        try {
+            return await Pet.findOne({ _id: petId, userId: user.id }).lean();
+        } catch (e) {
+            throw new Error(e);
+        }
+    }
 }
