@@ -15,11 +15,14 @@ import {PetDocument} from "../models/Pet";
 import {UserDocument} from "../models/User";
 import {OpenAPI} from "routing-controllers-openapi";
 import {AddFodderToPet, AddRation, UpdatePet, UpdateRation} from "./requests/PetRequests";
+import {FodderDocument} from "../models/Fodder";
+import {FodderService} from "../services/FodderService";
 
 @JsonController('/pets')
 export class PetController {
     constructor(
         private petService: PetService,
+        private fodderService: FodderService,
         @Logger(__filename) private log: LoggerInterface
     ) {
     }
@@ -139,5 +142,23 @@ export class PetController {
         } catch (e) {
             throw new HttpError(500, e)
         }
+    }
+
+    @Get('/:id/fodder')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }]})
+    public async getFodderFromPet(
+        @CurrentUser() user: UserDocument,
+        @Param("id") id: string
+    ): Promise<FodderDocument> {
+        try {
+            const pet = await this.petService.getPetById(user, id)
+            if (pet) {
+                return await this.fodderService.getFodderById(pet.currentFodder)
+            }
+        } catch (e) {
+            throw new HttpError(500, e)
+        }
+        throw new HttpError(404, `Pet with id: ${id} not found`)
     }
 }
