@@ -64,21 +64,12 @@
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Fodder</div>
                   </div>
-                  <table class="card-table table">
+                  <table  mdbtable class="card-table table">
                     <tbody>
-                    <tr>
-
-                      <td>Fisher</td>
-                      <td><i class="fas fa-fw fa-cog"></i></td>
-                    </tr>
-                    <tr>
-
-                      <td> BioMangini</td>
-                      <td><i class="fas fa-fw fa-cog"></i></td>
-                    </tr>
-                    <tr>
-
-                      <td>Friskies</td>
+                    <tr  mdbTableCol *ngFor="let el of fodders">
+                      <td>{{el.name}}</td>
+                      <td>{{el.companyName}}</td>
+                      <td>{{el.price}}</td>
                       <td><i class="fas fa-fw fa-cog"></i></td>
                     </tr>
                     </tbody>
@@ -88,7 +79,6 @@
             </div>
           </div>
         </div>
-
 
         <div class="container-fluid">
 

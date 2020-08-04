@@ -19,11 +19,10 @@ export class RegisterComponent implements OnInit {
     public router: Router
   ) {
     this.signupForm = this.fb.group({
-      name: [''],
-      surname: [''],
+      firstName: [''],
+      lastName: [''],
       email: [''],
-      password: [''],
-      confirmPassword: ['']
+      password: ['']
     });
   }
   ngOnInit(): void {
