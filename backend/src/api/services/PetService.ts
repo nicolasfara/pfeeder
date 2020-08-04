@@ -27,4 +27,12 @@ export class PetService {
             throw new Error(e);
         }
     }
+
+    public async patchPetById(user: UserDocument, petId: string, body: any): Promise<PetDocument> {
+        try {
+            return await Pet.findOneAndUpdate({ _id: petId, userId: user.id }, body).lean()
+        } catch (e) {
+            throw new Error(e);
+        }
+    }
 }

@@ -1,9 +1,10 @@
-import {Authorized, CurrentUser, Get, HttpError, JsonController, Param} from "routing-controllers/index";
+import {Authorized, Body, CurrentUser, Get, HttpError, JsonController, Param, Patch} from "routing-controllers/index";
 import {Logger, LoggerInterface} from "../../decorators/Logger";
 import {PetService} from "../services/PetService";
 import {PetDocument} from "../models/Pet";
 import {UserDocument} from "../models/User";
 import {OpenAPI} from "routing-controllers-openapi";
+import {UpdatePet} from "./requests/PetRequests";
 
 @JsonController('/pets')
 export class PetController {
@@ -39,4 +40,16 @@ export class PetController {
             throw new HttpError(500, e);
         }
     }
+
+    @Patch('/:id')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }]})
+    public async patchPetById(@CurrentUser() user: UserDocument, @Param("id") id: string, @Body() body: UpdatePet): Promise<PetDocument> {
+        try {
+            return await this.petService.patchPetById(user, id, body)
+        } catch (e) {
+            throw new HttpError(500, e);
+        }
+    }
+
 }
