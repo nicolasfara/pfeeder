@@ -161,4 +161,19 @@ export class PetController {
         }
         throw new HttpError(404, `Pet with id: ${id} not found`)
     }
+
+    @Patch('/:id/fodder')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }]})
+    public async patchFodderForPet(
+        @CurrentUser() user: UserDocument,
+        @Param("id") id: string,
+        @Body() body: AddFodderToPet
+    ): Promise<PetDocument> {
+        try {
+            return await this.petService.patchFodderToPet(user, id, body.fodderId)
+        } catch (e) {
+            throw new HttpError(500, e)
+        }
+    }
 }
