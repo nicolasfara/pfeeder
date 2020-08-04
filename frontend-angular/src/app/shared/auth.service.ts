@@ -13,7 +13,7 @@ import {logger} from "codelyzer/util/logger";
 })
 
 export class AuthService {
-  endpoint = 'http://localhost:3000/v1';
+  endpoint = 'http://localhost:3000/api';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
 
@@ -42,7 +42,7 @@ export class AuthService {
 
   // Sign-up
   signUp(user: User): Observable<any> {
-    const api = `${this.endpoint}/signup`;
+    const api = `${this.endpoint}/users`;
     return this.http.post(api, user)
       .pipe(
         catchError(this.handleError)
