@@ -2,6 +2,7 @@ import {Service} from "typedi";
 import {UserDocument} from "../models/User";
 import {Pet, PetDocument} from "../models/Pet";
 import {UpdateRation} from "../controllers/requests/PetRequests";
+import {Types} from "mongoose";
 
 @Service()
 export class PetService {
@@ -83,6 +84,14 @@ export class PetService {
                     'rationPerDay.name': rationName
                 }
             }).lean()
+        } catch (e) {
+            throw new Error(e)
+        }
+    }
+
+    public async addFodderToPet(user: UserDocument, petId: string, fodderId: string): Promise<PetDocument> {
+        try {
+            return await Pet.findOneAndUpdate({ _id: petId, userId: user.id }, { currentFodder: Types.ObjectId(fodderId) }).lean()
         } catch (e) {
             throw new Error(e)
         }

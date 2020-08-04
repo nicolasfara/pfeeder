@@ -37,3 +37,9 @@ export class UpdateRation {
     @IsNumber()
     ration: number;
 }
+
+export class AddFodderToPet {
+    @IsNotEmpty()
+    @IsString()
+    public fodderId: string
+}

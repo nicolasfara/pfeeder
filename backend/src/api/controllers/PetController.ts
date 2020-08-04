@@ -14,7 +14,7 @@ import {PetService} from "../services/PetService";
 import {PetDocument} from "../models/Pet";
 import {UserDocument} from "../models/User";
 import {OpenAPI} from "routing-controllers-openapi";
-import {AddRation, UpdatePet, UpdateRation} from "./requests/PetRequests";
+import {AddFodderToPet, AddRation, UpdatePet, UpdateRation} from "./requests/PetRequests";
 
 @JsonController('/pets')
 export class PetController {
@@ -123,6 +123,21 @@ export class PetController {
             return await this.petService.deleteRationByName(user, pet_id, ration_name)
         } catch (e) {
             throw new HttpError(500, e);
+        }
+    }
+
+    @Post('/:id/fodder')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }]})
+    public async addFodderToPet(
+        @CurrentUser() user: UserDocument,
+        @Param("id") id: string,
+        @Body() body: AddFodderToPet
+    ): Promise<PetDocument> {
+        try {
+            return await this.petService.addFodderToPet(user, id, body.fodderId)
+        } catch (e) {
+            throw new HttpError(500, e)
         }
     }
 }
