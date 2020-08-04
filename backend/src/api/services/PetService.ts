@@ -35,4 +35,20 @@ export class PetService {
             throw new Error(e);
         }
     }
+
+    public async deletePetById(user: UserDocument, petId: string): Promise<PetDocument> {
+        try {
+            return await Pet.findOneAndDelete({ _id: petId, userId: user.id }).lean()
+        } catch (e) {
+            throw new Error(e);
+        }
+    }
+
+    public async addRation(user: UserDocument, petId: string, ration: any): Promise<PetDocument> {
+        try {
+            return await Pet.findOneAndUpdate({ _id: petId, userId: user.id}, { $push: { rationPerDay: ration }}).lean()
+        } catch (e) {
+            throw new Error(e)
+        }
+    }
 }

@@ -1,4 +1,4 @@
-import {IsNumber, IsString} from "class-validator";
+import {IsDate, IsNotEmpty, IsNumber, IsString} from "class-validator";
 
 export class UpdatePet {
     @IsString()
@@ -11,4 +11,18 @@ export class UpdatePet {
     public petType: string;
     @IsString()
     public breed: string;
+}
+
+export class AddRation {
+    @IsString()
+    @IsNotEmpty()
+    name: string;
+
+    @IsDate()
+    @IsNotEmpty()
+    time: Date;
+
+    @IsNumber()
+    @IsNotEmpty()
+    ration: number;
 }

@@ -1,10 +1,20 @@
-import {Authorized, Body, CurrentUser, Get, HttpError, JsonController, Param, Patch} from "routing-controllers/index";
+import {
+    Authorized,
+    Body,
+    CurrentUser,
+    Delete,
+    Get,
+    HttpError,
+    JsonController,
+    Param,
+    Patch, Post
+} from "routing-controllers/index";
 import {Logger, LoggerInterface} from "../../decorators/Logger";
 import {PetService} from "../services/PetService";
 import {PetDocument} from "../models/Pet";
 import {UserDocument} from "../models/User";
 import {OpenAPI} from "routing-controllers-openapi";
-import {UpdatePet} from "./requests/PetRequests";
+import {AddRation, UpdatePet} from "./requests/PetRequests";
 
 @JsonController('/pets')
 export class PetController {
@@ -52,4 +62,25 @@ export class PetController {
         }
     }
 
+    @Delete('/:id')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }]})
+    public async deletePetById(@CurrentUser() user: UserDocument, @Param("id") id: string): Promise<PetDocument> {
+        try {
+            return this.petService.deletePetById(user, id)
+        } catch (e) {
+            throw new HttpError(500, e)
+        }
+    }
+
+    @Post('/:id/rations')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }]})
+    public async addRationToPet(@CurrentUser() user: UserDocument, @Param("id") id: string, @Body() body: AddRation): Promise<PetDocument> {
+        try {
+            return await this.petService.addRation(user, id, body)
+        } catch (e) {
+            throw new HttpError(500, e)
+        }
+    }
 }
