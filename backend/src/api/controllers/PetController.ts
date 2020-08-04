@@ -1,4 +1,4 @@
-import {Authorized, CurrentUser, Get, HttpError, JsonController} from "routing-controllers/index";
+import {Authorized, CurrentUser, Get, HttpError, JsonController, Param} from "routing-controllers/index";
 import {Logger, LoggerInterface} from "../../decorators/Logger";
 import {PetService} from "../services/PetService";
 import {PetDocument} from "../models/Pet";
@@ -24,6 +24,17 @@ export class PetController {
             } else {
                 return await this.petService.getPetsByUser(user);
             }
+        } catch (e) {
+            throw new HttpError(500, e);
+        }
+    }
+
+    @Get('/:id')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }]})
+    public async getPetById(@CurrentUser() user: UserDocument, @Param("id") id: string): Promise<PetDocument> {
+        try {
+            return this.petService.getPetById(user, id);
         } catch (e) {
             throw new HttpError(500, e);
         }
