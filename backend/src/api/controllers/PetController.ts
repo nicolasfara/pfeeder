@@ -83,4 +83,15 @@ export class PetController {
             throw new HttpError(500, e)
         }
     }
+
+    @Get('/:id/rations')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }]})
+    public async getAllRations(@CurrentUser() user: UserDocument, @Param("id") id: string): Promise<PetDocument> {
+        try {
+            return await this.petService.getAllRations(user, id)
+        } catch (e) {
+            throw new HttpError(500, e)
+        }
+    }
 }
