@@ -1,6 +1,8 @@
 import {Service} from "typedi";
 import {UserDocument} from "../models/User";
 import {Pet, PetDocument} from "../models/Pet";
+import {UpdateRation} from "../controllers/requests/PetRequests";
+import {Types} from "mongoose";
 
 @Service()
 export class PetService {
@@ -55,6 +57,49 @@ export class PetService {
     public async getAllRations(user: UserDocument, petId: string): Promise<PetDocument> {
         try {
             return await Pet.findOne({ _id: petId, userId: user.id}, 'rationPerDay').lean()
+        } catch (e) {
+            throw new Error(e)
+        }
+    }
+
+    public async updateRationByName(user: UserDocument, petId: string, rationName: string, updateRation: UpdateRation): Promise<PetDocument> {
+        try {
+            return await Pet.findOneAndUpdate({_id: petId, userId: user.id, 'rationPerDay.name': rationName}, {
+                $set:
+                    {
+                        'rationPerDay.$.name': updateRation.name,
+                        'rationPerDay.$.time': updateRation.time,
+                        'rationPerDay.$.ration': updateRation.ration,
+                    }
+            }).lean()
+        } catch (e) {
+            throw new Error(e)
+        }
+    }
+
+    public async deleteRationByName(user: UserDocument, petId: string, rationName: string): Promise<PetDocument> {
+        try {
+            return await Pet.findOneAndUpdate({ _id: petId, userId: user.id, 'rationPerDay.name': rationName}, {
+                $pull: {
+                    'rationPerDay.name': rationName
+                }
+            }).lean()
+        } catch (e) {
+            throw new Error(e)
+        }
+    }
+
+    public async addFodderToPet(user: UserDocument, petId: string, fodderId: string): Promise<PetDocument> {
+        try {
+            return await Pet.findOneAndUpdate({ _id: petId, userId: user.id }, { currentFodder: Types.ObjectId(fodderId) }).lean()
+        } catch (e) {
+            throw new Error(e)
+        }
+    }
+
+    public async patchFodderToPet(user: UserDocument, petId: string, newFodderId: string): Promise<PetDocument> {
+        try {
+            return await Pet.findOneAndUpdate({ _id: petId, userId: user.id }, { currentFodder: Types.ObjectId(newFodderId) }).lean()
         } catch (e) {
             throw new Error(e)
         }

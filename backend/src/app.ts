@@ -15,4 +15,4 @@ bootstrapMicroframework([
     monitorLoader
 ])
     .then(() => console.log("Application is up and running."))
-    .catch(error => console.log("Application is crashed: " + error));
+    .catch(error => console.log("Application is crashed: " + error.stack));

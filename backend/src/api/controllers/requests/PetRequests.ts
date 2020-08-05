@@ -26,3 +26,20 @@ export class AddRation {
     @IsNotEmpty()
     ration: number;
 }
+
+export class UpdateRation {
+    @IsString()
+    name: string;
+
+    @IsDate()
+    time: Date;
+
+    @IsNumber()
+    ration: number;
+}
+
+export class AddFodderToPet {
+    @IsNotEmpty()
+    @IsString()
+    public fodderId: string
+}
