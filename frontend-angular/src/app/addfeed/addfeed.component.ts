@@ -3,6 +3,8 @@ import {first} from "rxjs/operators";
 import {AuthService} from "../shared/auth.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {Pet} from "../shared/Pet";
+import {DataService} from "../data.service";
 declare var $ : any
 @Component({
   selector: 'app-addfeed',
@@ -10,12 +12,15 @@ declare var $ : any
   styleUrls: ['./addfeed.component.scss']
 })
 export class AddfeedComponent implements OnInit {
+  pets = []
   addFeedForm: FormGroup;
   constructor(
     public fb: FormBuilder,
     public authService: AuthService,
-    public router: Router
+    public router: Router,
+    private dataService: DataService
   ) {
+
     this.addFeedForm = this.fb.group({
       quantity: [''],
       kcal: [''],
@@ -27,6 +32,10 @@ export class AddfeedComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataService.sendGetPets().subscribe((data: Pet[])=>{
+      console.log(data);
+      this.pets = data;
+    })
   }
   addFeed() {
     this.authService.addFeed(this.addFeedForm.value) .pipe(first())

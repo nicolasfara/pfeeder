@@ -12,4 +12,7 @@ export class DataService {
   public sendGetFodder(){
     return this.httpClient.get(this.REST_API_SERVER+"fodders");
   }
+  public sendGetPets(){
+    return this.httpClient.get(this.REST_API_SERVER+"pets");
+  }
 }

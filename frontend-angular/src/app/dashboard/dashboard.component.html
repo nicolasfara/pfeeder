@@ -20,36 +20,19 @@
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Pets</div>
                   </div>
-                  <table class="card-table table">
+                  <table mdbtable class="card-table table">
                     <tbody>
-                    <tr>
-                      <td>Elly</td>
-                      <td>5 years</td>
-                      <td>Fisher</td>
-                      <td> 2000 kcal/day</td>
-                      <td> 12:00 am</td>
+                    <tr mdbTableCol *ngFor="let el of pets">
+                      <td>{{el.name}}</td>
+                      <td>{{el.weight}} kg</td>
+                      <td>{{el.age}} years</td>
+                      <td> {{el.rationPerDay[0]['time']}}</td>
+                      <td> {{el.rationPerDay[0]['ration']}} g</td>
+                      <!--Insert how many calories, time to feed, name of current fodder-->
                       <td>
-
-                          <a class="collapse-item"  data-toggle="modal" data-target="#AddFeed">  <i class="fas fa-fw fa-cog"></i></a>
-
-
-                       </td>
-                    </tr>
-                    <tr>
-                      <td>Shila</td>
-                      <td>11 years</td>
-                      <td> BioMangini</td>
-                      <td> 2000 kcal/day</td>
-                      <td> 12:00 am</td>
-                      <td><i class="fas fa-fw fa-cog"></i></td>
-                    </tr>
-                    <tr>
-                      <td>Chicco</td>
-                      <td>2 years</td>
-                      <td>Friskies</td>
-                      <td> 2000 kcal/day</td>
-                      <td> 12:00 am</td>
-                      <td><i class="fas fa-fw fa-cog"></i></td>
+                        <a class="collapse-item" data-toggle="modal" data-target="#AddFeed"> <i
+                          class="fas fa-fw fa-cog"></i></a>
+                      </td>
                     </tr>
                     </tbody>
                   </table>
@@ -64,9 +47,9 @@
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Fodder</div>
                   </div>
-                  <table  mdbtable class="card-table table">
+                  <table mdbtable class="card-table table">
                     <tbody>
-                    <tr  mdbTableCol *ngFor="let el of fodders">
+                    <tr mdbTableCol *ngFor="let el of fodders">
                       <td>{{el.name}}</td>
                       <td>{{el.companyName}}</td>
                       <td>{{el.price}}</td>
@@ -81,21 +64,15 @@
         </div>
 
         <div class="container-fluid">
-
           <!-- Page Heading -->
-
           <p class="mb-4"></p>
-
           <!-- Content Row -->
           <div class="row">
-
             <div class="col-xl-8 col-lg-7">
-
               <!-- Area Chart -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Ideal body mass index
-
                   </h6>
                 </div>
                 <div class="card-body">
@@ -103,13 +80,9 @@
                     <canvas id="myAreaChart"></canvas>
                   </div>
                   <hr>
-
                 </div>
               </div>
-
-
             </div>
-
             <!-- Donut Chart -->
             <div class="col-xl-4 col-lg-5">
               <div class="card shadow mb-4">

@@ -54,10 +54,10 @@ export class AuthService {
     return this.http.post<any>(`${this.endpoint}/users/login`, user)
       .subscribe((result: any) => {
         localStorage.setItem('access_token', result.token);
-      /*  this.getUserProfile(result._id).subscribe((res) => {
-          this.currentUser = res;
 
-        });*/
+          this.currentUser = result.token;
+
+
         this.router.navigate(['/dashboard']);
       });
   }
@@ -76,6 +76,11 @@ export class AuthService {
     if (removeToken == null) {
       this.router.navigate(['log-in']);
     }
+  }
+
+  //Get User
+  getCurrentUser(){
+    return this.http.get(this.endpoint+"/users");
   }
 
   // User profile
