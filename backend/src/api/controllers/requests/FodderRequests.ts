@@ -14,6 +14,7 @@ export class CreateFodder {
     public weight: number;
     @IsObject()
     public nutritionFacts: {
+        kcal: number
         proteins: number;
         fats: number;
         vitamins: number;
@@ -32,6 +33,7 @@ export class PatchFodder {
     public weight: number;
     @IsObject()
     public nutritionFacts: {
+        kcal: number;
         proteins: number;
         fats: number;
         vitamins: number;
