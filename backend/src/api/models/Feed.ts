@@ -12,8 +12,8 @@ const feedSchema = new mongoose.Schema(
     {
         quantity: Number,
         kcal: Number,
-        fodderId: { type: Types.ObjectId, ref: 'Fodder' },
-        petId: { type: Types.ObjectId, ref: 'Pet' },
+        fodderId: { type: mongoose.Schema.Types.ObjectId, ref: 'Fodder' },
+        petId: { type: mongoose.Schema.Types.ObjectId, ref: 'Pet' },
     },
     { timestamps: true },
 );
