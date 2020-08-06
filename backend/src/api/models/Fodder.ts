@@ -6,6 +6,7 @@ export type FodderDocument = mongoose.Document & {
     price: number;
     weight: number;
     nutritionFacts: {
+        kcal: number;
         proteins: number;
         fats: number;
         vitamins: number;
@@ -19,6 +20,7 @@ const fodderSchema = new mongoose.Schema({
     price: Number,
     weight: Number,
     nutritionFacts: {
+        kcal: Number,
         proteins: Number,
         fats: Number,
         vitamins: Number,
