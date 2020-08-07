@@ -17,7 +17,7 @@ export class FodderController {
         try {
             return await this.fodderService.getAllFodders()
         } catch (e) {
-            throw new HttpError(500, e)
+            throw new HttpError(500, e.message)
         }
     }
 
@@ -28,7 +28,7 @@ export class FodderController {
         try {
             return await this.fodderService.createNewFodder(body)
         } catch (e) {
-            throw new HttpError(500, e)
+            throw new HttpError(500, e.message)
         }
     }
 
@@ -39,7 +39,7 @@ export class FodderController {
         try {
             return this.fodderService.patchFodderById(id, body)
         } catch (e) {
-            throw new Error(e)
+            throw new HttpError(500, e.message)
         }
     }
 }

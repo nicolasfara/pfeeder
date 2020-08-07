@@ -1,4 +1,22 @@
-import {IsDate, IsNotEmpty, IsNumber, IsString} from "class-validator";
+import {IsNotEmpty, IsNumber, IsString} from "class-validator";
+
+export class CreatePet {
+    @IsString()
+    @IsNotEmpty()
+    name: string;
+    @IsNumber()
+    @IsNotEmpty()
+    weight: number;
+    @IsNumber()
+    age: number;
+    @IsString()
+    @IsNotEmpty()
+    petType: string;
+    @IsString()
+    breed: string;
+    @IsString()
+    currentFodder: string;
+}
 
 export class UpdatePet {
     @IsString()
@@ -18,9 +36,13 @@ export class AddRation {
     @IsNotEmpty()
     name: string;
 
-    @IsDate()
+    @IsNumber()
     @IsNotEmpty()
-    time: Date;
+    public minutes: number
+
+    @IsNumber()
+    @IsNotEmpty()
+    public hours: number
 
     @IsNumber()
     @IsNotEmpty()
@@ -29,13 +51,20 @@ export class AddRation {
 
 export class UpdateRation {
     @IsString()
-    name: string;
-
-    @IsDate()
-    time: Date;
+    @IsNotEmpty()
+    public name: string;
 
     @IsNumber()
-    ration: number;
+    @IsNotEmpty()
+    public hours: number;
+
+    @IsNumber()
+    @IsNotEmpty()
+    public minutes: number
+
+    @IsNumber()
+    @IsNotEmpty()
+    public ration: number;
 }
 
 export class AddFodderToPet {
