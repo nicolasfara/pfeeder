@@ -20,13 +20,14 @@
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Pets</div>
                   </div>
+                  <div class="table-responsive">
                   <table mdbtable class="card-table table">
                     <tbody>
                     <tr mdbTableCol *ngFor="let el of pets">
                       <td>{{el.name}}</td>
                       <td>{{el.weight}} kg</td>
                       <td>{{el.age}} years</td>
-                      <td> {{el.rationPerDay[0]['time']}}</td>
+                      <td> {{el.rationPerDay[0]['time'] | date: 'hh:mm'}}</td>
                       <td> {{el.rationPerDay[0]['ration']}} g</td>
                       <!--Insert how many calories, time to feed, name of current fodder-->
                       <td>
@@ -36,6 +37,7 @@
                     </tr>
                     </tbody>
                   </table>
+                  </div>
                 </div>
               </div>
             </div>

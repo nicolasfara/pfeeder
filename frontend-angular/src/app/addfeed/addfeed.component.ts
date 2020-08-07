@@ -4,6 +4,7 @@ import {AuthService} from "../shared/auth.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Pet} from "../shared/Pet";
+import {Fodder} from "../shared/fodder";
 import {DataService} from "../data.service";
 declare var $ : any
 @Component({
@@ -13,6 +14,7 @@ declare var $ : any
 })
 export class AddfeedComponent implements OnInit {
   pets = []
+  fodders = []
   addFeedForm: FormGroup;
   constructor(
     public fb: FormBuilder,
@@ -35,6 +37,10 @@ export class AddfeedComponent implements OnInit {
     this.dataService.sendGetPets().subscribe((data: Pet[])=>{
       console.log(data);
       this.pets = data;
+    })
+    this.dataService.sendGetFodder().subscribe((data: Fodder[])=>{
+      console.log(data)
+      this.fodders = data
     })
   }
   addFeed() {

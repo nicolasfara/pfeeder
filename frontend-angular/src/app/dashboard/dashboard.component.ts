@@ -3,6 +3,7 @@ import * as $ from 'jquery';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import {DataService} from "../data.service";
 import {Pet} from "../shared/Pet";
+import {Fodder} from "../shared/fodder";
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -11,13 +12,15 @@ import {Pet} from "../shared/Pet";
 export class DashboardComponent implements OnInit {
   fodders = [];
   pets = [];
+  hours: string;
 
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
-    this.dataService.sendGetFodder().subscribe((data: any[])=>{
+    this.dataService.sendGetFodder().subscribe((data: Fodder[])=>{
       console.log(data);
       this.fodders = data;
+
     })
     this.dataService.sendGetPets().subscribe((data: Pet[])=>{
       console.log(data);

@@ -18,12 +18,15 @@
                 <input type="text" name="kcal" id="kcal" formControlName="kcal" placeholder="KCal"/>
               </div>
               <div class="form-group">
-                <label for="fodder"><i class="zmdi zmdi-email"></i></label>
-                <input type="text" name="fodder" id="fodder" formControlName="fodder" placeholder="Fodder Name"/>
+                <select class="form-control selectpicker" formControlName="fodderName" >
+                  <option value="" selected >Select Fodder Name</option>
+                  <option *ngFor="let fodder of fodders" >{{fodder.name}}</option>
+                </select>
               </div>
 
               <div class="form-group">
-                <select class="form-control" id="exampleFormControlSelect1" formControlName="petName">
+                <select class="form-control selectpicker "  formControlName="petName" >
+                  <option value="" selected >Select Pet Name</option>
                   <option *ngFor="let pet of pets" >{{pet.name}}</option>
                 </select>
                 <!--- Check if in the form take the pet name select -->

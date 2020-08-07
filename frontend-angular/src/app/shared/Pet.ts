@@ -1,10 +1,17 @@
 export class Pet {
-  id: string;
+  userId: string;
   name: string;
   weight: number;
-  petType: PetType;
   age: number;
+  petType: PetType;
   breed: string;
+  rationPerDay: [
+    {
+      name: string;
+      time: Date;
+      ration: number;
+    },
+  ];
   currentFodder: string;
 }
 export enum PetType {

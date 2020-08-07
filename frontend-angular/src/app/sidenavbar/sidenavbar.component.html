@@ -31,7 +31,7 @@
     </a>
     <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Custom Utilities:</h6>
+
         <a class="collapse-item"  data-toggle="modal" data-target="#AddPet">Add pet</a>
         <a class="collapse-item" href="utilities-border.html">Show all pets</a>
       </div>
@@ -47,24 +47,38 @@
   <!-- Nav Item - Pages Collapse Menu -->
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-      <i class="fas fa fa-paw "></i>
+      <i class="fas fa fa-utensils "></i>
       <span>Feed</span>
     </a>
     <div id="collapsePages" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Custom Utilities:</h6>
         <a class="collapse-item"  data-toggle="modal" data-target="#AddFeed">Add feed</a>
         <a class="collapse-item" href="utilities-border.html">Show all feeds</a>
       </div>
     </div>
     <app-addfeed></app-addfeed>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
   </li>
 
   <!-- Nav Item - Charts -->
   <li class="nav-item">
-    <a class="nav-link" href="charts.html">
-      <i class="fas fa-fw fa-chart-area"></i>
-      <span>Fodder</span></a>
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+      <i class="fas fa fa-building "></i>
+      <span>Fodder</span>
+    </a>
+    <!--change id for collapse-->
+    <div id="collapseFodder" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item"  data-toggle="modal" data-target="#AddFeed">Add fodder</a>
+        <a class="collapse-item" href="utilities-border.html">Show all fodder</a>
+      </div>
+    </div>
+    <app-addfeed></app-addfeed>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
   </li>
 
   <!-- Nav Item - Tables -->
