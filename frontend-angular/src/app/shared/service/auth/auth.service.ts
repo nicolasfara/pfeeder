@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { User } from './model/User';
+import { User } from '../../model/User';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import {Pet} from "./model/Pet";
-import {Feed} from "./model/Feed";
+import {Pet} from "../../model/Pet";
+import {Feed} from "../../model/Feed";
 import {logger} from "codelyzer/util/logger";
 
 @Injectable({
@@ -54,10 +54,6 @@ export class AuthService {
     return this.http.post<any>(`${this.endpoint}/users/login`, user)
       .subscribe((result: any) => {
         localStorage.setItem('access_token', result.token);
-
-          this.currentUser = result.token;
-
-
         this.router.navigate(['/dashboard']);
       });
   }
@@ -78,8 +74,8 @@ export class AuthService {
     }
   }
 
-  //Get User
-  getCurrentUser(){
+  //get User
+  getCurrentUser() {
     return this.http.get(this.endpoint+"/users");
   }
 
