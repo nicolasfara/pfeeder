@@ -5,6 +5,7 @@ export class User {
   passwordResetToken: string;
   passwordResetExpires: Date;
   role: string[];
+  apiKeys: string[];
 
   profile: {
     lastName: string;
@@ -13,4 +14,5 @@ export class User {
     location: string;
     picture: string;
   };
+  gravatar: (size: number) => string;
 }

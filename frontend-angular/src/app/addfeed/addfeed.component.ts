@@ -3,8 +3,8 @@ import {first} from "rxjs/operators";
 import {AuthService} from "../shared/auth.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {Pet} from "../shared/Pet";
-import {Fodder} from "../shared/fodder";
+import {Pet} from "../shared/model/Pet";
+import {Fodder} from "../shared/model/Fodder";
 import {DataService} from "../data.service";
 declare var $ : any
 @Component({

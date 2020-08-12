@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import {DataService} from "../data.service";
-import {Pet} from "../shared/Pet";
-import {Fodder} from "../shared/fodder";
+import {Pet} from "../shared/model/Pet";
+import {Fodder} from "../shared/model/Fodder";
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',

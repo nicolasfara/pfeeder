@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { User } from './user';
+import { User } from './model/User';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import {Pet} from "./Pet";
-import {Feed} from "./Feed";
+import {Pet} from "./model/Pet";
+import {Feed} from "./model/Feed";
 import {logger} from "codelyzer/util/logger";
 
 @Injectable({
