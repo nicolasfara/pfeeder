@@ -8,7 +8,7 @@ export class FodderService {
 
     public async getFodderById(id: Types.ObjectId): Promise<FodderDocument> {
         try {
-            return await Fodder.findById(id)
+            return await Fodder.findById(id).lean()
         } catch (e) {
             throw new Error(e)
         }

@@ -14,7 +14,7 @@ import {PetService} from "../services/PetService";
 import {PetDocument} from "../models/Pet";
 import {UserDocument} from "../models/User";
 import {OpenAPI} from "routing-controllers-openapi";
-import {AddFodderToPet, AddRation, UpdatePet, UpdateRation} from "./requests/PetRequests";
+import {AddFodderToPet, AddRation, CreatePet, UpdatePet, UpdateRation} from "./requests/PetRequests";
 import {FodderDocument} from "../models/Fodder";
 import {FodderService} from "../services/FodderService";
 
@@ -39,7 +39,7 @@ export class PetController {
                 return await this.petService.getPetsByUser(user);
             }
         } catch (e) {
-            throw new HttpError(500, e);
+            throw new HttpError(500, e.message);
         }
     }
 
@@ -50,7 +50,18 @@ export class PetController {
         try {
             return this.petService.getPetById(user, id);
         } catch (e) {
-            throw new HttpError(500, e);
+            throw new HttpError(500, e.message);
+        }
+    }
+
+    @Post()
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }]})
+    public async createPet(@CurrentUser() user: UserDocument, @Body() body: CreatePet): Promise<PetDocument> {
+        try {
+            return await this.petService.createNewPet(user, body)
+        } catch (e) {
+            throw new HttpError(500, e.message)
         }
     }
 
@@ -61,7 +72,7 @@ export class PetController {
         try {
             return await this.petService.patchPetById(user, id, body)
         } catch (e) {
-            throw new HttpError(500, e);
+            throw new HttpError(500, e.message);
         }
     }
 
@@ -72,7 +83,7 @@ export class PetController {
         try {
             return this.petService.deletePetById(user, id)
         } catch (e) {
-            throw new HttpError(500, e)
+            throw new HttpError(500, e.message)
         }
     }
 
@@ -83,7 +94,7 @@ export class PetController {
         try {
             return await this.petService.addRation(user, id, body)
         } catch (e) {
-            throw new HttpError(500, e)
+            throw new HttpError(500, e.message)
         }
     }
 
@@ -94,7 +105,7 @@ export class PetController {
         try {
             return await this.petService.getAllRations(user, id)
         } catch (e) {
-            throw new HttpError(500, e)
+            throw new HttpError(500, e.message)
         }
     }
 
@@ -110,7 +121,7 @@ export class PetController {
         try {
             return await this.petService.updateRationByName(user, pet_id, ration_name, body)
         } catch (e) {
-            throw new HttpError(500, e)
+            throw new HttpError(500, e.message)
         }
     }
 
@@ -125,7 +136,7 @@ export class PetController {
         try {
             return await this.petService.deleteRationByName(user, pet_id, ration_name)
         } catch (e) {
-            throw new HttpError(500, e);
+            throw new HttpError(500, e.message);
         }
     }
 
@@ -140,7 +151,7 @@ export class PetController {
         try {
             return await this.petService.addFodderToPet(user, id, body.fodderId)
         } catch (e) {
-            throw new HttpError(500, e)
+            throw new HttpError(500, e.message)
         }
     }
 
@@ -157,7 +168,7 @@ export class PetController {
                 return await this.fodderService.getFodderById(pet.currentFodder)
             }
         } catch (e) {
-            throw new HttpError(500, e)
+            throw new HttpError(500, e.message)
         }
         throw new HttpError(404, `Pet with id: ${id} not found`)
     }
@@ -173,7 +184,7 @@ export class PetController {
         try {
             return await this.petService.patchFodderToPet(user, id, body.fodderId)
         } catch (e) {
-            throw new HttpError(500, e)
+            throw new HttpError(500, e.message)
         }
     }
 }

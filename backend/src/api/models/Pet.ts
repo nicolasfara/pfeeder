@@ -25,7 +25,7 @@ const petSchema = new mongoose.Schema(
         age: Number,
         petType: {type: String, enum: ['dog', 'cat', 'other'], required: true},
         breed: String,
-        currentFodder: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Fodder'},
+        currentFodder: {type: mongoose.Schema.Types.ObjectId, ref: 'Fodder'},
         rationPerDay: [
             {
                 name: {type: String, required: true, unique: true},

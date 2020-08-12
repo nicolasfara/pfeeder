@@ -68,7 +68,11 @@ export class UserController {
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async getUser(@CurrentUser() user: UserDocument, @Body() body: UpdateUser): Promise<UserDocument> {
-        return await this.userService.updateUser(body as UserDocument);
+        try {
+            return await this.userService.updateUser(body as UserDocument);
+        } catch (e) {
+            throw new HttpError(500, e.message)
+        }
     }
 
     /**
@@ -79,7 +83,11 @@ export class UserController {
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async deleteUser(@CurrentUser() user: UserDocument): Promise<UserDocument> {
-        return await this.userService.deleteUser(user.id);
+        try {
+            return await this.userService.deleteUser(user.id);
+        } catch (e) {
+            throw new HttpError(500, e.message)
+        }
     }
 
     /**

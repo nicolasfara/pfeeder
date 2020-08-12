@@ -22,7 +22,7 @@ export class NotificationController {
         try {
             return await this.notificationService.getAllUserNotifications(user)
         } catch (e) {
-            throw new HttpError(500, e)
+            throw new HttpError(500, e.message)
         }
     }
 
@@ -33,7 +33,7 @@ export class NotificationController {
         try {
             return await this.notificationService.createNewNotification(user, body)
         } catch (e) {
-            throw new HttpError(500, e)
+            throw new HttpError(500, e.message)
         }
     }
 
@@ -44,7 +44,7 @@ export class NotificationController {
         try {
             return await this.notificationService.readNotification(user, body.notificationId)
         } catch (e) {
-            throw new HttpError(500, e)
+            throw new HttpError(500, e.message)
         }
     }
 }

@@ -19,7 +19,7 @@ export class FeedController {
         try {
             return await this.feedService.addNewFeed(user, body)
         } catch (e) {
-            throw new HttpError(500, e)
+            throw new HttpError(500, e.message)
         }
     }
 
@@ -30,7 +30,7 @@ export class FeedController {
         try {
             return this.feedService.getAllFeedsByUser(user)
         } catch (e) {
-            throw new HttpError(500, e)
+            throw new HttpError(500, e.message)
         }
     }
 }
