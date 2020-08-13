@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 // Required services for navigation
 import { Routes, RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { AuthGuard } from './shared/auth.guard';
 // Import all the components for which navigation service has to be activated
 
 import {HomepageComponent} from './homepage/homepage.component';

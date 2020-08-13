@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import {first} from "rxjs/operators";
-import {AuthService} from "../shared/auth.service";
+import {AuthService} from "../shared/service/auth/auth.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Pet} from "../shared/model/Pet";
 import {Fodder} from "../shared/model/Fodder";
-import {DataService} from "../data.service";
+import {DataService} from "../shared/service/data/data.service";
 declare var $ : any
 @Component({
-  selector: 'app-addfeed',
-  templateUrl: './addfeed.component.html',
-  styleUrls: ['./addfeed.component.scss']
+  selector: 'app-addration',
+  templateUrl: './addration.component.html',
+  styleUrls: ['./addration.component.scss']
 })
-export class AddfeedComponent implements OnInit {
+export class AddrationComponent implements OnInit {
   pets = []
   fodders = []
   addFeedForm: FormGroup;

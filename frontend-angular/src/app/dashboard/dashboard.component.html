@@ -24,14 +24,14 @@
                   <table mdbtable class="card-table table">
                     <tbody>
                     <tr mdbTableCol *ngFor="let el of pets">
-                      <td>{{el.name}}</td>
+                      <td class="petName">{{el.name}}</td>
                       <td>{{el.weight}} kg</td>
                       <td>{{el.age}} years</td>
                       <td> {{el.rationPerDay[0]['time'] | date: 'hh:mm'}}</td>
                       <td> {{el.rationPerDay[0]['ration']}} g</td>
                       <!--Insert how many calories, time to feed, name of current fodder-->
                       <td>
-                        <a class="collapse-item" data-toggle="modal" data-target="#AddFeed"> <i
+                        <a class="collapse-item openRationModal" > <i
                           class="fas fa-fw fa-cog"></i></a>
                       </td>
                     </tr>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import * as $ from 'jquery';
+declare var $ : any
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import {DataService} from "../data.service";
+import {DataService} from "../shared/service/data/data.service";
 import {Pet} from "../shared/model/Pet";
 import {Fodder} from "../shared/model/Fodder";
 @Component({
@@ -26,5 +26,12 @@ export class DashboardComponent implements OnInit {
       console.log(data);
       this.pets = data;
     })
+
+    $(document).on("click", ".openRationModal", function () {
+      var petName = $(this).closest('td').prevAll('.petName').text();
+      $(".modal-body #petName").val( petName );
+       $('#AddRation').modal('show');
+    });
+
   }
 }
