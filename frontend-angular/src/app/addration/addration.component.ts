@@ -13,8 +13,9 @@ declare var $ : any
   styleUrls: ['./addration.component.scss']
 })
 export class AddrationComponent implements OnInit {
-  pets = []
-  fodders = []
+
+  pets : Pet[] = [];
+  fodders : Fodder[] = [];
   addFeedForm: FormGroup;
   constructor(
     public fb: FormBuilder,
@@ -35,11 +36,9 @@ export class AddrationComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataService.sendGetPets().subscribe((data: Pet[])=>{
-      console.log(data);
       this.pets = data;
     })
     this.dataService.sendGetFodder().subscribe((data: Fodder[])=>{
-      console.log(data)
       this.fodders = data
     })
   }

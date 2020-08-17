@@ -18,17 +18,27 @@
               <div class="card-header">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Pets</div>
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Pet ration summary</div>
                   </div>
                   <div class="table-responsive">
                   <table mdbtable class="card-table table">
+                    <thead>
+                    <tr>
+                      <th scope="col">Pet Name</th>
+                      <th scope="col">Weight</th>
+                      <th scope="col">Age</th>
+                      <th scope="col">Time of ration</th>
+                      <th scope="col">Grams per ration</th>
+                      <th scope="col">Edit</th>
+                    </tr>
+                    </thead>
                     <tbody>
-                    <tr mdbTableCol *ngFor="let el of pets">
+                    <tr  *ngFor="let el of pets">
                       <td class="petName">{{el.name}}</td>
-                      <td>{{el.weight}} kg</td>
-                      <td>{{el.age}} years</td>
-                      <td> {{el.rationPerDay[0]['time'] | date: 'hh:mm'}}</td>
-                      <td> {{el.rationPerDay[0]['ration']}} g</td>
+                      <td class="petWeight">{{el.weight}} kg</td>
+                      <td class="petAge">{{el.age}} years</td>
+                      <td class="petRationTime"> {{el.rationPerDay[0]['time'] | date: 'hh:mm'}}</td>
+                      <td class="petRationGrams"> {{el.rationPerDay[0]['ration']}} g</td>
                       <!--Insert how many calories, time to feed, name of current fodder-->
                       <td>
                         <a class="collapse-item openRationModal" > <i
@@ -51,7 +61,7 @@
                   </div>
                   <table mdbtable class="card-table table">
                     <tbody>
-                    <tr mdbTableCol *ngFor="let el of fodders">
+                    <tr  *ngFor="let el of fodders">
                       <td>{{el.name}}</td>
                       <td>{{el.companyName}}</td>
                       <td>{{el.price}}</td>
@@ -113,3 +123,4 @@
     </div>
   </div>
 
+</div>

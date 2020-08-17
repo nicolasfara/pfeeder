@@ -10,17 +10,15 @@
           <div class="signup-form">
             <form [formGroup]="addFeedForm" (ngSubmit)="addFeed()" class="register-form" id="register-form">
               <div class="form-group">
-                <label for="quantity"><i class="zmdi zmdi-account material-icons-name"></i></label>
                 <input type="text" name="quantity" id="quantity" formControlName="quantity" placeholder="Quantity"/>
               </div>
               <div class="form-group">
-                <label for="kcal"><i class="zmdi zmdi-account material-icons-name"></i></label>
                 <input type="text" name="kcal" id="kcal" formControlName="kcal" placeholder="KCal"/>
               </div>
               <div class="form-group">
                 <select class="form-control selectpicker" formControlName="fodderName" >
                   <option value="" selected >Select Fodder Name</option>
-                  <option *ngFor="let fodder of fodders" >{{fodder.name}}</option>
+                  <option *ngFor="let fodder of fodders" [ngValue]="fodder">{{fodder.name}}</option>
                 </select>
               </div>
               <div class="form-group">

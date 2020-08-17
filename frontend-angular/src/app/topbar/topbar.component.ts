@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../shared/service/auth/auth.service';
 import {User} from "../shared/model/User";
+import {Router} from "@angular/router";
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
@@ -11,7 +12,7 @@ export class TopbarComponent implements OnInit {
   currentUser :User
   currentEmail : string
   gravatar : string
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService, public router: Router) { }
 
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe((data: User)=>{
@@ -20,5 +21,9 @@ export class TopbarComponent implements OnInit {
       this.currentEmail = this.currentUser.email.split('@', 2)[0]
       this.gravatar = this.currentUser.profile.picture
     })
+  }
+
+  goToProfile(){
+    this.router.navigate(["/profile",{'user':this.currentUser}])
   }
 }

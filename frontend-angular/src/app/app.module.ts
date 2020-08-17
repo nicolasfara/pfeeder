@@ -15,7 +15,7 @@ import { SidenavbarComponent } from './sidenavbar/sidenavbar.component';
 import { AddpetComponent } from './addpet/addpet.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { AddrationComponent } from './addration/addration.component';
-
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +29,7 @@ import { AddrationComponent } from './addration/addration.component';
     AddpetComponent,
     TopbarComponent,
     AddrationComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
