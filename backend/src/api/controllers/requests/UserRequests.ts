@@ -1,4 +1,4 @@
-import {IsEmail, IsNotEmpty} from "class-validator";
+import {IsEmail, IsNotEmpty, IsString} from "class-validator";
 
 export class BaseUser {
     @IsNotEmpty()
@@ -44,4 +44,19 @@ export class UpdatePassword {
     public password: string;
     @IsNotEmpty()
     public confirmPassword: string;
+}
+
+export class ResetPasswordRequest {
+    @IsString()
+    @IsNotEmpty()
+    public password: string
+    @IsString()
+    @IsNotEmpty()
+    public confirmPassword: string
+}
+
+export class ForgotPasswordRequest {
+    @IsEmail()
+    @IsNotEmpty()
+    public email: string
 }

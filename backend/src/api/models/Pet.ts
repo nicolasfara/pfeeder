@@ -3,6 +3,7 @@ import mongoose, {Types} from 'mongoose';
 export type PetDocument = mongoose.Document & {
     userId: Types.ObjectId;
     name: string;
+    idealWeight: number;
     weight: number;
     age: number;
     petType: PetType;
@@ -22,6 +23,7 @@ const petSchema = new mongoose.Schema(
         userId: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
         name: {type: String, required: true},
         weight: Number,
+        idealWeight: Number,
         age: Number,
         petType: {type: String, enum: ['dog', 'cat', 'other'], required: true},
         breed: String,

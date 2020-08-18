@@ -4,9 +4,18 @@ import {User, UserDocument} from '../models/User';
 import {UserService} from "../services/UserService";
 import jwt from 'jsonwebtoken';
 import {env} from "../../env";
+import crypto from 'crypto-js';
 import {Logger, LoggerInterface} from "../../decorators/Logger";
-import {CreateUserBody, LoginBody, UpdatePassword, UpdateUser} from "./requests/UserRequests";
-import {LoginResponse, UserResponse} from "./responses/UserResponses";
+import {
+    CreateUserBody,
+    ForgotPasswordRequest,
+    LoginBody,
+    ResetPasswordRequest,
+    UpdatePassword,
+    UpdateUser
+} from "./requests/UserRequests";
+import {ForgotPasswordResponse, LoginResponse, ResetPasswordResponse, UserResponse} from "./responses/UserResponses";
+import {Param} from "routing-controllers/index";
 
 
 @JsonController('/users')
@@ -102,5 +111,49 @@ export class UserController {
         if (! await user.comparePassword(body.oldPassword)) throw new HttpError(400, `The old password not match`);
         if (body.password !== body.confirmPassword) throw new HttpError(400, `The two password not match`);
         return await this.userService.updatePassword(user, body.password);
+    }
+
+    /**
+     * Forgot password, send a token for password reset.
+     */
+    @Post('/forgot')
+    @ResponseSchema(ForgotPasswordResponse)
+    public async forgotPassword(@Body() body: ForgotPasswordRequest): Promise<ForgotPasswordResponse> {
+        try {
+            const token = crypto.lib.WordArray.random(16).toString()
+            const user = await User.findOne({ email: body.email })
+            if (!user) throw new HttpError(404, `No user found with email: ${body.email}`)
+            user.passwordResetToken = token
+            user.passwordResetExpires = new Date(Date.now() + 3600000) // 1 hour
+            await user.save()
+
+            // TODO(Send an email with reset token)
+
+            return new ForgotPasswordResponse(token) //TODO(Non inviare il token come risposta)
+        } catch (e) {
+            throw new HttpError(500, e.message)
+        }
+    }
+
+    @Post('/reset/:token')
+    @ResponseSchema(ResetPasswordResponse)
+    public async resetPassword(
+        @Body() body: ResetPasswordRequest,
+        @Param('token') token: string
+    ): Promise<ResetPasswordResponse> {
+        if (body.confirmPassword !== body.password) throw new HttpError(400, `the two password doesn't match`)
+        try {
+            const user = await User.findOne({ passwordResetToken: token })
+                .where('passwordResetExpires')
+                .gt(Date.now())
+            if (!user) throw new HttpError(404, `No token valid found`)
+            user.password = body.password
+            user.passwordResetToken = undefined
+            user.passwordResetExpires = undefined
+            await user.save()
+            return new ResetPasswordResponse(`Password changed successfully`)
+        } catch (e) {
+            throw new HttpError(500, e.message)
+        }
     }
 }
