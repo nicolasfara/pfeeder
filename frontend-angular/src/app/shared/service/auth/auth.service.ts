@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Router } from '@angular/router';
 import {Pet} from "../../model/Pet";
 import {Feed} from "../../model/Feed";
-import {logger} from "codelyzer/util/logger";
+import {changePsw} from "../../model/changePsw";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,12 @@ export class AuthService {
   ) {
   }
 
+  //Change Password
+  changePassword(changePassword: changePsw): Observable<any>{
+    const api = `${this.endpoint}/users/password`;
+    return this.http.post(api, changePassword).pipe( catchError(this.handleError))
+
+  }
   //addPet
   addPet(pet: Pet): Observable<any> {
     const api = `${this.endpoint}/pet`;

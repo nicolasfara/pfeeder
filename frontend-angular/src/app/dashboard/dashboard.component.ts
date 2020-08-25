@@ -4,6 +4,10 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import {DataService} from "../shared/service/data/data.service";
 import {Pet} from "../shared/model/Pet";
 import {Fodder} from "../shared/model/Fodder";
+import { ChartsModule } from 'ng2-charts';
+import { Chart, ChartDataSets, ChartOptions } from 'chart.js';
+import { Color, Label } from 'ng2-charts';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -13,6 +17,9 @@ export class DashboardComponent implements OnInit {
   fodders = [];
   pets = [];
   hours: string;
+  private ctx: any;
+  private myPieChart: Chart;
+
 
   constructor(private dataService: DataService) { }
 
@@ -35,3 +42,5 @@ export class DashboardComponent implements OnInit {
 
   }
 }
+
+
