@@ -4,6 +4,7 @@ import {CreateFeed} from "../controllers/requests/FeedRequests";
 import {FeedDocument, Feed} from "../models/Feed";
 import {PetService} from "./PetService";
 import {FodderService} from "./FodderService";
+import {Logger, LoggerInterface} from "../../decorators/Logger";
 
 @Service()
 export class FeedService {
@@ -11,22 +12,23 @@ export class FeedService {
     constructor(
         private petService: PetService,
         private fodderService: FodderService,
-    ) {
-    }
+        @Logger(__filename) private log: LoggerInterface
+    ) { }
 
     public async addNewFeed(user: UserDocument, body: CreateFeed): Promise<FeedDocument> {
         try {
             const petInfo = await this.petService.getPetById(user, body.petId)
+            this.log.info(`pet: ${petInfo.currentFodder}`)
             const fodder = await this.fodderService.getFodderById(petInfo.currentFodder)
+            this.log.info(`fodder: ${fodder.name}`)
             if (petInfo && fodder) {
-                const feed = new Feed({
-                    date: body.data,
-                    quantity: body.ration,
-                    kcal: fodder.nutritionFacts.kcal * body.ration/100,
-                    fodderId: fodder.id,
-                    userId: user.id
-                })
+                const feed = new Feed()
+                feed.quantity = body.ration
+                feed.kcal = fodder.nutritionFacts.kcal * body.ration/100
+                feed.fodderId = fodder.id
+                feed.petId = petInfo.id
                 const savedFeed = await feed.save()
+                this.log.info(`saved: ${savedFeed}`)
                 return savedFeed.toObject()
             }
         } catch (e) {
@@ -46,5 +48,24 @@ export class FeedService {
             throw new Error(e)
         }
         throw new Error(`Unable to find pets for the given user`)
+    }
+
+    public async getAllFeedsByPetByDays(petId: string, days: number): Promise<FeedDocument[]> {
+        try {
+            return await Feed.find({ petId: petId })
+                //.where('createdAt')
+                //.gt(new Date().getDate() - days)
+                .lean()
+        } catch (e) {
+            throw new Error(e.message)
+        }
+    }
+
+    public async getAllFeedsByPet(petId: string): Promise<FeedDocument[]> {
+        try {
+            return await Feed.find({ petId: petId }).lean()
+        } catch (e) {
+            throw new Error(e.message)
+        }
     }
 }

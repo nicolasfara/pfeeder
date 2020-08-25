@@ -1,10 +1,6 @@
-import {IsDate, IsNotEmpty, IsNumber, IsString} from "class-validator";
+import {IsNotEmpty, IsNumber, IsString} from "class-validator";
 
 export class CreateFeed {
-    @IsDate()
-    @IsNotEmpty()
-    public data: Date;
-
     @IsString()
     @IsNotEmpty()
     public petId: string
