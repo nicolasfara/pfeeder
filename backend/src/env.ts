@@ -27,6 +27,7 @@ export const env = {
         port: normalizePort(process.env.PORT || getOsEnv('APP_PORT')),
         banner: toBool(getOsEnv('APP_BANNER')),
         jwtSecret: getOsEnv('JWT_SECRET'),
+        mqttUri: getOsEnv('MQTT_URI'),
         dirs: {
             migrations: getOsPaths('TYPEORM_MIGRATIONS'),
             migrationsDir: getOsPath('TYPEORM_MIGRATIONS_DIR'),

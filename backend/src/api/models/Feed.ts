@@ -1,7 +1,6 @@
 import mongoose, { Types } from 'mongoose';
 
 export type FeedDocument = mongoose.Document & {
-    data: Date;
     quantity: number;
     kcal: number;
     fodderId: Types.ObjectId;

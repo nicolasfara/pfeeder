@@ -5,6 +5,7 @@ import {swaggerLoader} from "./loaders/swaggerLoader";
 import {iocLoader} from "./loaders/iocLoader";
 import {winstonLoader} from "./loaders/winstonLoader";
 import {monitorLoader} from "./loaders/monitorLoaders";
+import {mqttLoader} from "./loaders/mqttLoader";
 
 bootstrapMicroframework([
     mongooseLoader,
@@ -12,7 +13,8 @@ bootstrapMicroframework([
     swaggerLoader,
     iocLoader,
     winstonLoader,
-    monitorLoader
+    monitorLoader,
+    mqttLoader
 ])
     .then(() => console.log("Application is up and running."))
     .catch(error => console.log("Application is crashed: " + error.stack));
