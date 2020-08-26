@@ -2,15 +2,10 @@
 <div id="wrapper">
   <app-sidenavbar></app-sidenavbar>
   <div id="content-wrapper" class="d-flex flex-column">
-
-    <!-- TODO METTERE TOP BAR --->
-
     <!-- Main Content -->
     <div id="content">
       <app-topbar></app-topbar>
       <div class="container-fluid">
-
-
         <!-- Content Row -->
         <div class="row">
           <div class="col-xl-12 col-lg-7">
@@ -21,32 +16,32 @@
                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Pet ration summary</div>
                   </div>
                   <div class="table-responsive">
-                  <table mdbtable class="card-table table">
-                    <thead>
-                    <tr>
-                      <th scope="col">Pet Name</th>
-                      <th scope="col">Weight</th>
-                      <th scope="col">Age</th>
-                      <th scope="col">Time of ration</th>
-                      <th scope="col">Grams per ration</th>
-                      <th scope="col">Edit</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr  *ngFor="let el of pets">
-                      <td class="petName">{{el.name}}</td>
-                      <td class="petWeight">{{el.weight}} kg</td>
-                      <td class="petAge">{{el.age}} years</td>
-                      <td class="petRationTime"> {{el.rationPerDay[0]['time'] | date: 'hh:mm'}}</td>
-                      <td class="petRationGrams"> {{el.rationPerDay[0]['ration']}} g</td>
-                      <!--Insert how many calories, time to feed, name of current fodder-->
-                      <td>
-                        <a class="collapse-item openRationModal" > <i
-                          class="fas fa-fw fa-cog"></i></a>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
+                    <table mdbtable class="card-table table">
+                      <thead>
+                      <tr>
+                        <th scope="col">Pet Name</th>
+                        <th scope="col">Weight</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Time of ration</th>
+                        <th scope="col">Grams per ration</th>
+                        <th scope="col">Edit</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let el of pets">
+                        <td class="petName">{{el.name}}</td>
+                        <td class="petWeight">{{el.weight}} kg</td>
+                        <td class="petAge">{{el.age}} years</td>
+                        <td class="petRationTime"> {{el.rationPerDay[0]['time'] | date: 'hh:mm'}}</td>
+                        <td class="petRationGrams"> {{el.rationPerDay[0]['ration']}} g</td>
+                        <!--Insert how many calories, time to feed, name of current fodder-->
+                        <td>
+                          <a class="collapse-item openRationModal"> <i
+                            class="fas fa-fw fa-cog"></i></a>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -68,11 +63,7 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                  <div class="chart-pie pt-4">
-                    <canvas id="myPieChart"></canvas>
-                  </div>
-                  <hr>
-
+                  <app-doughnut></app-doughnut>
                 </div>
               </div>
             </div>
@@ -84,13 +75,11 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-
                   <div class="chart-pie pt-4">
                     <canvas id="myPiehChart"></canvas>
                   </div>
                   Total costs over the past 30 days: ----
                   <hr>
-
                 </div>
               </div>
             </div>
@@ -102,23 +91,21 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                  <div class="chart-pie pt-4">
-                    <canvas id="myPieChafrt"></canvas>
+                  <div class="alert alert-success" role="alert">
+                    Your dispenser is connected!
+                  </div>
+                  <div class="alert alert-danger" role="alert">
+                    Your dispenser is not connected!
                   </div>
                   <hr>
-
+                  <button type="button" class="btn btn-outline-secondary">View dispenser info</button>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
-
-
         <!-- End of Page Wrapper -->
-
       </div>
     </div>
   </div>
-
 </div>

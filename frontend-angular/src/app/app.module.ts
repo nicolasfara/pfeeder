@@ -16,7 +16,7 @@ import { AddpetComponent } from './addpet/addpet.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { AddrationComponent } from './addration/addration.component';
 import { ProfileComponent } from './profile/profile.component';
-
+import { DoughnutComponent } from './doughnut/doughnut.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +29,8 @@ import { ProfileComponent } from './profile/profile.component';
     AddpetComponent,
     TopbarComponent,
     AddrationComponent,
-    ProfileComponent
+    ProfileComponent,
+    DoughnutComponent
   ],
   imports: [
     BrowserModule,

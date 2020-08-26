@@ -31,7 +31,7 @@ export class AuthService {
   }
   //addPet
   addPet(pet: Pet): Observable<any> {
-    const api = `${this.endpoint}/pet`;
+    const api = `${this.endpoint}/pets`;
     return this.http.post(api, pet)
       .pipe(
         catchError(this.handleError)
