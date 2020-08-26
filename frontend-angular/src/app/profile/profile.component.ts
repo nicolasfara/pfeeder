@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit {
     console.log(this.changePasswordForm)
     this.authService.changePassword(this.changePasswordForm.value).pipe(first()).subscribe(data => {
                                       console.log("ok!!")
-      
+
 
     });
   }
