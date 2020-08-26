@@ -17,6 +17,7 @@ import { TopbarComponent } from './topbar/topbar.component';
 import { AddrationComponent } from './addration/addration.component';
 import { ProfileComponent } from './profile/profile.component';
 import { DoughnutComponent } from './doughnut/doughnut.component';
+import { BarchartComponent } from './barchart/barchart.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +31,8 @@ import { DoughnutComponent } from './doughnut/doughnut.component';
     TopbarComponent,
     AddrationComponent,
     ProfileComponent,
-    DoughnutComponent
+    DoughnutComponent,
+    BarchartComponent
   ],
   imports: [
     BrowserModule,
