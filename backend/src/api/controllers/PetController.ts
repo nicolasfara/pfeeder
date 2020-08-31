@@ -18,7 +18,6 @@ import {AddFodderToPet, AddRation, CreatePet, UpdatePet, UpdateRation} from "./r
 import {FodderDocument} from "../models/Fodder";
 import {FodderService} from "../services/FodderService";
 import {FeedService} from "../services/FeedService";
-import {FeedDocument} from "../models/Feed";
 
 @JsonController('/pets')
 export class PetController {
@@ -199,15 +198,20 @@ export class PetController {
         @Param('id') id: string,
         @QueryParam('days') days: number
     ): Promise<number> {
-        let feeds: FeedDocument[]
-        if (days) {
-            feeds = await this.feedService.getAllFeedsByPetByDays(id, days)
-        } else {
-            feeds = await this.feedService.getAllFeedsByPet(id)
+        try {
+            let feedsByPet: any
+            if (days) {
+                feedsByPet = await this.feedService.getAllFeedsByPetByDays(id, days)
+            } else {
+                feedsByPet = await this.feedService.getAllFeedsByPet(id)
+            }
+            if (feedsByPet.length > 0) {
+                return feedsByPet.map(e => e.fodderId.price).reduce((acc, curr) => acc + curr)
+            } else {
+                throw new Error(`Unable to find feeds for this pet`)
+            }
+        } catch (e) {
+            throw new HttpError(500, e.message)
         }
-        let fodderArray: number[] = []
-        feeds.forEach(f => this.fodderService.getFodderById(f.fodderId).then(val => fodderArray.push(val.price)))
-        this.log.info(`Array: ${fodderArray.length}`)
-        return 5
     }
 }
