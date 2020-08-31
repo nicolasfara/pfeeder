@@ -7,7 +7,7 @@ import {
     HttpError,
     JsonController,
     Param,
-    Patch, Post
+    Patch, Post, QueryParam
 } from "routing-controllers/index";
 import {Logger, LoggerInterface} from "../../decorators/Logger";
 import {PetService} from "../services/PetService";
@@ -17,12 +17,15 @@ import {OpenAPI} from "routing-controllers-openapi";
 import {AddFodderToPet, AddRation, CreatePet, UpdatePet, UpdateRation} from "./requests/PetRequests";
 import {FodderDocument} from "../models/Fodder";
 import {FodderService} from "../services/FodderService";
+import {FeedService} from "../services/FeedService";
+import {FeedDocument} from "../models/Feed";
 
 @JsonController('/pets')
 export class PetController {
     constructor(
         private petService: PetService,
         private fodderService: FodderService,
+        private feedService: FeedService,
         @Logger(__filename) private log: LoggerInterface
     ) {
     }
@@ -186,5 +189,25 @@ export class PetController {
         } catch (e) {
             throw new HttpError(500, e.message)
         }
+    }
+
+    @Get('/:id/cost')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }]})
+    public async getCostByPet(
+        @CurrentUser() user: UserDocument,
+        @Param('id') id: string,
+        @QueryParam('days') days: number
+    ): Promise<number> {
+        let feeds: FeedDocument[]
+        if (days) {
+            feeds = await this.feedService.getAllFeedsByPetByDays(id, days)
+        } else {
+            feeds = await this.feedService.getAllFeedsByPet(id)
+        }
+        let fodderArray: number[] = []
+        feeds.forEach(f => this.fodderService.getFodderById(f.fodderId).then(val => fodderArray.push(val.price)))
+        this.log.info(`Array: ${fodderArray.length}`)
+        return 5
     }
 }
