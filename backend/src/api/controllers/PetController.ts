@@ -7,7 +7,7 @@ import {
     HttpError,
     JsonController,
     Param,
-    Patch, Post
+    Patch, Post, QueryParam
 } from "routing-controllers/index";
 import {Logger, LoggerInterface} from "../../decorators/Logger";
 import {PetService} from "../services/PetService";
@@ -17,12 +17,14 @@ import {OpenAPI} from "routing-controllers-openapi";
 import {AddFodderToPet, AddRation, CreatePet, UpdatePet, UpdateRation} from "./requests/PetRequests";
 import {FodderDocument} from "../models/Fodder";
 import {FodderService} from "../services/FodderService";
+import {FeedService} from "../services/FeedService";
 
 @JsonController('/pets')
 export class PetController {
     constructor(
         private petService: PetService,
         private fodderService: FodderService,
+        private feedService: FeedService,
         @Logger(__filename) private log: LoggerInterface
     ) {
     }
@@ -183,6 +185,31 @@ export class PetController {
     ): Promise<PetDocument> {
         try {
             return await this.petService.patchFodderToPet(user, id, body.fodderId)
+        } catch (e) {
+            throw new HttpError(500, e.message)
+        }
+    }
+
+    @Get('/:id/cost')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }]})
+    public async getCostByPet(
+        @CurrentUser() user: UserDocument,
+        @Param('id') id: string,
+        @QueryParam('days') days: number
+    ): Promise<number> {
+        try {
+            let feedsByPet: any
+            if (days) {
+                feedsByPet = await this.feedService.getAllFeedsByPetByDays(id, days)
+            } else {
+                feedsByPet = await this.feedService.getAllFeedsByPet(id)
+            }
+            if (feedsByPet.length > 0) {
+                return feedsByPet.map(e => e.fodderId.price).reduce((acc, curr) => acc + curr)
+            } else {
+                throw new Error(`Unable to find feeds for this pet`)
+            }
         } catch (e) {
             throw new HttpError(500, e.message)
         }

@@ -21,7 +21,7 @@ export class FeedService {
             const petInfo = await this.petService.getPetById(user, body.petId)
             this.log.info(`pet: ${petInfo._id}`)
             const fodder = await this.fodderService.getFodderById(petInfo.currentFodder)
-            this.log.info(`fodder: ${fodder._id}`)
+            this.log.info(`fodder: ${fodder.nutritionFacts}`)
             if (petInfo && fodder) {
                 const feed = new Feed()
                 feed.quantity = body.ration
@@ -59,6 +59,7 @@ export class FeedService {
             return await Feed.find({ petId: petId })
                 .where('createdAt')
                 .gt(date)
+                .populate("fodderId")
                 .lean()
         } catch (e) {
             throw new Error(e.message)
@@ -67,7 +68,7 @@ export class FeedService {
 
     public async getAllFeedsByPet(petId: string): Promise<FeedDocument[]> {
         try {
-            return await Feed.find({ petId: petId }).lean()
+            return await Feed.find({ petId: petId }).populate("fodderId").lean()
         } catch (e) {
             throw new Error(e.message)
         }
