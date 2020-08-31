@@ -1,4 +1,6 @@
+
 export class Pet {
+  _id: string;
   userId: string;
   name: string;
   weight: number;

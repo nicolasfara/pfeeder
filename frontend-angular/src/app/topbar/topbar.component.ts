@@ -25,6 +25,6 @@ export class TopbarComponent implements OnInit {
 
   goToProfile(){
 
-    this.router.navigate(['/profile', {'id':'ciao'}]);
+    this.router.navigate(['/profile']);
   }
 }

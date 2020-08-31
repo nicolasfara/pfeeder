@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 declare var $ : any
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import {DataService} from "../shared/service/data/data.service";
 import {Pet} from "../shared/model/Pet";
-import {Fodder} from "../shared/model/Fodder";
-import { ChartsModule } from 'ng2-charts';
 import { Chart, ChartDataSets, ChartOptions } from 'chart.js';
-import { Color, Label } from 'ng2-charts';
+
+
 
 @Component({
   selector: 'app-dashboard',
@@ -15,24 +13,17 @@ import { Color, Label } from 'ng2-charts';
 })
 export class DashboardComponent implements OnInit {
   fodders = [];
-  pets = [];
+  pets : Pet[];
   hours: string;
   private ctx: any;
   private myPieChart: Chart;
 
 
-  constructor(private dataService: DataService) { }
+  constructor(private service : DataService) { }
 
   ngOnInit(): void {
-    this.dataService.sendGetFodder().subscribe((data: Fodder[])=>{
-      console.log(data);
-      this.fodders = data;
-
-    })
-    this.dataService.sendGetPets().subscribe((data: Pet[])=>{
-      console.log(data);
-      this.pets = data;
-    })
+    this.getPet();
+    this.getFodder()
 
     $(document).on("click", ".openRationModal", function () {
       var petName = $(this).closest('td').prevAll('.petName').text();
@@ -40,6 +31,13 @@ export class DashboardComponent implements OnInit {
        $('#AddRation').modal('show');
     });
 
+  }
+
+  getPet(): void {
+    this.service.getPets().then(pets => this.pets = pets);
+  }
+  getFodder() :void {
+    this.service.getFodder().then(fodders => this.fodders = fodders);
   }
 }
 

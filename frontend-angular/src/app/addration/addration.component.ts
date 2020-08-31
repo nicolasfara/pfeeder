@@ -33,14 +33,9 @@ export class AddrationComponent implements OnInit {
 
     });
   }
-
   ngOnInit(): void {
-    this.dataService.sendGetPets().subscribe((data: Pet[])=>{
-      this.pets = data;
-    })
-    this.dataService.sendGetFodder().subscribe((data: Fodder[])=>{
-      this.fodders = data
-    })
+   // this.pets =  this.dataService.getPets();
+    //this.fodders = this.dataService.getFodder();
   }
   addFeed() {
     this.authService.addFeed(this.addFeedForm.value) .pipe(first())
