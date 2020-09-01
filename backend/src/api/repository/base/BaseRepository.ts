@@ -1,8 +1,8 @@
 import * as mongoose from "mongoose";
-import {IWrite} from "../interfaces/IWrite";
-import {IRead} from "../interfaces/IRead";
+import {Write} from "../interfaces/Write";
+import {Read} from "../interfaces/Read";
 
-export class BaseRepository<T extends mongoose.Document> implements IWrite<T>, IRead<T> {
+export class BaseRepository<T extends mongoose.Document> implements Write<T>, Read<T> {
     private _model: mongoose.Model<mongoose.Document>
 
     constructor(schemaModel: mongoose.Model<mongoose.Document>) {
@@ -19,12 +19,12 @@ export class BaseRepository<T extends mongoose.Document> implements IWrite<T>, I
         return !!deleteDocument
     }
 
-    async findById(id: string): Promise<mongoose.Document> {
-        return this._model.findById(id);
+    async findById(id: string): Promise<T> {
+        return this._model.findById(id) as any;
     }
 
-    async retrieve(): Promise<mongoose.Document[]> {
-        return this._model.find();
+    async retrieve(): Promise<T[]> {
+        return this._model.find() as any;
     }
 
     async update(id: mongoose.Types.ObjectId, item: T): Promise<boolean> {
@@ -32,8 +32,7 @@ export class BaseRepository<T extends mongoose.Document> implements IWrite<T>, I
         return !!updatedDocument
     }
 
-    async find(query: any): Promise<mongoose.Document> {
-        return this._model.findOne(query)
+    async find(query: any): Promise<T> {
+        return this._model.findOne(query) as any
     }
-
 }

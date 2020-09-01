@@ -1,7 +1,6 @@
 import {Authorized, Body, CurrentUser, Delete, Get, HttpError, JsonController, Patch, Post} from "routing-controllers";
 import {OpenAPI, ResponseSchema} from "routing-controllers-openapi";
 import {User, UserDocument} from '../models/User';
-import {UserService} from "../services/UserService";
 import jwt from 'jsonwebtoken';
 import {env} from "../../env";
 import crypto from 'crypto-js';
@@ -23,7 +22,6 @@ import UserRepository from "../repository/UserRepository";
 export class UserController {
 
     constructor(
-        private userService: UserService,
         private userRepository: UserRepository,
         @Logger(__filename) private log: LoggerInterface
     ) { }
@@ -63,7 +61,7 @@ export class UserController {
     @Post('/login')
     @ResponseSchema(LoginResponse)
     public async loginUser(@Body() body: LoginBody): Promise<LoginResponse> {
-        const user = await this.userRepository.find({ email: body.email }) as UserDocument
+        const user = await this.userRepository.find({ email: body.email })
         if (!user || ! await user.comparePassword(body.password)) {
             this.log.debug(`Login attempt with wrong credential: ${body.email} and ${body.password}`)
             throw new HttpError(401, `Email or password not match`)
@@ -94,14 +92,13 @@ export class UserController {
      * @param user the user to delete.
      */
     @Delete()
+    @ResponseSchema(UserResponse)
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }] })
-    public async deleteUser(@CurrentUser() user: UserDocument): Promise<UserDocument> {
-        try {
-            return await this.userService.deleteUser(user.id);
-        } catch (e) {
-            throw new HttpError(500, e.message)
-        }
+    public async deleteUser(@CurrentUser() user: UserDocument): Promise<UserResponse> {
+        const deletedUser = await this.userRepository.delete(user.id)
+        if (deletedUser) return new UserResponse(`The user ${user.email} was delete successfully`)
+        else throw new HttpError(500, `Unable to delete the user ${user.email} from the system`)
     }
 
     /**
@@ -110,12 +107,16 @@ export class UserController {
      * @param body the new password.
      */
     @Post('/password')
+    @ResponseSchema(UserResponse)
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }] })
-    public async changePassword(@CurrentUser() user: UserDocument, @Body() body: UpdatePassword): Promise<UserDocument> {
-        if (! await user.comparePassword(body.oldPassword)) throw new HttpError(400, `The old password not match`);
-        if (body.password !== body.confirmPassword) throw new HttpError(400, `The two password not match`);
-        return await this.userService.updatePassword(user, body.password);
+    public async changePassword(@CurrentUser() user: UserDocument, @Body() body: UpdatePassword): Promise<UserResponse> {
+        if (! await user.comparePassword(body.oldPassword)) throw new HttpError(400, `The old password not match`)
+        const currUser = user
+        currUser.password = body.password
+        const newPasswordUser = await currUser.save()
+        if (newPasswordUser) return new UserResponse(`Password for user: ${currUser.email} update successfully`)
+        else throw new HttpError(500, `Error on update the password for the user: ${currUser.email}`)
     }
 
     /**
@@ -126,7 +127,7 @@ export class UserController {
     public async forgotPassword(@Body() body: ForgotPasswordRequest): Promise<ForgotPasswordResponse> {
         try {
             const token = crypto.lib.WordArray.random(16).toString()
-            const user = await User.findOne({ email: body.email })
+            const user = await this.userRepository.find({ email: body.email })
             if (!user) throw new HttpError(404, `No user found with email: ${body.email}`)
             user.passwordResetToken = token
             user.passwordResetExpires = new Date(Date.now() + 3600000) // 1 hour
@@ -134,7 +135,7 @@ export class UserController {
 
             // TODO(Send an email with reset token)
 
-            return new ForgotPasswordResponse(token) //TODO(Non inviare il token come risposta)
+            return new ForgotPasswordResponse(token) // TODO(Non inviare il token come risposta)
         } catch (e) {
             throw new HttpError(500, e.message)
         }
