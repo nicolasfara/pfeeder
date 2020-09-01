@@ -61,7 +61,7 @@ export class UserController {
     @Post('/login')
     @ResponseSchema(LoginResponse)
     public async loginUser(@Body() body: LoginBody): Promise<LoginResponse> {
-        const user = await this.userRepository.find({ email: body.email })
+        const user = await this.userRepository.findOne({ email: body.email })
         if (!user || ! await user.comparePassword(body.password)) {
             this.log.debug(`Login attempt with wrong credential: ${body.email} and ${body.password}`)
             throw new HttpError(401, `Email or password not match`)
@@ -127,7 +127,7 @@ export class UserController {
     public async forgotPassword(@Body() body: ForgotPasswordRequest): Promise<ForgotPasswordResponse> {
         try {
             const token = crypto.lib.WordArray.random(16).toString()
-            const user = await this.userRepository.find({ email: body.email })
+            const user = await this.userRepository.findOne({ email: body.email })
             if (!user) throw new HttpError(404, `No user found with email: ${body.email}`)
             user.passwordResetToken = token
             user.passwordResetExpires = new Date(Date.now() + 3600000) // 1 hour

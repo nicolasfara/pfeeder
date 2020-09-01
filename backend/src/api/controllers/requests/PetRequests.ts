@@ -16,6 +16,8 @@ export class CreatePet {
     breed: string;
     @IsString()
     currentFodder: string;
+    @IsNumber()
+    idealWeight: number;
 }
 
 export class UpdatePet {

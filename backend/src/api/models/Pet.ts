@@ -1,8 +1,25 @@
-import mongoose, {Types} from 'mongoose';
-import {nanoid} from 'nanoid';
+import mongoose, {Types, Document, Schema} from 'mongoose';
 
-export type PetDocument = mongoose.Document & {
-    ref: string;
+export interface PetVm {
+    id: string;
+    userId: string;
+    name: string;
+    idealWeight: number;
+    weight: number;
+    age: number;
+    petType: string;
+    breed: string;
+    rationPerDay: [
+        {
+            name: string;
+            time: Date;
+            ration: number;
+        },
+    ];
+    currentFodder: string;
+}
+
+export interface PetDocument extends Document {
     userId: Types.ObjectId;
     name: string;
     idealWeight: number;
@@ -18,11 +35,10 @@ export type PetDocument = mongoose.Document & {
         },
     ];
     currentFodder: Types.ObjectId;
-};
+}
 
-const petSchema = new mongoose.Schema(
+const petSchema: Schema = new Schema(
     {
-        ref: {type: String, unique: true, default: () => nanoid()},
         userId: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
         name: {type: String, required: true},
         weight: Number,

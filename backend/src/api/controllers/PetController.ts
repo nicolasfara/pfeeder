@@ -8,16 +8,19 @@ import {
     JsonController,
     Param,
     Patch, Post, QueryParam
-} from "routing-controllers/index";
+} from "routing-controllers";
 import {Logger, LoggerInterface} from "../../decorators/Logger";
 import {PetService} from "../services/PetService";
-import {PetDocument} from "../models/Pet";
+import {PetDocument, PetVm, Pet, PetType} from "../models/Pet";
 import {UserDocument} from "../models/User";
 import {OpenAPI} from "routing-controllers-openapi";
 import {AddFodderToPet, AddRation, CreatePet, UpdatePet, UpdateRation} from "./requests/PetRequests";
 import {FodderDocument} from "../models/Fodder";
 import {FodderService} from "../services/FodderService";
 import {FeedService} from "../services/FeedService";
+import PetRepository from "../repository/PetRepository";
+import {PetMapper} from "../mappers/PetMapper";
+import {Types} from "mongoose";
 
 @JsonController('/pets')
 export class PetController {
@@ -25,6 +28,8 @@ export class PetController {
         private petService: PetService,
         private fodderService: FodderService,
         private feedService: FeedService,
+        private petRepository: PetRepository,
+        private petMapper: PetMapper,
         @Logger(__filename) private log: LoggerInterface
     ) {
     }
@@ -32,39 +37,32 @@ export class PetController {
     @Get()
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
-    public async getUserPets(@CurrentUser() user: UserDocument): Promise<PetDocument[]> {
+    public async getUserPets(@CurrentUser() user: UserDocument): Promise<PetVm[]> {
         this.log.info(`Return all pets for user: ${user.email}`);
-        try {
-            if (user.role.includes('admin')) {
-                return await this.petService.getAllPets();
-            } else {
-                return await this.petService.getPetsByUser(user);
-            }
-        } catch (e) {
-            throw new HttpError(500, e.message);
-        }
+        return this.petMapper.mapArrayDocument(await this.petRepository.findMany({ userId: user.id }))
     }
 
     @Get('/:id')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
-    public async getPetById(@CurrentUser() user: UserDocument, @Param("id") id: string): Promise<PetDocument> {
-        try {
-            return this.petService.getPetById(user, id);
-        } catch (e) {
-            throw new HttpError(500, e.message);
-        }
+    public async getPetById(@CurrentUser() user: UserDocument, @Param("id") id: string): Promise<PetVm> {
+        return this.petMapper.mapSingleDocument(await this.petRepository.findOne({ ref: id, userId: user.id }))
     }
 
     @Post()
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
-    public async createPet(@CurrentUser() user: UserDocument, @Body() body: CreatePet): Promise<PetDocument> {
-        try {
-            return await this.petService.createNewPet(user, body)
-        } catch (e) {
-            throw new HttpError(500, e.message)
-        }
+    public async createPet(@CurrentUser() user: UserDocument, @Body() body: CreatePet): Promise<PetVm> {
+        const newPet = new Pet()
+        newPet.name = body.name
+        newPet.currentFodder = Types.ObjectId(body.currentFodder)
+        newPet.userId = user.id
+        newPet.weight = body.weight
+        newPet.petType = body.petType as PetType
+        newPet.breed = body.breed
+        newPet.age = body.age
+        newPet.idealWeight = body.idealWeight
+        return this.petMapper.mapSingleDocument(await this.petRepository.create(newPet))
     }
 
     @Patch('/:id')

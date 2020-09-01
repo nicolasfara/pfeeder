@@ -1,10 +1,26 @@
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import mongoose from "mongoose";
-import {nanoid} from "nanoid";
+
+export interface UserVm {
+    id: string;
+    email: string;
+    password: string;
+    passwordResetToken: string;
+    passwordResetExpires: Date;
+    role: string[];
+    tokens: AuthToken[];
+    apiKeys: string[];
+
+    profile: {
+        lastName: string;
+        firstName: string;
+        gender: string;
+        picture: string;
+    };
+}
 
 export type UserDocument = mongoose.Document & {
-    ref: string;
     email: string;
     password: string;
     passwordResetToken: string;
@@ -32,7 +48,6 @@ export interface AuthToken {
 }
 
 const userSchema = new mongoose.Schema({
-    ref: {type: String, unique: true, default: () => nanoid()},
     email: {type: String, unique: true, required: true},
     password: {type: String, required: true},
     passwordResetToken: String,
