@@ -1,11 +1,13 @@
-import {IsEmail, IsNotEmpty, IsString, IsUUID} from "class-validator";
+import {IsNotEmpty, IsString} from "class-validator";
 import {BaseUser} from "../requests/UserRequests";
 
 export class UserResponse extends BaseUser {
-    @IsUUID()
-    public id: string;
-    @IsEmail()
-    public email: string;
+    constructor(message: string) {
+        super()
+        this.message = message
+    }
+    @IsString()
+    public message: string
 }
 
 export class LoginResponse {

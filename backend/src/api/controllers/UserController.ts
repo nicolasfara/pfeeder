@@ -15,7 +15,8 @@ import {
     UpdateUser
 } from "./requests/UserRequests";
 import {ForgotPasswordResponse, LoginResponse, ResetPasswordResponse, UserResponse} from "./responses/UserResponses";
-import {Param} from "routing-controllers/index";
+import {Param} from "routing-controllers";
+import UserRepository from "../repository/UserRepository";
 
 
 @JsonController('/users')
@@ -23,6 +24,7 @@ export class UserController {
 
     constructor(
         private userService: UserService,
+        private userRepository: UserRepository,
         @Logger(__filename) private log: LoggerInterface
     ) { }
 
@@ -39,17 +41,19 @@ export class UserController {
      */
     @Post()
     @ResponseSchema(UserResponse)
-    public async createNewUser(@Body() body: CreateUserBody): Promise<UserDocument> {
-        const user = new User({
-            email: body.email,
-            password: body.password,
-            profile: {
-                firstName: body.firstName,
-                lastName: body.lastName
-            }
-        });
-        this.log.info(`Try to create a user with the following value: ${user}`);
-        return await this.userService.newUser(user);
+    public async createNewUser(@Body() body: CreateUserBody): Promise<UserResponse> {
+        const newUser = new User()
+        newUser.email = body.email
+        newUser.password = body.password
+        newUser.profile = {
+            gender: body.gender,
+            picture: '',
+            firstName: body.firstName,
+            lastName: body.lastName
+        }
+        const saveState = await this.userRepository.create(newUser)
+        if (saveState) return new UserResponse(`New user create successfully: ${newUser.email}`)
+        else throw new HttpError(500, `Error on create user`)
     }
 
     /**
@@ -59,13 +63,13 @@ export class UserController {
     @Post('/login')
     @ResponseSchema(LoginResponse)
     public async loginUser(@Body() body: LoginBody): Promise<LoginResponse> {
-        const user = await User.findOne({ email: body.email });
+        const user = await this.userRepository.find({ email: body.email }) as UserDocument
         if (!user || ! await user.comparePassword(body.password)) {
-            this.log.error(`Username or password not valid`);
-            throw  new HttpError(401, `Email or password not match`);
+            this.log.debug(`Login attempt with wrong credential: ${body.email} and ${body.password}`)
+            throw new HttpError(401, `Email or password not match`)
         }
         const token = jwt.sign({ id: user._id, email: user.email}, env.app.jwtSecret, { expiresIn: 86400 });
-        return new LoginResponse(token);
+        return new LoginResponse(token)
     }
 
     /**
@@ -77,11 +81,12 @@ export class UserController {
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async getUser(@CurrentUser() user: UserDocument, @Body() body: UpdateUser): Promise<UserDocument> {
-        try {
+        /*try {
             return await this.userService.updateUser(body as UserDocument);
         } catch (e) {
             throw new HttpError(500, e.message)
-        }
+        }*/
+        throw new HttpError(500, "Not implemented")
     }
 
     /**

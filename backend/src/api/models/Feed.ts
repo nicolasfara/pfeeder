@@ -1,6 +1,8 @@
 import mongoose, { Types } from 'mongoose';
+import {nanoid} from 'nanoid';
 
 export type FeedDocument = mongoose.Document & {
+    ref: string;
     quantity: number;
     kcal: number;
     fodderId: Types.ObjectId;
@@ -9,6 +11,7 @@ export type FeedDocument = mongoose.Document & {
 
 const feedSchema = new mongoose.Schema(
     {
+        ref: {type: String, unique: true, default: ()=> nanoid()},
         quantity: Number,
         kcal: Number,
         fodderId: { type: mongoose.Schema.Types.ObjectId, ref: 'Fodder' },

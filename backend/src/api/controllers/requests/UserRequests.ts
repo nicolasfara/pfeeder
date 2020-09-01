@@ -10,6 +10,10 @@ export class BaseUser {
     @IsEmail()
     @IsNotEmpty()
     public email: string;
+
+    @IsString()
+    @IsNotEmpty()
+    public gender: string
 }
 
 export class CreateUserBody extends BaseUser {

@@ -1,6 +1,8 @@
 import mongoose, {Types} from 'mongoose';
+import {nanoid} from 'nanoid';
 
 export type PetDocument = mongoose.Document & {
+    ref: string;
     userId: Types.ObjectId;
     name: string;
     idealWeight: number;
@@ -20,6 +22,7 @@ export type PetDocument = mongoose.Document & {
 
 const petSchema = new mongoose.Schema(
     {
+        ref: {type: String, unique: true, default: () => nanoid()},
         userId: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
         name: {type: String, required: true},
         weight: Number,
