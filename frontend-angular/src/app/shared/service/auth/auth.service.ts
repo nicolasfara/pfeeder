@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import {Pet} from "../../model/Pet";
 import {Feed} from "../../model/Feed";
 import {changePsw} from "../../model/changePsw";
+import {Fodder} from "../../model/Fodder";
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,15 @@ export class AuthService {
   addPet(pet: Pet): Observable<any> {
     const api = `${this.endpoint}/pets`;
     return this.http.post(api, pet)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+  //addFoder
+  addFodder(fodder:Fodder) : Observable<any> {
+    const api = `${this.endpoint}/fodders`;
+    console.log(fodder)
+    return this.http.post(api, fodder)
       .pipe(
         catchError(this.handleError)
       );

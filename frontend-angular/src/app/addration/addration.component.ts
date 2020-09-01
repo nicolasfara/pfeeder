@@ -34,8 +34,8 @@ export class AddrationComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-   // this.pets =  this.dataService.getPets();
-    //this.fodders = this.dataService.getFodder();
+     this.getPets();
+     this.getFodders();
   }
   addFeed() {
     this.authService.addFeed(this.addFeedForm.value) .pipe(first())
@@ -45,5 +45,11 @@ export class AddrationComponent implements OnInit {
             $('#addFeed').modal('hide');
           });
         });
+  }
+  getPets() {
+    this.dataService.getPets().then(pets => this.pets = pets);
+  }
+  getFodders(){
+    this.dataService.getFodder().then(fodders => this.fodders = fodders);
   }
 }
