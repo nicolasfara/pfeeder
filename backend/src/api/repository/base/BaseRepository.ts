@@ -14,26 +14,30 @@ export class BaseRepository<T extends Document> implements Write<T>, Read<T> {
     }
 
     async delete(id: Types.ObjectId): Promise<T> {
-        return await this._model.findByIdAndDelete(id).exec()
+        return this._model.findByIdAndDelete(id).lean()
     }
 
-    async findById(id: string): Promise<T> {
-        return this._model.findById(id) as any
+    async findById(id: string, projection?: string, populate?: string): Promise<T> {
+        return this._model.findById(id, projection).populate(populate).lean()
     }
 
     async retrieve(): Promise<T[]> {
-        return await this._model.find().exec()
+        return this._model.find().lean()
     }
 
     async update(id: Types.ObjectId, item: T): Promise<T> {
-        return await this._model.findByIdAndUpdate(id, item).exec()
+        return this._model.findByIdAndUpdate(id, item).lean()
     }
 
-    async findOne(query: any): Promise<T> {
-        return await this._model.findOne(query).exec()
+    async findOne(query: any, projection?: string, populate?: string): Promise<T> {
+        return this._model.findOne(query, projection).populate(populate)
     }
 
-    async findMany(query: any): Promise<T[]> {
-        return await this._model.find(query).exec()
+    async findMany(query: any, projection?: string, populate?: string): Promise<T[]> {
+        return this._model.find(query, projection).populate(populate).lean()
+    }
+
+    async updateWithQuery(query: any, item: any): Promise<T> {
+        return this._model.findOneAndUpdate(query, item).lean()
     }
 }

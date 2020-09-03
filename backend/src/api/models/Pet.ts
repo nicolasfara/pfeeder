@@ -1,7 +1,6 @@
 import mongoose, {Types, Document, Schema} from 'mongoose';
 
 export interface PetVm {
-    id: string;
     userId: string;
     name: string;
     idealWeight: number;

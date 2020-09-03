@@ -10,26 +10,19 @@ import {
     Patch, Post, QueryParam
 } from "routing-controllers";
 import {Logger, LoggerInterface} from "../../decorators/Logger";
-import {PetService} from "../services/PetService";
-import {PetDocument, PetVm, Pet, PetType} from "../models/Pet";
+import {PetDocument, Pet, PetType} from "../models/Pet";
 import {UserDocument} from "../models/User";
 import {OpenAPI} from "routing-controllers-openapi";
 import {AddFodderToPet, AddRation, CreatePet, UpdatePet, UpdateRation} from "./requests/PetRequests";
-import {FodderDocument} from "../models/Fodder";
-import {FodderService} from "../services/FodderService";
 import {FeedService} from "../services/FeedService";
 import PetRepository from "../repository/PetRepository";
-import {PetMapper} from "../mappers/PetMapper";
 import {Types} from "mongoose";
 
 @JsonController('/pets')
 export class PetController {
     constructor(
-        private petService: PetService,
-        private fodderService: FodderService,
         private feedService: FeedService,
         private petRepository: PetRepository,
-        private petMapper: PetMapper,
         @Logger(__filename) private log: LoggerInterface
     ) {
     }
@@ -37,22 +30,22 @@ export class PetController {
     @Get()
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
-    public async getUserPets(@CurrentUser() user: UserDocument): Promise<PetVm[]> {
+    public async getUserPets(@CurrentUser() user: UserDocument): Promise<PetDocument[]> {
         this.log.info(`Return all pets for user: ${user.email}`);
-        return this.petMapper.mapArrayDocument(await this.petRepository.findMany({ userId: user.id }))
+        return await this.petRepository.findMany({ userId: user.id })
     }
 
     @Get('/:id')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
-    public async getPetById(@CurrentUser() user: UserDocument, @Param("id") id: string): Promise<PetVm> {
-        return this.petMapper.mapSingleDocument(await this.petRepository.findOne({ ref: id, userId: user.id }))
+    public async getPetById(@CurrentUser() user: UserDocument, @Param("id") id: string): Promise<PetDocument> {
+        return await this.petRepository.findOne({ ref: id, userId: user.id })
     }
 
     @Post()
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
-    public async createPet(@CurrentUser() user: UserDocument, @Body() body: CreatePet): Promise<PetVm> {
+    public async createPet(@CurrentUser() user: UserDocument, @Body() body: CreatePet): Promise<PetDocument> {
         const newPet = new Pet()
         newPet.name = body.name
         newPet.currentFodder = Types.ObjectId(body.currentFodder)
@@ -62,82 +55,93 @@ export class PetController {
         newPet.breed = body.breed
         newPet.age = body.age
         newPet.idealWeight = body.idealWeight
-        return this.petMapper.mapSingleDocument(await this.petRepository.create(newPet))
+        return await this.petRepository.create(newPet)
     }
 
     @Patch('/:id')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
     public async patchPetById(@CurrentUser() user: UserDocument, @Param("id") id: string, @Body() body: UpdatePet): Promise<PetDocument> {
-        try {
-            return await this.petService.patchPetById(user, id, body)
-        } catch (e) {
-            throw new HttpError(500, e.message);
-        }
+        return await this.petRepository.update(Types.ObjectId(id), body as PetDocument)
     }
 
     @Delete('/:id')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
     public async deletePetById(@CurrentUser() user: UserDocument, @Param("id") id: string): Promise<PetDocument> {
-        try {
-            return this.petService.deletePetById(user, id)
-        } catch (e) {
-            throw new HttpError(500, e.message)
-        }
+        return await this.petRepository.delete(Types.ObjectId(id))
     }
 
     @Post('/:id/rations')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
     public async addRationToPet(@CurrentUser() user: UserDocument, @Param("id") id: string, @Body() body: AddRation): Promise<PetDocument> {
-        try {
-            return await this.petService.addRation(user, id, body)
-        } catch (e) {
-            throw new HttpError(500, e.message)
+        const rationTime = new Date()
+        rationTime.setHours(body.hours)
+        rationTime.setMinutes(body.minutes)
+        const newRation = {
+            name: body.name,
+            time: rationTime,
+            ration: body.ration
         }
+        return await this.petRepository.update(Types.ObjectId(id), { $push: { rationPerDay: newRation }} as any)
     }
 
     @Get('/:id/rations')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
     public async getAllRations(@CurrentUser() user: UserDocument, @Param("id") id: string): Promise<PetDocument> {
-        try {
-            return await this.petService.getAllRations(user, id)
-        } catch (e) {
-            throw new HttpError(500, e.message)
-        }
+        return await this.petRepository.findOne({ userId: user.id, _id: id }, "rationPerDay")
     }
 
-    @Patch('/:pet_id/rations/:ration_name')
+    @Patch('/:petId/rations/:rationName')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
     public async patchRationByName(
         @CurrentUser() user: UserDocument,
-        @Param("pet_id") pet_id: string,
-        @Param("ration_name") ration_name: string,
+        @Param("petId") petId: string,
+        @Param("rationName") rationName: string,
         @Body() body: UpdateRation
     ): Promise<PetDocument> {
-        try {
-            return await this.petService.updateRationByName(user, pet_id, ration_name, body)
-        } catch (e) {
-            throw new HttpError(500, e.message)
+        const newTime = new Date()
+        newTime.setMinutes(body.minutes)
+        newTime.setHours(body.hours)
+        const newRation = {
+            name: body.name,
+            time: newTime,
+            ration: body.ration
         }
+        return await this.petRepository.updateWithQuery(
+            {_id: petId, userId: user.id, 'rationPerDay.name': rationName},
+            {
+                $set:
+                    {
+                        'rationPerDay.$.name': newRation.name,
+                        'rationPerDay.$.time': newRation.time,
+                        'rationPerDay.$.ration': newRation.ration,
+                    }
+            })
     }
 
-    @Delete('/:pet_id/rations/:ration_name')
+    @Delete('/:petId/rations/:rationName')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
     public async deleteRation(
         @CurrentUser() user: UserDocument,
-        @Param("pet_id") pet_id: string,
-        @Param("ration_name") ration_name: string
+        @Param("petId") petId: string,
+        @Param("rationName") rationName: string
     ): Promise<PetDocument> {
-        try {
+        /*try {
             return await this.petService.deleteRationByName(user, pet_id, ration_name)
         } catch (e) {
             throw new HttpError(500, e.message);
-        }
+        }*/
+        return await this.petRepository.updateWithQuery({_id: petId, userId: user.id, 'rationPerDay.name': rationName},
+            {
+                $pull: {
+                    rationPerDay: { name: rationName }
+                }
+            })
     }
 
     @Post('/:id/fodder')
@@ -148,11 +152,15 @@ export class PetController {
         @Param("id") id: string,
         @Body() body: AddFodderToPet
     ): Promise<PetDocument> {
-        try {
+        /*try {
             return await this.petService.addFodderToPet(user, id, body.fodderId)
         } catch (e) {
             throw new HttpError(500, e.message)
-        }
+        }*/
+        return await this.petRepository.updateWithQuery(
+            { _id: id, userId: user.id },
+            { currentFodder: Types.ObjectId(body.fodderId) }
+            )
     }
 
     @Get('/:id/fodder')
@@ -161,16 +169,8 @@ export class PetController {
     public async getFodderFromPet(
         @CurrentUser() user: UserDocument,
         @Param("id") id: string
-    ): Promise<FodderDocument> {
-        try {
-            const pet = await this.petService.getPetById(user, id)
-            if (pet) {
-                return await this.fodderService.getFodderById(pet.currentFodder)
-            }
-        } catch (e) {
-            throw new HttpError(500, e.message)
-        }
-        throw new HttpError(404, `Pet with id: ${id} not found`)
+    ): Promise<PetDocument> {
+        return await this.petRepository.findById(id, "currentFodder", "currentFodder")
     }
 
     @Patch('/:id/fodder')
@@ -181,11 +181,10 @@ export class PetController {
         @Param("id") id: string,
         @Body() body: AddFodderToPet
     ): Promise<PetDocument> {
-        try {
-            return await this.petService.patchFodderToPet(user, id, body.fodderId)
-        } catch (e) {
-            throw new HttpError(500, e.message)
-        }
+        return await this.petRepository.updateWithQuery(
+            { _id: id, userId: user.id },
+            { currentFodder: Types.ObjectId(body.fodderId) }
+            )
     }
 
     @Get('/:id/cost')

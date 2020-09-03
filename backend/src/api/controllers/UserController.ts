@@ -61,7 +61,7 @@ export class UserController {
     @Post('/login')
     @ResponseSchema(LoginResponse)
     public async loginUser(@Body() body: LoginBody): Promise<LoginResponse> {
-        const user = await this.userRepository.findOne({ email: body.email })
+        const user = await this.userRepository.findOne({ email: body.email }) as UserDocument
         if (!user || ! await user.comparePassword(body.password)) {
             this.log.debug(`Login attempt with wrong credential: ${body.email} and ${body.password}`)
             throw new HttpError(401, `Email or password not match`)

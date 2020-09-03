@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
-import {nanoid} from 'nanoid';
 
 export type FodderDocument = mongoose.Document & {
-    ref: string;
     name: string;
     companyName: string;
     price: number;
@@ -17,7 +15,6 @@ export type FodderDocument = mongoose.Document & {
 };
 
 const fodderSchema = new mongoose.Schema({
-    ref: {type: String, unique: true, default: ()=> nanoid()},
     name: { type: String, required: true },
     companyName: String,
     price: Number,
