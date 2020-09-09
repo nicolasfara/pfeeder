@@ -5,4 +5,5 @@ export interface Write<T> {
     update(id: mongoose.Types.ObjectId, item: T): Promise<T>
     updateWithQuery(query: any, item: any): Promise<T>
     delete(id: mongoose.Types.ObjectId): Promise<T>
+    findAndUpdate(query: any, item: any): Promise<T>
 }

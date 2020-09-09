@@ -3,7 +3,7 @@ import {Write} from "../interfaces/Write";
 import {Read} from "../interfaces/Read";
 
 export class BaseRepository<T extends Document> implements Write<T>, Read<T> {
-    private _model: Model<T>
+    protected _model: Model<T>
 
     constructor(schemaModel: Model<T>) {
         this._model = schemaModel
@@ -38,6 +38,10 @@ export class BaseRepository<T extends Document> implements Write<T>, Read<T> {
     }
 
     async updateWithQuery(query: any, item: any): Promise<T> {
+        return this._model.findOneAndUpdate(query, item).lean()
+    }
+
+    async findAndUpdate(query: any, item: any): Promise<T> {
         return this._model.findOneAndUpdate(query, item).lean()
     }
 }
