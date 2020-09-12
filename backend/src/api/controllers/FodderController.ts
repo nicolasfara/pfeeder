@@ -1,45 +1,46 @@
-import {Authorized, Body, Get, HttpError, JsonController, Param, Patch, Post} from "routing-controllers/index";
+import {Authorized, Body, Get, JsonController, Param, Patch, Post} from "routing-controllers";
 import {OpenAPI} from "routing-controllers-openapi";
-import {FodderService} from "../services/FodderService";
 import {CreateFodder, PatchFodder} from "./requests/FodderRequests";
-import {FodderDocument} from "../models/Fodder";
+import {FodderDocument, Fodder} from "../models/Fodder";
+import FodderRepository from "../repository/FodderRepository";
+import {Types} from "mongoose";
 
 @JsonController('/fodders')
 export class FodderController {
 
     constructor(
-        private fodderService: FodderService
+        private fodderRepository: FodderRepository
     ) {
     }
 
     @Get()
     public async getAllFodder(): Promise<FodderDocument[]> {
-        try {
-            return await this.fodderService.getAllFodders()
-        } catch (e) {
-            throw new HttpError(500, e.message)
-        }
+        return this.fodderRepository.retrieve()
     }
 
     @Post()
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async createFodder(@Body() body: CreateFodder): Promise<FodderDocument> {
-        try {
-            return await this.fodderService.createNewFodder(body)
-        } catch (e) {
-            throw new HttpError(500, e.message)
-        }
+        const fodder = new Fodder()
+        fodder.nutritionFacts = body.nutritionFacts
+        fodder.companyName = body.companyName
+        fodder.name = body.name
+        fodder.price = body.price
+        fodder.weight = body.weight
+        return this.fodderRepository.create(fodder)
     }
 
     @Patch('/:id')
     @Authorized('admin')
     @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async patchFodderById(@Param('id') id: string, @Body() body: PatchFodder): Promise<FodderDocument> {
-        try {
-            return this.fodderService.patchFodderById(id, body)
-        } catch (e) {
-            throw new HttpError(500, e.message)
-        }
+        const fodder = await this.fodderRepository.findOne({ _id: id })
+        fodder.nutritionFacts = body.nutritionFacts
+        fodder.companyName = body.companyName
+        fodder.name = body.name
+        fodder.price = body.price
+        fodder.weight = body.weight
+        return this.fodderRepository.update(Types.ObjectId(id), fodder)
     }
 }
