@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Pet} from "../../model/Pet";
 import {Fodder} from "../../model/Fodder";
+import * as mongoose from 'mongoose';
 @Injectable({
   providedIn: 'root'
 })
@@ -27,6 +28,9 @@ export class DataService {
   }
   public sendGetFeed(id: string){
     return this.httpClient.get(this.REST_API_SERVER+"feeds/"+id);
+  }
+  public sendGetCostPet(id: string){
+    return this.httpClient.get(this.REST_API_SERVER+"pets/"+id+"/cost");
   }
 
   private handleError(error: any): Promise<any> {

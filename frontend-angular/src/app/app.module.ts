@@ -19,6 +19,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { DoughnutComponent } from './doughnut/doughnut.component';
 import { BarchartComponent } from './barchart/barchart.component';
 import { AddfodderComponent } from './addfodder/addfodder.component';
+import { AddfeedComponent } from './addfeed/addfeed.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +35,8 @@ import { AddfodderComponent } from './addfodder/addfodder.component';
     ProfileComponent,
     DoughnutComponent,
     BarchartComponent,
-    AddfodderComponent
+    AddfodderComponent,
+    AddfeedComponent,
   ],
   imports: [
     BrowserModule,

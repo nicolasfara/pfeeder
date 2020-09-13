@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Pet} from "../shared/model/Pet";
+import {Feed} from "../shared/model/Feed";
+import {DataService} from "../shared/service/data/data.service";
 
 @Component({
   selector: 'app-barchart',
@@ -6,29 +9,49 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./barchart.component.scss']
 })
 export class BarchartComponent implements OnInit {
-  public pieChartLabels:string[] = ["Pending", "InProgress", "OnHold", "Complete", "Cancelled"];
-  public pieChartData:number[] = [21, 39, 10, 14, 16];
-  public pieChartType:string = 'bar';
-  public pieChartOptions:any = {'backgroundColor': [
+  public pieChartLabels: string[] = []
+  public pieChartData: number[] = []
+  public pieChartType: string = 'bar';
+  public pieChartOptions: any = {
+    'backgroundColor': [
       "#FF6384",
       "#4BC0C0",
       "#FFCE56",
       "#E7E9ED",
       "#36A2EB"
-    ]}
+    ]
+  }
 
   // events on slice click
-  public chartClicked(e:any):void {
+  private pets: Pet[];
+
+  public chartClicked(e: any): void {
     console.log(e);
   }
 
   // event on pie chart slice hover
-  public chartHovered(e:any):void {
+  public chartHovered(e: any): void {
     console.log(e);
   }
-  constructor() { }
 
-  ngOnInit(): void {
+  constructor(private dataService: DataService) {
   }
 
+  ngOnInit(): void {
+
+    this.dataService.sendGetPets().subscribe((data: Pet[]) => {
+      this.pets = data;
+      this.pets.forEach(value => this.pieChartLabels.push(value.name))
+     /* this.pets.forEach(value => {
+        this.dataService.sendGetCostPet(buf2hex(value._id['id']['data'])).subscribe(data =>{
+          console.log(data)
+        })
+      })*/
+    })
+  }
+
+}
+
+function buf2hex(buffer) { // buffer is an ArrayBuffer
+  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
 }

@@ -32,6 +32,8 @@ export class DoughnutComponent implements OnInit {
   }
 
   // event on pie chart slice hover
+  private s: string;
+
   public chartHovered(e: any): void {
 
   }
@@ -46,14 +48,21 @@ export class DoughnutComponent implements OnInit {
     this.dataService.sendGetPets().subscribe((data: Pet[]) => {
       this.pets = data;
       this.pets.forEach(value => this.pieChartLabels.push(value.name))
-      /* this.pets.forEach(value => console.log(btoa(value._id.toString())))
-       this.pets.forEach(value => this.dataService.sendGetFeed(btoa(value._id.toString())).subscribe((data: Feed[])=>{
-
-          this.feed.forEach(value1 => this.pieChartData.push(value1.kcal))
-        }))*/
+       this.pets.forEach(value => {
+         //  this.s  = Buffer.from(value._id['id']['data']).toString("hex")
+         this.s = buf2hex(value._id['id']['data'])
+         console.log(this.s)
+       })
+       this.pets.forEach(value => this.dataService.sendGetFeed(buf2hex(value._id['id']['data'])).subscribe((data: Feed[])=>{
+         this.feed = data
+          this.feed.forEach(value1 => console.log(value1.kcal))
+         console.log(this.pieChartData)
+        }))
     })
 
-
+    function buf2hex(buffer) { // buffer is an ArrayBuffer
+      return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
+    }
   }
   getPets() {
     this.dataService.getPets().then(pets => this.pets = pets);

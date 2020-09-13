@@ -16,7 +16,6 @@ export class AddrationComponent implements OnInit {
 
   pets : Pet[] = [];
   fodders : Fodder[] = [];
-  addFeedForm: FormGroup;
   constructor(
     public fb: FormBuilder,
     public authService: AuthService,
@@ -24,28 +23,12 @@ export class AddrationComponent implements OnInit {
     private dataService: DataService
   ) {
 
-    this.addFeedForm = this.fb.group({
-      quantity: [''],
-      kcal: [''],
-      fodderId: [''], //L'utente selezionerà il nomi dei fodder disponnibili
-      petId: [''] // L'utente selezionerà i nomi dei pet disponibili
-      /* Poi si fa una query prima e si seleziona l'id dei pet e dei fodder inserito*/
-
-    });
   }
   ngOnInit(): void {
      this.getPets();
      this.getFodders();
   }
-  addFeed() {
-    this.authService.addFeed(this.addFeedForm.value) .pipe(first())
-      .subscribe(
-        data => {
-          $('#addFeedButton').click(function() {
-            $('#addFeed').modal('hide');
-          });
-        });
-  }
+
   getPets() {
     this.dataService.getPets().then(pets => this.pets = pets);
   }

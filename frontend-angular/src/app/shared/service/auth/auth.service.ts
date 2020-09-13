@@ -49,7 +49,7 @@ export class AuthService {
   }
   //addFeed
   addFeed(feed: Feed): Observable<any> {
-    const api = `${this.endpoint}/feed`;
+    const api = `${this.endpoint}/feeds`;
     return this.http.post(api, feed)
       .pipe(
         catchError(this.handleError)
