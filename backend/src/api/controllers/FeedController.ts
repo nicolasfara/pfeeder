@@ -8,61 +8,56 @@ import {
     Param,
     Post,
     QueryParam
-} from "routing-controllers/index";
+} from "routing-controllers";
 import {OpenAPI} from "routing-controllers-openapi";
 import {UserDocument} from "../models/User";
-import {FeedService} from "../services/FeedService";
 import {CreateFeed} from "./requests/FeedRequests";
-import {FeedDocument} from "../models/Feed";
-import {Logger, LoggerInterface} from "../../decorators/Logger";
+import {FeedDocument, Feed} from "../models/Feed";
+import FeedRepository from "../repository/FeedRepository";
+import {Types} from "mongoose";
 
 @JsonController('/feeds')
 export class FeedController {
 
     constructor(
-        private feedService: FeedService,
-        @Logger(__filename) private log: LoggerInterface
+        private feedRepository: FeedRepository,
+        // @Logger(__filename) private log: LoggerInterface
     ) { }
 
     @Post()
     @Authorized('user')
     @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async addFeed(@CurrentUser() user: UserDocument, @Body() body: CreateFeed) {
-        try {
-            return await this.feedService.addNewFeed(user, body)
-        } catch (e) {
-            throw new HttpError(500, e.message)
-        }
+        const feed = new Feed()
+        feed.petId = Types.ObjectId(body.petId)
+        feed.quantity = body.ration
+        return this.feedRepository.create(feed)
     }
 
-    @Get()
-    @Authorized()
-    @OpenAPI({ security: [{ bearerAuth: [] }] })
-    public async getFeedsForUser(@CurrentUser() user: UserDocument): Promise<FeedDocument[]> {
-        try {
-            return this.feedService.getAllFeedsByUser(user)
-        } catch (e) {
-            throw new HttpError(500, e.message)
-        }
-    }
-
-    @Get('/:pet_id')
+    @Get('/:petId')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async getFeedsByPet(
         @CurrentUser() user: UserDocument,
-        @Param('pet_id') pet_id: string,
+        @Param('petId') petId: string,
         @QueryParam('days') days: number
     ): Promise<FeedDocument[]> {
-        try {
-            if (days) {
-                this.log.info("With days")
-                return this.feedService.getAllFeedsByPetByDays(pet_id, days)
-            } else {
-                return this.feedService.getAllFeedsByPet(pet_id)
-            }
-        } catch (e) {
-            throw new HttpError(500, e.message)
+        return this.feedRepository.getFeedsByPetInDays(Types.ObjectId(petId), days)
+    }
+
+    @Get('/:petId/cost')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }]})
+    public async getCostByPet(
+        @CurrentUser() user: UserDocument,
+        @Param('petId') petId: string,
+        @QueryParam('days') days: number
+    ): Promise<number> {
+        const petFeeds: any = await this.feedRepository.getFeedsByPetInDays(Types.ObjectId(petId), days)
+        if (petFeeds.length > 0) {
+            return petFeeds.map(e => e.fodderId.price).reduce((acc, curr) => acc + curr)
+        } else {
+            throw new HttpError(402, `Unable to find feeds for this pet`)
         }
     }
 }

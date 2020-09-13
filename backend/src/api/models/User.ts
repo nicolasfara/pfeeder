@@ -2,6 +2,24 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import mongoose from "mongoose";
 
+export interface UserVm {
+    id: string;
+    email: string;
+    password: string;
+    passwordResetToken: string;
+    passwordResetExpires: Date;
+    role: string[];
+    tokens: AuthToken[];
+    apiKeys: string[];
+
+    profile: {
+        lastName: string;
+        firstName: string;
+        gender: string;
+        picture: string;
+    };
+}
+
 export type UserDocument = mongoose.Document & {
     email: string;
     password: string;
@@ -15,7 +33,6 @@ export type UserDocument = mongoose.Document & {
         lastName: string;
         firstName: string;
         gender: string;
-        location: string;
         picture: string;
     };
 

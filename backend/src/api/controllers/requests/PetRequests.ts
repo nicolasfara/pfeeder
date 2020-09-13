@@ -1,4 +1,4 @@
-import {IsNotEmpty, IsNumber, IsString} from "class-validator";
+import {IsNotEmpty, IsNumber, IsOptional, IsString} from "class-validator";
 
 export class CreatePet {
     @IsString()
@@ -16,19 +16,26 @@ export class CreatePet {
     breed: string;
     @IsString()
     currentFodder: string;
+    @IsNumber()
+    idealWeight: number;
 }
 
 export class UpdatePet {
     @IsString()
-    public name: string;
+    @IsOptional()
+    public name?: string;
     @IsNumber()
-    public weight: number;
+    @IsOptional()
+    public weight?: number;
     @IsNumber()
-    public age: number;
+    @IsOptional()
+    public age?: number;
     @IsString()
-    public petType: string;
+    @IsOptional()
+    public petType?: string;
     @IsString()
-    public breed: string;
+    @IsOptional()
+    public breed?: string;
 }
 
 export class AddRation {
