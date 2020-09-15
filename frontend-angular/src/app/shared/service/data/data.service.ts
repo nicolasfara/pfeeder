@@ -30,7 +30,7 @@ export class DataService {
     return this.httpClient.get(this.REST_API_SERVER+"feeds/"+id);
   }
   public sendGetCostPet(id: string){
-    return this.httpClient.get(this.REST_API_SERVER+"pets/"+id+"/cost");
+    return this.httpClient.get(this.REST_API_SERVER+"feeds/"+id+"/cost");
   }
 
   private handleError(error: any): Promise<any> {

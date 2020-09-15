@@ -42,11 +42,11 @@ export class BarchartComponent implements OnInit {
     this.dataService.sendGetPets().subscribe((data: Pet[]) => {
       this.pets = data;
       this.pets.forEach(value => this.pieChartLabels.push(value.name))
-     /* this.pets.forEach(value => {
-        this.dataService.sendGetCostPet(buf2hex(value._id['id']['data'])).subscribe(data =>{
-          console.log(data)
+     this.pets.forEach(value => {
+        this.dataService.sendGetCostPet(buf2hex(value._id['id']['data'])).subscribe((data: Number) =>{
+          this.pieChartData.push(data)
         })
-      })*/
+      })
     })
   }
 
