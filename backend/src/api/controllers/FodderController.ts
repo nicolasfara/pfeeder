@@ -23,7 +23,13 @@ export class FodderController {
     @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async createFodder(@Body() body: CreateFodder): Promise<FodderDocument> {
         const fodder = new Fodder()
-        fodder.nutritionFacts = body.nutritionFacts
+        fodder.nutritionFacts = {
+            kcal: body.kcal,
+            proteins: body.proteins,
+            fats: body.fats,
+            vitamins: body.vitamins,
+            carbohydrates: body.carbohydrates
+        }
         fodder.companyName = body.companyName
         fodder.name = body.name
         fodder.price = body.price

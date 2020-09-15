@@ -8,4 +8,12 @@ export class CreateFeed {
     @IsNumber()
     @IsNotEmpty()
     public ration: number
+
+    @IsString()
+    @IsNotEmpty()
+    public fodderId: string
+
+    @IsNumber()
+    @IsNotEmpty()
+    public kcal: number
 }

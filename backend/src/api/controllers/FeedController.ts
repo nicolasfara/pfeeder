@@ -12,7 +12,7 @@ import {
 import {OpenAPI} from "routing-controllers-openapi";
 import {UserDocument} from "../models/User";
 import {CreateFeed} from "./requests/FeedRequests";
-import {FeedDocument, Feed} from "../models/Feed";
+import {FeedDocument} from "../models/Feed";
 import FeedRepository from "../repository/FeedRepository";
 import {Types} from "mongoose";
 
@@ -25,13 +25,10 @@ export class FeedController {
     ) { }
 
     @Post()
-    @Authorized('user')
+    @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async addFeed(@CurrentUser() user: UserDocument, @Body() body: CreateFeed) {
-        const feed = new Feed()
-        feed.petId = Types.ObjectId(body.petId)
-        feed.quantity = body.ration
-        return this.feedRepository.create(feed)
+        return this.feedRepository.addNewFeed(Types.ObjectId(body.petId), body.ration, body.kcal, Types.ObjectId(body.fodderId))
     }
 
     @Get('/:petId')

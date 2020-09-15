@@ -12,14 +12,16 @@ export class CreateFodder {
     @IsNumber()
     @IsNotEmpty()
     public weight: number;
-    @IsObject()
-    public nutritionFacts: {
-        kcal: number
-        proteins: number;
-        fats: number;
-        vitamins: number;
-        carbohydrates: number;
-    };
+    @IsNumber()
+    public kcal: number
+    @IsNumber()
+    proteins: number;
+    @IsNumber()
+    fats: number;
+    @IsNumber()
+    vitamins: number;
+    @IsNumber()
+    carbohydrates: number;
 }
 
 export class PatchFodder {
