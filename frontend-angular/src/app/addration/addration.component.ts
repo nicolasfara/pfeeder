@@ -16,13 +16,22 @@ export class AddrationComponent implements OnInit {
 
   pets : Pet[] = [];
   fodders : Fodder[] = [];
+  private petSelect: Pet;
+  public addRationForm: FormGroup;
   constructor(
     public fb: FormBuilder,
     public authService: AuthService,
     public router: Router,
     private dataService: DataService
   ) {
+    this.addRationForm = this.fb.group({
+      ration: [''],
+      minutes: [''],
+      hours: [''],
+      petId: [''] // L'utente selezionerà i nomi dei pet disponibili
+      /* Poi si fa una query prima e si seleziona l'fodderSelect dei pet e dei fodder inserito*/
 
+    });
   }
   ngOnInit(): void {
      this.getPets();
@@ -34,5 +43,9 @@ export class AddrationComponent implements OnInit {
   }
   getFodders(){
     this.dataService.getFodder().then(fodders => this.fodders = fodders);
+  }
+  addRation(){
+    this.petSelect =  this.pets.find(x => x.name == this.addRationForm.get('petName').value)
+   // this.authService.addRation(this.addRationForm.value)
   }
 }

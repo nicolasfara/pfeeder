@@ -51,12 +51,10 @@ export class DoughnutComponent implements OnInit {
        this.pets.forEach(value => {
          //  this.s  = Buffer.from(value._id['id']['data']).toString("hex")
          this.s = buf2hex(value._id['id']['data'])
-         console.log(this.s)
        })
        this.pets.forEach(value => this.dataService.sendGetFeed(buf2hex(value._id['id']['data'])).subscribe((data: Feed[])=>{
          this.feed = data
-          this.feed.forEach(value1 => console.log(value1.kcal))
-         console.log(this.pieChartData)
+          this.feed.forEach(value1 =>this.pieChartData.push(value1.quantity))
         }))
     })
 

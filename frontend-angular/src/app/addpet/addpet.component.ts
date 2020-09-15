@@ -17,7 +17,7 @@ export class AddpetComponent implements OnInit {
   fodders : Fodder [];
   addPetForm: FormGroup;
   selectFodder = Fodder
-  private id: Fodder;
+  id: Fodder;
   constructor(
     public fb: FormBuilder,
     public authService: AuthService,
@@ -40,14 +40,16 @@ export class AddpetComponent implements OnInit {
   addPet() {
 
     this.id =  this.fodders.find(x => x.name == this.addPetForm.get('currentFodder').value)
+    console.log("Fodder: "+ this.id._id['id']['data'])
 
     this.addPetForm.patchValue({
       currentFodder : buf2hex(this.id._id['id']['data'])
     })
-
+    console.log(this.addPetForm.value)
     this.authService.addPet(this.addPetForm.value) .pipe(first())
       .subscribe(
         data => {
+
           $('#addPetButton').click(function() {
             $('#addPet').modal('hide');
           });

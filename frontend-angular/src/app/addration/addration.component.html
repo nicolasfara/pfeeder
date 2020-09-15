@@ -8,24 +8,21 @@
       <div class="modal-body">
         <section class="signup">
           <div class="signup-form">
-            <form  class="register-form" id="register-form">
+            <form [formGroup]="addRationForm" (ngSubmit)="addRation()" class="register-form" id="register-form">
               <div class="form-group">
-                <input type="text" name="quantity" id="quantity" formControlName="quantity" placeholder="Quantity"/>
+                <input type="number" name="ration" id="ration" formControlName="ration" placeholder="Quantity"/>
               </div>
               <div class="form-group">
-                <input type="text" name="kcal" id="kcal" formControlName="kcal" placeholder="KCal"/>
+                <input type="number" name="minutes" id="minutes" formControlName="minutes" placeholder="Minutes"/>
               </div>
               <div class="form-group">
-                <select class="form-control selectpicker" formControlName="fodderName" >
-                  <option value="" selected >Select Fodder Name</option>
-                <!--  <option *ngFor="let fodder of fodders" [ngValue]="fodder">{{fodder.name}}</option> -->
-                </select>
+                <input type="number" name="minutes" id="hours" formControlName="hours" placeholder="Hours"/>
               </div>
               <div class="form-group">
                 <input type="text" readonly name="petName" id="petName" formControlName="petName" />
               </div>
               <div class="form-group form-button">
-                <input type="submit" name="signup" id="addFeedButton" class="form-submit " value="Add Feed"/>
+                <input type="submit" name="signup" id="addFeedButton" class="form-submit " value="Add Ration"/>
               </div>
             </form>
           </div>

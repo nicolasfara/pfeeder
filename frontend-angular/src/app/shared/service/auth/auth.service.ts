@@ -56,6 +56,11 @@ export class AuthService {
       );
   }
 
+  //addRation
+ /* addRation(ration: Ration, id: String) : Observable<any> {
+    const api = `${this.endpoint}/pets/`+id+`/rations`;
+    return  this.http.post(api,ration)
+  }*/
   // Sign-up
   signUp(user: User): Observable<any> {
     const api = `${this.endpoint}/users`;

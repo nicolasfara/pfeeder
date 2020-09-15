@@ -16,7 +16,7 @@ export class AddfeedComponent implements OnInit {
   public addFeedForm: FormGroup;
   private fodders: Fodder[];
   private pets : Pet[];
-  private id: Fodder;
+  private fodderSelect: Fodder;
   private petSelect: Pet;
 
   constructor(public fb: FormBuilder,
@@ -29,7 +29,7 @@ export class AddfeedComponent implements OnInit {
       kcal: [''],
       fodderId: [''], //L'utente selezionerà il nomi dei fodder disponnibili
       petId: [''] // L'utente selezionerà i nomi dei pet disponibili
-      /* Poi si fa una query prima e si seleziona l'id dei pet e dei fodder inserito*/
+      /* Poi si fa una query prima e si seleziona l'fodderSelect dei pet e dei fodder inserito*/
 
     });
   }
@@ -39,10 +39,12 @@ export class AddfeedComponent implements OnInit {
     this.getPet()
   }
   addFeed() {
-    this.id =  this.fodders.find(x => x.name == this.addFeedForm.get('fodderId').value)
+    this.fodderSelect =  this.fodders.find(x => x.name == this.addFeedForm.get('fodderId').value)
     this.petSelect =  this.pets.find(x => x.name == this.addFeedForm.get('petId').value)
+    console.log("Fodder fodderSelect:" +buf2hex(this.fodderSelect._id['id']['data']))
+    console.log("Per  fodderSelect:" +buf2hex(this.petSelect._id['id']['data']))
     this.addFeedForm.patchValue({
-      fodderId : buf2hex(this.id._id['id']['data']),
+      fodderId : buf2hex(this.fodderSelect._id['id']['data']),
       petId : buf2hex(this.petSelect._id['id']['data'])
     })
     this.authService.addFeed(this.addFeedForm.value) .pipe(first())
