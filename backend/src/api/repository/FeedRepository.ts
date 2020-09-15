@@ -31,7 +31,7 @@ class FeedRepository extends BaseRepository<FeedDocument> {
         feed.quantity = quantity
         feed.kcal = kcal
         feed.fodderId = fodderId
-        return super._model.create(feed)
+        return this._model.create(feed)
     }
 }
 
