@@ -5,6 +5,7 @@ import {Service} from "typedi";
 
 @Service()
 class FeedRepository extends BaseRepository<FeedDocument> {
+
     constructor() {
         super(Feed);
     }
@@ -18,9 +19,19 @@ class FeedRepository extends BaseRepository<FeedDocument> {
                 .where('createdAt')
                 .gt(date)
                 .populate("fodderId")
+                .lean()
         } else {
-            return this._model.find({ petId }).populate("fodderId")
+            return this._model.find({ petId }).populate("fodderId").lean()
         }
+    }
+
+    async addNewFeed(petId: Types.ObjectId, quantity: number, kcal: number, fodderId: Types.ObjectId): Promise<FeedDocument> {
+        const feed = new Feed()
+        feed.petId = petId
+        feed.quantity = quantity
+        feed.kcal = kcal
+        feed.fodderId = fodderId
+        return super._model.create(feed)
     }
 }
 

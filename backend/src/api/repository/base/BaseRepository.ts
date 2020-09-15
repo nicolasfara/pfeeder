@@ -10,7 +10,8 @@ export class BaseRepository<T extends Document> implements Write<T>, Read<T> {
     }
 
     async create(item: T): Promise<T> {
-        return await this._model.create(item as any)
+        const newObj = await this._model.create(item as any)
+        return newObj.toObject()
     }
 
     async delete(id: Types.ObjectId): Promise<T> {
@@ -30,7 +31,7 @@ export class BaseRepository<T extends Document> implements Write<T>, Read<T> {
     }
 
     async findOne(query: any, projection?: string, populate?: string): Promise<T> {
-        return this._model.findOne(query, projection).populate(populate)
+        return this._model.findOne(query, projection).populate(populate).lean()
     }
 
     async findMany(query: any, projection?: string, populate?: string): Promise<T[]> {
