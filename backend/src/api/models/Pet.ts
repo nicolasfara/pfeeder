@@ -1,23 +1,5 @@
 import mongoose, {Types, Document, Schema} from 'mongoose';
 
-export interface PetVm {
-    userId: string;
-    name: string;
-    idealWeight: number;
-    weight: number;
-    age: number;
-    petType: string;
-    breed: string;
-    rationPerDay: [
-        {
-            name: string;
-            time: Date;
-            ration: number;
-        },
-    ];
-    currentFodder: string;
-}
-
 export interface PetDocument extends Document {
     userId: Types.ObjectId;
     name: string;
@@ -26,13 +8,7 @@ export interface PetDocument extends Document {
     age: number;
     petType: PetType;
     breed: string;
-    rationPerDay: [
-        {
-            name: string;
-            time: Date;
-            ration: number;
-        },
-    ];
+    rationPerDay: [Types.ObjectId];
     currentFodder: Types.ObjectId;
 }
 
@@ -46,13 +22,7 @@ const petSchema: Schema = new Schema(
         petType: {type: String, enum: ['dog', 'cat', 'other'], required: true},
         breed: String,
         currentFodder: {type: mongoose.Schema.Types.ObjectId, ref: 'Fodder'},
-        rationPerDay: [
-            {
-                name: {type: String, required: true, unique: true},
-                time: {type: Date, required: true, unique: true},
-                ration: {type: Number, required: true},
-            }
-        ]
+        rationPerDay: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ration'}]
     },
     {timestamps: true},
 );

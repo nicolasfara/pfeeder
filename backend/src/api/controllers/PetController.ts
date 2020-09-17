@@ -3,23 +3,26 @@ import {
     Body,
     CurrentUser,
     Delete,
-    Get,
+    Get, HttpError,
     JsonController,
     Param,
     Patch, Post
 } from "routing-controllers";
 import {Logger, LoggerInterface} from "../../decorators/Logger";
 import {PetDocument, Pet, PetType} from "../models/Pet";
+import {Ration, RationDocument} from "../models/Ration";
 import {UserDocument} from "../models/User";
 import {OpenAPI} from "routing-controllers-openapi";
 import {AddFodderToPet, AddRation, CreatePet, UpdatePet, UpdateRation} from "./requests/PetRequests";
 import PetRepository from "../repository/PetRepository";
 import {Types} from "mongoose";
+import RationRepository from "../repository/RationRepository";
 
 @JsonController('/pets')
 export class PetController {
     constructor(
         private petRepository: PetRepository,
+        private rationRepository: RationRepository,
         @Logger(__filename) private log: LoggerInterface
     ) {
     }
@@ -52,6 +55,7 @@ export class PetController {
         newPet.breed = body.breed
         newPet.age = body.age
         newPet.idealWeight = body.idealWeight
+        newPet.rationPerDay = undefined
         return await this.petRepository.create(newPet)
     }
 
@@ -76,19 +80,21 @@ export class PetController {
         const rationTime = new Date()
         rationTime.setHours(body.hours)
         rationTime.setMinutes(body.minutes)
-        const newRation = {
-            name: body.name,
-            time: rationTime,
-            ration: body.ration
-        }
-        return await this.petRepository.update(Types.ObjectId(id), { $push: { rationPerDay: newRation }} as any)
+        const newRation = new Ration()
+        newRation.petId = Types.ObjectId(id)
+        newRation.name = body.name
+        newRation.time = rationTime
+        newRation.ration = body.ration
+        const savedRation = await newRation.save()
+        if (!savedRation) throw new HttpError(500, `Unable to save the ration on DB`)
+        return await this.petRepository.updateWithQuery({ _id: id}, {$push: { rationPerDay: newRation.id }})
     }
 
     @Get('/:id/rations')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
-    public async getAllRations(@CurrentUser() user: UserDocument, @Param("id") id: string): Promise<PetDocument> {
-        return await this.petRepository.findOne({ userId: user.id, _id: id }, "rationPerDay")
+    public async getAllRations(@CurrentUser() user: UserDocument, @Param("id") id: string): Promise<RationDocument[]> {
+        return this.rationRepository.findMany({ petId: id })
     }
 
     @Patch('/:petId/rations/:rationName')
@@ -99,7 +105,7 @@ export class PetController {
         @Param("petId") petId: string,
         @Param("rationName") rationName: string,
         @Body() body: UpdateRation
-    ): Promise<PetDocument> {
+    ): Promise<RationDocument> {
         const newTime = new Date()
         newTime.setMinutes(body.minutes)
         newTime.setHours(body.hours)
@@ -108,16 +114,7 @@ export class PetController {
             time: newTime,
             ration: body.ration
         }
-        return await this.petRepository.findAndUpdate(
-            {_id: petId, userId: user.id, 'rationPerDay.name': rationName},
-            {
-                $set:
-                    {
-                        'rationPerDay.$.name': newRation.name,
-                        'rationPerDay.$.time': newRation.time,
-                        'rationPerDay.$.ration': newRation.ration,
-                    }
-            })
+        return this.rationRepository.updateWithQuery({ petId, name: rationName}, newRation)
     }
 
     @Delete('/:petId/rations/:rationName')
@@ -128,11 +125,11 @@ export class PetController {
         @Param("petId") petId: string,
         @Param("rationName") rationName: string
     ): Promise<PetDocument> {
-        return await this.petRepository.findAndUpdate({_id: petId, userId: user.id, 'rationPerDay.name': rationName},
+        const removedRation = await this.rationRepository.findAndDelete({petId, name: rationName})
+        if (!removedRation) throw new HttpError(500, `Unable to remove the given ration`)
+        return this.petRepository.findAndUpdate({_id: petId, userId: user.id },
             {
-                $pull: {
-                    rationPerDay: { name: rationName }
-                }
+                $pull: { rationPerDay: removedRation.id }
             })
     }
 

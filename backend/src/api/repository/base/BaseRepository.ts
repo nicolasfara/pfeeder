@@ -45,4 +45,8 @@ export class BaseRepository<T extends Document> implements Write<T>, Read<T> {
     async findAndUpdate(query: any, item: any): Promise<T> {
         return this._model.findOneAndUpdate(query, item).lean()
     }
+
+    async findAndDelete(query: any): Promise<T> {
+        return this._model.findOneAndDelete(query)
+    }
 }
