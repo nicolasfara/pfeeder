@@ -28,9 +28,11 @@ export class AddpetComponent implements OnInit {
       name: [''],
       age: [''] ,
       weight: [''],
+      idealWeight : [''],
       petType: [''],
       breed: [''],
-      currentFodder: ['']
+      currentFodder: [''],
+
     });
   }
   ngOnInit(): void {

@@ -41,7 +41,6 @@ export class AuthService {
   //addFoder
   addFodder(fodder:Fodder) : Observable<any> {
     const api = `${this.endpoint}/fodders`;
-    console.log(fodder)
     return this.http.post(api, fodder)
       .pipe(
         catchError(this.handleError)

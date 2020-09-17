@@ -4,7 +4,9 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {AuthService} from "../shared/service/auth/auth.service";
 import {Router} from "@angular/router";
 import {DataService} from "../shared/service/data/data.service";
-declare var $ : any
+
+declare var $: any
+
 @Component({
   selector: 'app-addfodder',
   templateUrl: './addfodder.component.html',
@@ -22,15 +24,11 @@ export class AddfodderComponent implements OnInit {
       companyName: [''],
       price: [''],
       weight: [''],
-      nutritionFacts : {}
-     /* nutritionFacts: {
-        kcal: [''],
-        proteins: [''],
-        fats: [''],
-        vitamins: [''],
-        carbohydrates: [''],
-      }*/
-    // TODO Resolve nested field in form group
+      kcal: [''],
+      proteins: [''],
+      fats: [''],
+      vitamins: [''],
+      carbohydrates: ['']
     });
   }
 
@@ -38,13 +36,10 @@ export class AddfodderComponent implements OnInit {
   }
 
   addFodder() {
-    this.authService.addFodder(this.addFodderForm.value) .pipe(first())
+    this.authService.addFodder(this.addFodderForm.value).pipe(first())
       .subscribe(
         data => {
-          $('#addFodderButton').click(function() {
-            $('#AddFodder').modal('hide');
-          });
+          $('#AddFodder').modal('hide');
         });
-
   }
 }

@@ -9,9 +9,11 @@ import {DataService} from "../shared/service/data/data.service";
   styleUrls: ['./barchart.component.scss']
 })
 export class BarchartComponent implements OnInit {
+
   public pieChartLabels: string[] = []
-  public pieChartData: number[] = []
+  public pieChartData: any = []
   public pieChartType: string = 'bar';
+  public barChartLegend:boolean = false;
   public pieChartOptions: any = {
     'backgroundColor': [
       "#FF6384",
@@ -25,14 +27,6 @@ export class BarchartComponent implements OnInit {
   // events on slice click
   private pets: Pet[];
 
-  public chartClicked(e: any): void {
-    console.log(e);
-  }
-
-  // event on pie chart slice hover
-  public chartHovered(e: any): void {
-    console.log(e);
-  }
 
   constructor(private dataService: DataService) {
   }
@@ -43,8 +37,8 @@ export class BarchartComponent implements OnInit {
       this.pets = data;
       this.pets.forEach(value => this.pieChartLabels.push(value.name))
      this.pets.forEach(value => {
-        this.dataService.sendGetCostPet(buf2hex(value._id['id']['data'])).subscribe((data: Number) =>{
-          this.pieChartData.push(data)
+        this.dataService.sendGetCostPet(buf2hex(value._id['id']['data'])).subscribe((data: number) =>{
+         this.pieChartData.push(data)
         })
       })
     })
