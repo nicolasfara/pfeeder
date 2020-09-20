@@ -8,6 +8,7 @@ import {Pet} from "../../model/Pet";
 import {Feed} from "../../model/Feed";
 import {changePsw} from "../../model/changePsw";
 import {Fodder} from "../../model/Fodder";
+import {Ration} from "../../model/Ration";
 
 @Injectable({
   providedIn: 'root'
@@ -56,10 +57,10 @@ export class AuthService {
   }
 
   //addRation
- /* addRation(ration: Ration, id: String) : Observable<any> {
+  addRation(ration: Ration, id: String) : Observable<any> {
     const api = `${this.endpoint}/pets/`+id+`/rations`;
     return  this.http.post(api,ration)
-  }*/
+  }
   // Sign-up
   signUp(user: User): Observable<any> {
     const api = `${this.endpoint}/users`;

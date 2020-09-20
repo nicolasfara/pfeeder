@@ -10,10 +10,10 @@
           <div class="signup-form">
             <form [formGroup]="addFeedForm" (ngSubmit)="addFeed()" class="register-form" id="register-form">
               <div class="form-group">
-                <input type="text" name="quantity" id="quantity" formControlName="quantity" placeholder="Quantity"/>
+                <input type="number" name="ration" id="ration" formControlName="ration" placeholder="Quantity"/>
               </div>
               <div class="form-group">
-                <input type="text" name="kcal" id="kcal" formControlName="kcal" placeholder="KCal"/>
+                <input type="number" name="kcal" id="kcal" formControlName="kcal" placeholder="KCal"/>
               </div>
               <div class="form-group">
                 <input type="text" name="fodderId" id="fodderId" formControlName="fodderId" placeholder="Fodder Name"/>

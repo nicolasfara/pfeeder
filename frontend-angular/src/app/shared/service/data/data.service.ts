@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Pet} from "../../model/Pet";
 import {Fodder} from "../../model/Fodder";
 import * as mongoose from 'mongoose';
+import {Ration} from "../../model/Ration";
 @Injectable({
   providedIn: 'root'
 })
@@ -22,6 +23,12 @@ export class DataService {
     return this.httpClient.get(this.REST_API_SERVER + "pets")
       .toPromise().then(res => res as Pet[])
       .catch(this.handleError)
+  }
+
+  public getRation(id:string) {
+    return this.httpClient.get(this.REST_API_SERVER + "pets/" + id + "/rations")
+     // .toPromise().then(res => res as Ration[])
+      //.catch(this.handleError)
   }
   public sendGetPets(){
     return this.httpClient.get(this.REST_API_SERVER+"pets");

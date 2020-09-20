@@ -21,20 +21,31 @@
                       <tr>
                         <th scope="col">Pet Name</th>
                         <th scope="col">Weight</th>
+                        <th scope="col">Ideal weight</th>
                         <th scope="col">Age</th>
+                        <th scope="col">Pet type</th>
                         <th scope="col">Time of ration</th>
                         <th scope="col">Grams per ration</th>
                         <th scope="col">Edit</th>
                       </tr>
                       </thead>
                       <tbody>
-                      <tr *ngFor="let el of pets">
-                        <td class="petName">{{el.name}}</td>
-                        <td class="petWeight">{{el.weight}} kg</td>
-                        <td class="petAge">{{el.age}} years</td>
-                       <!-- <td class="petRationTime"> {{el.rationPerDay[0]['time'] | date: 'hh:mm'}}</td>
-                        <td class="petRationGrams"> {{el.rationPerDay[0]['ration']}} g</td> -->
-                        <!--Insert how many calories, time to feed, name of current fodder-->
+                      <tr *ngFor="let pet of pets; let i=index">
+
+                        <td class="petName">{{pet.name}}</td>
+                        <td class="petWeight">{{pet.weight}} kg</td>
+                        <td class="idealWeight">{{pet.idealWeight}} kg</td>
+                        <td class="petAge">{{pet.age}} years</td>
+                        <td class="petType">{{pet.petType.toString()}}</td>
+
+                      <td *ngIf="rations[i]?.time else elsePerfId">{{ rations[i].time | date:'shortTime' }}</td>
+                        <ng-template #elsePerfId>
+                          <td> - </td>
+                        </ng-template>
+                          <td class="petRationGrams" *ngIf="rations[i]?.ration; else elsePerf"> {{rations[i].ration }} g</td>
+                        <ng-template #elsePerf>
+                          <td> - </td>
+                        </ng-template>
                         <td>
                           <a class="collapse-item openRationModal"> <i
                             class="fas fa-fw fa-cog"></i></a>

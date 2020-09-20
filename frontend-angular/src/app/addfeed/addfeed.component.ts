@@ -25,7 +25,7 @@ export class AddfeedComponent implements OnInit {
               private dataService: DataService) {
 
     this.addFeedForm = this.fb.group({
-      quantity: [''],
+      ration: [''],
       kcal: [''],
       fodderId: [''], //L'utente selezionerà il nomi dei fodder disponnibili
       petId: [''] // L'utente selezionerà i nomi dei pet disponibili

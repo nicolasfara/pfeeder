@@ -10,6 +10,9 @@
           <div class="signup-form">
             <form [formGroup]="addRationForm" (ngSubmit)="addRation()" class="register-form" id="register-form">
               <div class="form-group">
+                <input type="text" name="name" id="name" formControlName="name" placeholder="Ration name"/>
+              </div>
+              <div class="form-group">
                 <input type="number" name="ration" id="ration" formControlName="ration" placeholder="Quantity"/>
               </div>
               <div class="form-group">
@@ -19,10 +22,12 @@
                 <input type="number" name="minutes" id="hours" formControlName="hours" placeholder="Hours"/>
               </div>
               <div class="form-group">
-                <input type="text" readonly name="petName" id="petName" formControlName="petName" />
+
+                <input type="text" readonly name="petName" id="petName"/>
               </div>
+
               <div class="form-group form-button">
-                <input type="submit" name="signup" id="addFeedButton" class="form-submit " value="Add Ration"/>
+                <input type="submit" name="signup" id="addRationButton" class="form-submit " value="Add Ration"/>
               </div>
             </form>
           </div>

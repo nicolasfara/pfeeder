@@ -4,6 +4,7 @@ export class Pet {
   name: string;
   weight: number;
   age: number;
+  idealWeight: number;
   petType: PetType;
   breed: string;
   rationPerDay: [

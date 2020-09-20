@@ -16,7 +16,7 @@ export class AddrationComponent implements OnInit {
 
   pets : Pet[] = [];
   fodders : Fodder[] = [];
-  private petSelect: Pet;
+   petSelect: Pet;
   public addRationForm: FormGroup;
   constructor(
     public fb: FormBuilder,
@@ -25,10 +25,11 @@ export class AddrationComponent implements OnInit {
     private dataService: DataService
   ) {
     this.addRationForm = this.fb.group({
+      name:[''],
       ration: [''],
       minutes: [''],
       hours: [''],
-      petId: [''] // L'utente selezionerà i nomi dei pet disponibili
+     // petId: [''] // L'utente selezionerà i nomi dei pet disponibili
       /* Poi si fa una query prima e si seleziona l'fodderSelect dei pet e dei fodder inserito*/
 
     });
@@ -44,8 +45,22 @@ export class AddrationComponent implements OnInit {
   getFodders(){
     this.dataService.getFodder().then(fodders => this.fodders = fodders);
   }
-  addRation(){
-    this.petSelect =  this.pets.find(x => x.name == this.addRationForm.get('petName').value)
-   // this.authService.addRation(this.addRationForm.value)
+  addRation() {
+    this.dataService.sendGetPets().subscribe((data: Pet[]) => {
+      this.pets = data;
+      var petName = $('#petName').val()
+      this.petSelect = this.pets.find(x => x.name == petName)
+      console.log(petName)
+      this.authService.addRation(this.addRationForm.value, buf2hex(this.petSelect._id['id']['data'])).pipe(first())
+        .subscribe(
+          data => {
+
+            $('#AddRation').modal('hide');
+          });
+    })
   }
+
+}
+function buf2hex(buffer) { // buffer is an ArrayBuffer
+  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
 }

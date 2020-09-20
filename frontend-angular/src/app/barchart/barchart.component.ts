@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Pet} from "../shared/model/Pet";
-import {Feed} from "../shared/model/Feed";
 import {DataService} from "../shared/service/data/data.service";
+import {Color} from "ng2-charts";
 
 @Component({
   selector: 'app-barchart',
@@ -11,21 +11,29 @@ import {DataService} from "../shared/service/data/data.service";
 export class BarchartComponent implements OnInit {
 
   public pieChartLabels: string[] = []
+  public feed: number[] = []
   public pieChartData: any = []
   public pieChartType: string = 'bar';
-  public barChartLegend:boolean = false;
-  public pieChartOptions: any = {
-    'backgroundColor': [
-      "#FF6384",
-      "#4BC0C0",
-      "#FFCE56",
-      "#E7E9ED",
-      "#36A2EB"
-    ]
-  }
+  public barChartLegend: boolean = false;
+
 
   // events on slice click
   private pets: Pet[];
+  colors: Color[] = [
+    {
+      backgroundColor: [
+        "#e57373",
+        "#7986cb",
+        "#4fc3f7",
+        "#ba68c8",
+        "#81c784",
+        "#9575cd",
+        "#4dd0e1",
+        "#4db6ac",
+        "#f06292",
+      ]
+    }
+  ];
 
 
   constructor(private dataService: DataService) {
@@ -36,9 +44,9 @@ export class BarchartComponent implements OnInit {
     this.dataService.sendGetPets().subscribe((data: Pet[]) => {
       this.pets = data;
       this.pets.forEach(value => this.pieChartLabels.push(value.name))
-     this.pets.forEach(value => {
-        this.dataService.sendGetCostPet(buf2hex(value._id['id']['data'])).subscribe((data: number) =>{
-         this.pieChartData.push(data)
+      this.pets.forEach(value => {
+        this.dataService.sendGetCostPet(buf2hex(value._id['id']['data'])).subscribe((data: number) => {
+          this.pieChartData.splice(this.pets.indexOf(value), 0, data)
         })
       })
     })
