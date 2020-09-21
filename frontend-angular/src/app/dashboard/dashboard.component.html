@@ -38,7 +38,7 @@
                         <td class="petAge">{{pet.age}} years</td>
                         <td class="petType">{{pet.petType.toString()}}</td>
 
-                      <td *ngIf="rations[i]?.time else elsePerfId">{{ rations[i].time | date:'shortTime' }}</td>
+                      <td class="rationTime" *ngIf="rations[i]?.time else elsePerfId">{{ rations[i].time | date:'shortTime' }}</td>
                         <ng-template #elsePerfId>
                           <td> - </td>
                         </ng-template>
