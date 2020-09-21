@@ -55,7 +55,6 @@ export class PetController {
         newPet.breed = body.breed
         newPet.age = body.age
         newPet.idealWeight = body.idealWeight
-        newPet.rationPerDay = undefined
         return await this.petRepository.create(newPet)
     }
 
@@ -90,10 +89,18 @@ export class PetController {
         return await this.petRepository.updateWithQuery({ _id: id}, {$push: { rationPerDay: newRation.id }})
     }
 
+    @Get('/rations')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }]})
+    public async getAllUserRations(@CurrentUser() user: UserDocument): Promise<RationDocument[]> {
+        const petsId = (await this.petRepository.findMany({ userId: user.id})).map(p => Types.ObjectId(p.id))
+        return this.rationRepository.findMany({ petId: { $in: petsId }})
+    }
+
     @Get('/:id/rations')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
-    public async getAllRations(@CurrentUser() user: UserDocument, @Param("id") id: string): Promise<RationDocument[]> {
+    public async getAllPetRations(@CurrentUser() user: UserDocument, @Param("id") id: string): Promise<RationDocument[]> {
         return this.rationRepository.findMany({ petId: id })
     }
 
