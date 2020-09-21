@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from "../shared/service/auth/auth.service";
+
+declare var $: any
 
 @Component({
   selector: 'app-logout',
@@ -7,10 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogoutComponent implements OnInit {
 
-  constructor() { }
 
-  ngOnInit(): void {
+  constructor(public authService: AuthService) {
+
   }
 
+  ngOnInit(): void {
+
+  }
+  doLogOut(){
+    $("body").remove("#logoutModal");
+    $('#logoutModal').modal('hide');
+    this.authService.doLogout()
+  }
 
 }

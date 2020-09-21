@@ -68,17 +68,13 @@ export class DashboardComponent implements OnInit {
   }
 
   getRation(): void {
-    this.service.sendGetPets().subscribe((data: Pet[]) => {
-      this.pets = data;
-      this.pets.forEach(value => this.service.getRation(buf2hex(value._id['id']['data'])).subscribe((data: Ration) => {
-        if (Array.isArray(data) && data.length) {
-          this.rations = data
-          /* NOT WORKING BECAUSE EVERY GET RETURN 1 RATION */
-          //this.rations.insert(this.pets.indexOf(value),data)
-          console.log(this.rations)
-        }
-      }))
-
+    this.service.getRation().subscribe((data: Ration[]) => {
+      if (Array.isArray(data) && data.length) {
+        this.rations = data
+        /* NOT WORKING BECAUSE EVERY GET RETURN 1 RATION */
+        //this.rations.insert(this.pets.indexOf(value),data)
+        console.log(this.rations)
+      }
     })
   }
 

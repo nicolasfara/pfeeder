@@ -25,8 +25,8 @@ export class DataService {
       .catch(this.handleError)
   }
 
-  public getRation(id:string) {
-    return this.httpClient.get(this.REST_API_SERVER + "pets/" + id + "/rations")
+  public getRation() {
+    return this.httpClient.get(this.REST_API_SERVER + "rations")
      // .toPromise().then(res => res as Ration[])
       //.catch(this.handleError)
   }
