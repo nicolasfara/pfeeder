@@ -17,7 +17,7 @@ export class RationController {
         @Logger(__filename) private log: LoggerInterface
     ) { }
 
-    @Post('/rations/:petId')
+    @Post('/:petId')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
     public async addRationToPet(@CurrentUser() user: UserDocument, @Param("petId") petId: string, @Body() body: AddRation): Promise<PetDocument> {
@@ -43,7 +43,7 @@ export class RationController {
         return this.rationRepository.findMany({ petId: { $in: petId }})
     }
 
-    @Patch('/rations/:petId/:rationName')
+    @Patch('/:petId/:rationName')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
     public async patchRationByName(
@@ -63,7 +63,7 @@ export class RationController {
         return this.rationRepository.updateWithQuery({ petId, name: rationName}, newRation)
     }
 
-    @Get('/rations/:petId')
+    @Get('/:petId')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
     public async getAllPetRations(@CurrentUser() user: UserDocument, @Param("petId") petId: string): Promise<RationDocument[]> {
