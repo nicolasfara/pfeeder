@@ -89,14 +89,6 @@ export class PetController {
         return await this.petRepository.updateWithQuery({ _id: id}, {$push: { rationPerDay: newRation.id }})
     }
 
-    @Get('/rations')
-    @Authorized()
-    @OpenAPI({ security: [{ bearerAuth: [] }]})
-    public async getAllUserRations(@CurrentUser() user: UserDocument): Promise<RationDocument[]> {
-        const petsId = (await this.petRepository.findMany({ userId: user.id})).map(p => Types.ObjectId(p.id))
-        return this.rationRepository.findMany({ petId: { $in: petsId }})
-    }
-
     @Get('/:id/rations')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
