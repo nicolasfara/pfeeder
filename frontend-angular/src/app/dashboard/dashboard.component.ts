@@ -36,7 +36,13 @@ export class DashboardComponent implements OnInit {
       const petRationGrams = $(this).closest('td').prevAll('.petRationGrams').text().replace(' g', '')
       const rationTime = $(this).closest('td').prevAll('.rationTime').text()
       const hourTime = rationTime.substr(0, 2)
-      const minuteTime = rationTime.substr(3, 5).replace(' PM', '')
+      let minuteTime :String
+      if(rationTime.includes("PM")){
+         minuteTime = rationTime.substr(3, 5).replace(' PM', '')
+      }else{
+         minuteTime = rationTime.substr(3, 5).replace(' AM', '')
+      }
+
       const ration: number = +petRationGrams
       const hourRation: number = +hourTime
       const minuteRation: number = +minuteTime
