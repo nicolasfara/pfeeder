@@ -23,6 +23,8 @@ import { AddfeedComponent } from './addfeed/addfeed.component';
 import { LogoutComponent } from './logout/logout.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
+import { ShowfodderComponent } from './showfodder/showfodder.component';
+import { UpdatefodderComponent } from './updatefodder/updatefodder.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +44,9 @@ import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.compone
     AddfeedComponent,
     LogoutComponent,
     NotfoundComponent,
-    ForgotpasswordComponent
+    ForgotpasswordComponent,
+    ShowfodderComponent,
+    UpdatefodderComponent
   ],
   imports: [
     BrowserModule,
