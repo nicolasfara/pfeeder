@@ -91,7 +91,7 @@ export class AuthService {
   doLogout() {
     const removeToken = localStorage.removeItem('access_token');
     if (removeToken == null) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/homepage']);
     }
   }
 

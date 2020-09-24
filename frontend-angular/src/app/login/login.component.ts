@@ -3,6 +3,7 @@ import {AuthService} from '../shared/service/auth/auth.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 
+declare var $: any
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
