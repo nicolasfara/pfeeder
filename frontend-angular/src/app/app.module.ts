@@ -21,6 +21,7 @@ import { BarchartComponent } from './barchart/barchart.component';
 import { AddfodderComponent } from './addfodder/addfodder.component';
 import { AddfeedComponent } from './addfeed/addfeed.component';
 import { LogoutComponent } from './logout/logout.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +40,7 @@ import { LogoutComponent } from './logout/logout.component';
     AddfodderComponent,
     AddfeedComponent,
     LogoutComponent,
+    NotfoundComponent
   ],
   imports: [
     BrowserModule,
