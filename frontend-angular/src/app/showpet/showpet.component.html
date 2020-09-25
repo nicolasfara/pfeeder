@@ -1,0 +1,44 @@
+
+<div id="AllPet" class="modal">
+  <div class="modal-dialog modal-xl" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="form-title text-primary">Pet Dashboard</h2>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table mdbtable class="card-table table">
+            <thead>
+            <tr>
+              <th scope="col">Pet Name</th>
+              <th scope="col">Weight</th>
+              <th scope="col">Ideal weight</th>
+              <th scope="col">Age</th>
+              <th scope="col">Pet type</th>
+              <th scope="col">Edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let pet of pets; let i=index">
+
+              <td class="petName">{{pet.name}}</td>
+              <td class="petWeight">{{pet.weight}} kg</td>
+              <td class="idealWeight">{{pet.idealWeight}} kg</td>
+              <td class="petAge">{{pet.age}} years</td>
+              <td class="petType">{{pet.petType.toString()}}</td>
+
+              <td>
+                <a class="collapse-item openRationModal"> <i
+                  class="fas fa-fw fa-cog"></i></a>
+              </td>
+              <app-addration></app-addration>
+            </tr>
+            </tbody>
+          </table>
+
+
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+</div>

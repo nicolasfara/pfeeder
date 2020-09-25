@@ -25,6 +25,7 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { ShowfodderComponent } from './showfodder/showfodder.component';
 import { UpdatefodderComponent } from './updatefodder/updatefodder.component';
+import { ShowpetComponent } from './showpet/showpet.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,8 @@ import { UpdatefodderComponent } from './updatefodder/updatefodder.component';
     NotfoundComponent,
     ForgotpasswordComponent,
     ShowfodderComponent,
-    UpdatefodderComponent
+    UpdatefodderComponent,
+    ShowpetComponent
   ],
   imports: [
     BrowserModule,
