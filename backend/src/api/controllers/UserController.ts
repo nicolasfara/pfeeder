@@ -16,6 +16,7 @@ import {
 import {ForgotPasswordResponse, LoginResponse, ResetPasswordResponse, UserResponse} from "./responses/UserResponses";
 import {Param} from "routing-controllers";
 import UserRepository from "../repository/UserRepository";
+import {randomBytes} from "crypto";
 
 
 @JsonController('/users')
@@ -161,5 +162,27 @@ export class UserController {
         } catch (e) {
             throw new HttpError(500, e.message)
         }
+    }
+
+    @Post('/device')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }] })
+    public async addNewDevice(@CurrentUser() user: UserDocument): Promise<string> {
+        const deviceId = randomBytes(12).toString('hex')
+        this.log.info(`New device id: ${deviceId}`)
+        const update = await this.userRepository.findAndUpdate({ _id: user.id }, { $push: { apiKeys: deviceId }})
+        if (update) return deviceId
+        else throw new HttpError(500, `Unable to generate a new device id`)
+    }
+
+    @Delete('/device/:id')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }] })
+    public async deleteDevice(@CurrentUser() user: UserDocument, @Param('id') id: string): Promise<any> {
+        this.log.info("Bah")
+        const deleteDevice = await this.userRepository.findAndUpdate({ _id: user.id }, { $pull: { apiKeys: id }})
+        this.log.info("ok")
+        if (deleteDevice) return deleteDevice
+        else throw new HttpError(500, `Unable to delete the given device id`)
     }
 }
