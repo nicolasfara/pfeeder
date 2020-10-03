@@ -22,3 +22,7 @@ install:
 lint:
   stage: test
   script: yarn run start lint
+
+build:
+  stage: build
+  script: yarn run start build
