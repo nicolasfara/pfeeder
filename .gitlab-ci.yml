@@ -14,7 +14,7 @@ install:
   cache:
     key: $CI_PROJECT_ID
     policy: pull-push
-    path:
+    paths:
       - .yarn
       - node_modules
       - 'packages/*/node_modules'
