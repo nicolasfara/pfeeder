@@ -28,6 +28,9 @@ export const env = {
         banner: toBool(getOsEnv('APP_BANNER')),
         jwtSecret: getOsEnv('JWT_SECRET'),
         mqttUri: getOsEnv('MQTT_URI'),
+        mqttAlert: getOsEnv('MQTT_ALERT'),
+        mqttInfo: getOsEnv('MQTT_INFO'),
+        mqttStatus: getOsEnv('MQTT_STATUS'),
         dirs: {
             migrations: getOsPaths('TYPEORM_MIGRATIONS'),
             migrationsDir: getOsPath('TYPEORM_MIGRATIONS_DIR'),

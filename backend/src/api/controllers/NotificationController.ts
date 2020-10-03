@@ -31,7 +31,6 @@ export class NotificationController {
         notification.userId = user.id
         notification.message = body.message
         notification.notificationType = body.notificationType as NotificationType
-        notification.timestamp = body.timestamp
         return this.notificationRepository.create(notification)
     }
 

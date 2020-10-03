@@ -1,7 +1,6 @@
 import mongoose, { Types } from 'mongoose';
 
 export type NotificationDocument = mongoose.Document & {
-    timestamp: Date;
     read: boolean;
     notificationType: NotificationType;
     message: string;

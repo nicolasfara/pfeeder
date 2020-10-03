@@ -179,9 +179,7 @@ export class UserController {
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async deleteDevice(@CurrentUser() user: UserDocument, @Param('id') id: string): Promise<any> {
-        this.log.info("Bah")
         const deleteDevice = await this.userRepository.findAndUpdate({ _id: user.id }, { $pull: { apiKeys: id }})
-        this.log.info("ok")
         if (deleteDevice) return deleteDevice
         else throw new HttpError(500, `Unable to delete the given device id`)
     }
