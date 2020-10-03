@@ -1,0 +1,6 @@
+image: node:6.0
+before_script:
+  - cd backend
+  - yarn install
+lint:
+  - yarn run start lint

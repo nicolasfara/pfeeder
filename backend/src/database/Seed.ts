@@ -3,8 +3,10 @@ import {User} from '../api/models/User';
 import {Pet} from '../api/models/Pet';
 import {Fodder} from '../api/models/Fodder';
 import {env} from "../env";
+import {Logger} from "../lib/logger";
 
 const run = async () => {
+    const log = new Logger()
     const mongooseConnection = await mongoose.connect(
         `mongodb://${env.db.username}:${env.db.password}@${env.db.host}:${env.db.port}/${env.db.database}`,
         {
@@ -18,19 +20,19 @@ const run = async () => {
     try {
         await Fodder.collection.drop();
     } catch (e) {
-        console.log(e);
+        log.error(e);
     }
 
     try {
         await Pet.collection.drop();
     } catch (e) {
-        console.log(e);
+        log.error(e);
     }
 
     try {
         await User.collection.drop();
     } catch (e) {
-        console.log(e);
+        log.error(e);
     }
 
     const users = [
