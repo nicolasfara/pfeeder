@@ -3,4 +3,5 @@ before_script:
   - cd backend
   - yarn install
 lint:
-  - yarn run start lint
+  script:
+    - yarn run start lint
