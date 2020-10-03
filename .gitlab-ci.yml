@@ -9,7 +9,7 @@ cache:
   untracked: true
 
 install:
-  stage: install
+  stage: test
   script: echo "Warming the cache"
   cache:
     key: $CI_PROJECT_ID
