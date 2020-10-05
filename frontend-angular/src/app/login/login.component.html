@@ -1,0 +1,34 @@
+<app-navbar></app-navbar>
+<!-- Sing in  Form -->
+<div class="main">
+<section class="sign-in">
+  <div class="container">
+    <div class="signin-content">
+      <div class="signin-image">
+        <img src="https://360x640-sfondi-cellulari.russianwomen.club/pittura/Gatto-sfondi-hd-per-cellulari-gratis-189.jpg" alt="sing up image">
+      </div>
+
+      <div class="signin-form">
+        <h2 class="form-title text-primary">Sign in</h2>
+        <form  [formGroup]="signinForm" (ngSubmit)="loginUser()" class="register-form" id="login-form">
+          <div class="form-group">
+            <label for="email"><i class="zmdi zmdi-account material-icons-name"></i></label>
+            <input type="email" name="email" id="email" formControlName="email" placeholder="Your Email"/>
+          </div>
+          <div class="form-group">
+            <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+            <input type="password" name="your_pass" id="your_pass" formControlName="password" placeholder="Password"/>
+          </div>
+          <div class="form-group form-button">
+            <a href="#" data-target="#pwdModal" data-toggle="modal">Forgot my password</a>
+          </div>
+          <app-forgotpassword></app-forgotpassword>
+          <div class="form-group form-button">
+            <input  type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+</div>

@@ -1,0 +1,48 @@
+
+<div id="AllFodder" class="modal">
+  <div class="modal-dialog modal-xl" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="form-title text-primary">Fodder Dashboard</h2>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+        <table mdbtable class="card-table table">
+          <thead>
+          <tr>
+            <th scope="col">Fodder Name</th>
+            <th scope="col">Company Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Weight</th>
+            <th scope="col">Kcal</th>
+            <th scope="col">Proteins</th>
+            <th scope="col">Fats</th>
+            <th scope="col">Vitamins</th>
+            <th scope="col">Carbohydrates</th>
+            <th scope="col">Edit</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let fodder of fodders">
+            <td class="fodderName">{{fodder.name}}</td>
+            <td class="companyName">{{fodder.companyName}}</td>
+            <td class="price">{{fodder.price}}</td>
+            <td class="weight">{{fodder.weight}} kg</td>
+            <td class="kcal">{{fodder.nutritionFacts.kcal}}</td>
+            <td class="proteins">{{fodder.nutritionFacts.proteins}}</td>
+            <td class="fats">{{fodder.nutritionFacts.fats}}</td>
+            <td class="vitamins">{{fodder.nutritionFacts.vitamins}}</td>
+            <td class="carbohydrates">{{fodder.nutritionFacts.carbohydrates}}</td>
+            <td>
+              <a class="collapse-item openUpdateFodder"> <i
+                class="fas fa-fw fa-cog"></i></a>
+            </td>
+            <app-updatefodder></app-updatefodder>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</div>
