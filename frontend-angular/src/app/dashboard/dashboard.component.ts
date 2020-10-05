@@ -59,6 +59,7 @@ export class DashboardComponent implements OnInit {
       if (minuteRation > 0) {
         $(".modal-body #minutes").val(minuteRation);
       }
+      $("body").append('#AddRation');
       $('#AddRation').modal('show');
     });
 
@@ -75,12 +76,12 @@ export class DashboardComponent implements OnInit {
 
   getRation(): void {
     this.service.getRation().subscribe((data: Ration[]) => {
-      if (Array.isArray(data) && data.length) {
+    //  if (Array.isArray(data) && data.length) {
         this.rations = data
         /* NOT WORKING BECAUSE EVERY GET RETURN 1 RATION */
         //this.rations.insert(this.pets.indexOf(value),data)
         console.log(this.rations)
-      }
+    //  }
     })
   }
 

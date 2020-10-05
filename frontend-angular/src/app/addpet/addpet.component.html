@@ -28,13 +28,16 @@
                     <input type="text" name="breed" formControlName="breed" id="breed" placeholder="Breed"/>
                   </div>
                   <div class="form-group">
-
                     <div class="form-group">
                       <input type="text" name="fodder" formControlName="currentFodder" id="fodder" placeholder="Fodder Name"/>
                     </div>
+                    <button type="button" id="addFodd"(click)="openAddFodder()" class="btn btn-outline-primary">Add fodder</button>
                   </div>
                   <div class="form-group form-button">
                     <input type="submit" name="signup" id="addPetButton" class="form-submit " value="Add Pet"/>
+                  </div>
+                  <div class="form-group form-button">
+                    <input type="submit" name="signup"  style="display: none" id="savePetButton" class="form-submit " value="Save Pet"/>
                   </div>
                 </form>
               </div>

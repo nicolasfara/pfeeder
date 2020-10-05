@@ -57,6 +57,9 @@ export class AddpetComponent implements OnInit {
   getFodder() :void {
     this.service.getFodder().then(fodders => this.fodders = fodders);
   }
+  openAddFodder(){
+    $(' #AddFodder').modal('show');
+  }
 
 }
 function buf2hex(buffer) { // buffer is an ArrayBuffer
