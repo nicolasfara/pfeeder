@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import crypto from "crypto";
 import mongoose from "mongoose";
+import CryptoJS from "crypto-js";
 
 export interface UserVm {
     id: string;
@@ -77,7 +77,8 @@ userSchema.pre("save", async function save(next) {
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
 
-        const md5 = crypto.createHash("md5").update(user.email).digest("hex");
+        // const md5 = await crypto.createHash("md5").update(user.email).digest("hex");
+        const md5 = CryptoJS.MD5(user.email)
         user.profile.picture = `https://gravatar.com/avatar/${md5}?s=200&d=retro`;
 
         next();
@@ -101,7 +102,8 @@ userSchema.methods.gravatar = function (size: number = 200) {
     if (!this.email) {
         return `https://gravatar.com/avatar/?s=${size}&d=retro`;
     }
-    const md5 = crypto.createHash("md5").update(this.email).digest("hex");
+    // const md5 = crypto.createHash("md5").update(this.email).digest("hex");
+    const md5 = CryptoJS.MD5(this.email)
     return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
 };
 

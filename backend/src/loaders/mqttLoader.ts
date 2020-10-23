@@ -7,11 +7,12 @@ import {env} from "../env"
 import {MqttService} from "../api/service/MqttService";
 import {Logger} from "../lib/logger";
 
+export const client = connect(env.app.mqttUri)
+
 export const mqttLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {
     const mqttService = Container.get(MqttService)
     const log = new Logger()
     if (settings) {
-        const client = connect(env.app.mqttUri)
         if (client) {
             log.info("Connection successfully")
             settings.setData('mqttClient', client)

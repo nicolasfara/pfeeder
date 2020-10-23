@@ -8,6 +8,7 @@ import {Types} from "mongoose";
 import {AddRation, UpdateRation} from "./requests/PetRequests";
 import {PetDocument} from "../models/Pet";
 import {Ration, RationDocument} from "../models/Ration";
+import {client} from "../../loaders/mqttLoader";
 
 @JsonController('/rations')
 export class RationController {
@@ -31,6 +32,8 @@ export class RationController {
         newRation.ration = body.ration
         const savedRation = await newRation.save()
         if (!savedRation) throw new HttpError(500, `Unable to save the ration on DB`)
+        this.log.info("Publish MQTT")
+        user.apiKeys.forEach(api => client.publish(api, newRation.toString()))
         return await this.petRepository.updateWithQuery({ _id: petId }, {$push: { rationPerDay: newRation.id }})
     }
 
