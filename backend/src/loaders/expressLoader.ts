@@ -3,7 +3,6 @@ import {MicroframeworkLoader, MicroframeworkSettings} from 'microframework';
 import {Action, createExpressServer} from 'routing-controllers';
 import jwt from 'jsonwebtoken';
 import {User} from '../api/models/User';
-
 import {env} from '../env';
 
 export const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {

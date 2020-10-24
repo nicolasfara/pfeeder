@@ -7,15 +7,17 @@ import {winstonLoader} from "./loaders/winstonLoader";
 import {monitorLoader} from "./loaders/monitorLoaders";
 import {mqttLoader} from "./loaders/mqttLoader";
 import {Logger} from "./lib/logger";
+import {socketLoader} from "./loaders/socketLoader";
 
 const log = new Logger()
 
 bootstrapMicroframework([
+    winstonLoader,
     mongooseLoader,
     expressLoader,
+    socketLoader,
     swaggerLoader,
     iocLoader,
-    winstonLoader,
     monitorLoader,
     mqttLoader
 ])
