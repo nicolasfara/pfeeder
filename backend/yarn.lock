@@ -216,13 +216,20 @@
     "@types/mime" "*"
     "@types/node" "*"
 
-"@types/socket.io@^2.1.11":
+"@types/socket.io@*", "@types/socket.io@^2.1.11":
   version "2.1.11"
   resolved "https://registry.yarnpkg.com/@types/socket.io/-/socket.io-2.1.11.tgz#e0d6759880e5f9818d5297a3328b36641bae996b"
   integrity sha512-bVprmqPhJMLb9ZCm8g0Xy8kwBFRbnanOWSxzWkDkkIwxTvud5tKMfAJymXX6LQbizUKCS1yima7JM4BeLqjNqA==
   dependencies:
     "@types/engine.io" "*"
     "@types/node" "*"
+
+"@types/socketio-jwt-auth@^0.0.0":
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/@types/socketio-jwt-auth/-/socketio-jwt-auth-0.0.0.tgz#b29f0b1be58fc2286eaf1a4ed770ad2df18ccca3"
+  integrity sha512-lSnADrQuHf4uWIAGaTpUpHjXLmVidkiWgfugnWx2N6LA6gYna1gzKPxegSF6jqo/u2t+pt7uVXvKXpMUXZpW0A==
+  dependencies:
+    "@types/socket.io" "*"
 
 "@types/swagger-ui-express@^4.1.2":
   version "4.1.2"
@@ -2279,6 +2286,11 @@ jws@^3.2.2:
     jwa "^1.4.1"
     safe-buffer "^5.0.1"
 
+jwt-simple@^0.5:
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/jwt-simple/-/jwt-simple-0.5.6.tgz#3357adec55b26547114157be66748995b75b333a"
+  integrity sha512-40aUybvhH9t2h71ncA1/1SbtTNCVZHgsTsTgqPUxGWDmUDrXyDf2wMNQKEbdBjbf4AI+fQhbECNTV6lWxQKUzg==
+
 kareem@2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/kareem/-/kareem-2.3.1.tgz#def12d9c941017fabfb00f873af95e9c99e1be87"
@@ -3838,6 +3850,14 @@ socket.io@2.3.0, socket.io@^2.0.1, socket.io@^2.3.0:
     socket.io-adapter "~1.1.0"
     socket.io-client "2.3.0"
     socket.io-parser "~3.4.0"
+
+socketio-jwt-auth@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/socketio-jwt-auth/-/socketio-jwt-auth-0.1.0.tgz#78781ef9e855689d3cb96e03bd4cb82f4bbe7671"
+  integrity sha512-Tt/AKo2LaGAmXILMvytEFC2RjvNfkfIFRhOSgr/leIZL2Lp4NWqCxyFqOTNqx58GiRyEBORVAGoHul1X2yPvFQ==
+  dependencies:
+    jwt-simple "^0.5"
+    xtend "^4.0.0"
 
 source-map-support@^0.5.17:
   version "0.5.19"

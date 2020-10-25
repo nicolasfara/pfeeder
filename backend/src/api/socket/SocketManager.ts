@@ -1,5 +1,6 @@
 import {ConnectedSocket, MessageBody, OnConnect, OnDisconnect, OnMessage, SocketController} from "socket-controllers";
 import {Logger} from "../../lib/logger";
+import {ws} from "../../loaders/socketLoader";
 
 @SocketController()
 export class SocketManager {
@@ -9,6 +10,7 @@ export class SocketManager {
     connection(@ConnectedSocket() socket: any) {
         this.log.info("New Connection")
         socket.emit("connection", { text: "Hello this is message" })
+        ws.of('pippo').emit('pippo', { text: "Hello world" })
     }
 
     @OnDisconnect()
