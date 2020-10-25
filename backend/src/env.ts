@@ -31,6 +31,8 @@ export const env = {
         mqttAlert: getOsEnv('MQTT_ALERT'),
         mqttInfo: getOsEnv('MQTT_INFO'),
         mqttStatus: getOsEnv('MQTT_STATUS'),
+        redisPort: getOsEnv('REDIS_PORT'),
+        redisHost: getOsEnv('REDIS_HOST'),
         dirs: {
             migrations: getOsPaths('TYPEORM_MIGRATIONS'),
             migrationsDir: getOsPath('TYPEORM_MIGRATIONS_DIR'),

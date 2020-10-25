@@ -1,6 +1,6 @@
 import {ConnectedSocket, MessageBody, OnConnect, OnDisconnect, OnMessage, SocketController} from "socket-controllers";
 import {Logger} from "../../lib/logger";
-import {ws} from "../../loaders/socketLoader";
+import {redisClient} from "../../loaders/redisLoader";
 
 @SocketController()
 export class SocketManager {
@@ -9,8 +9,9 @@ export class SocketManager {
     @OnConnect()
     connection(@ConnectedSocket() socket: any) {
         this.log.info("New Connection")
+        redisClient.set(`${socket.request.user._id}`, socket.id)
+        this.log.info("Add new record on redis with key: " + socket.request.user._id)
         socket.emit("connection", { text: "Hello this is message" })
-        ws.of('pippo').emit('pippo', { text: "Hello world" })
     }
 
     @OnDisconnect()
