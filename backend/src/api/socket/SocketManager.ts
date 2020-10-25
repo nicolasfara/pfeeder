@@ -1,4 +1,4 @@
-import {ConnectedSocket, MessageBody, OnConnect, OnDisconnect, OnMessage, SocketController} from "socket-controllers";
+import {ConnectedSocket, OnConnect, OnDisconnect, SocketController} from "socket-controllers";
 import {Logger} from "../../lib/logger";
 import {redisClient} from "../../loaders/redisLoader";
 
@@ -9,21 +9,23 @@ export class SocketManager {
     @OnConnect()
     connection(@ConnectedSocket() socket: any) {
         this.log.info("New Connection")
-        redisClient.set(`${socket.request.user._id}`, socket.id)
-        this.log.info("Add new record on redis with key: " + socket.request.user._id)
+        redisClient.sadd(`${socket.request.user.email}`, `${socket.id}`)
+        this.log.info("Add new socket id for user: " + socket.request.user.email)
+        redisClient.smembers(socket.request.user.email, (err, values: string[]) => {
+            if (err) this.log.error(err)
+            this.log.info(`The user ${socket.request.user.email} has: ${values}`)
+        })
         socket.emit("connection", { text: "Hello this is message" })
     }
 
     @OnDisconnect()
     disconnect(@ConnectedSocket() socket: any) {
         this.log.info('client disconnected');
-    }
-
-    @OnMessage('save')
-    save(@ConnectedSocket() socket: any, @MessageBody() message: any) {
-        this.log.info('received message:', message);
-        this.log.info('setting id to the message and sending it back to the client');
-        message.id = 1;
-        socket.emit('message_saved', message);
+        redisClient.srem(`${socket.request.user.email}`, `${socket.id}`)
+        redisClient.smembers(socket.request.user.email, (err, values: string[]) => {
+            if (err) this.log.error(err)
+            this.log.info(`The user ${socket.request.user.email} has: ${values}`)
+        })
+        this.log.info(`Remove socket id ${socket.request.user._id} from redis`)
     }
 }
