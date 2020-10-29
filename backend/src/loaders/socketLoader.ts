@@ -22,7 +22,10 @@ export const socketLoader: MicroframeworkLoader = (settings: MicroframeworkSetti
         }, async (payload, done) => {
             const user = await User.findById(payload.id)
             if (user) return done(null, user)
-            else return done(null, false, 'User not exist')
+            else {
+                log.error("User not exist")
+                return done(null, false, 'User not exist')
+            }
 
         }))
         ws = io

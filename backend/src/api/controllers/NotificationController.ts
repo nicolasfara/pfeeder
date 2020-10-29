@@ -5,12 +5,16 @@ import {CreateNotification, ReadNotification} from "./requests/NotificationReque
 import {NotificationDocument, Notification, NotificationType} from "../models/Notification";
 import NotificationRepository from "../repository/NotificationRepository";
 import {Types} from "mongoose";
+import {ws} from "../../loaders/socketLoader";
+import {redisClient} from "../../loaders/redisLoader";
+import {Logger, LoggerInterface} from "../../decorators/Logger";
 
 @JsonController('/notifications')
 export class NotificationController {
 
     constructor(
-        private notificationRepository: NotificationRepository
+        private notificationRepository: NotificationRepository,
+        @Logger(__filename) private log: LoggerInterface
     ) {
     }
 
@@ -30,7 +34,14 @@ export class NotificationController {
         const notification = new Notification()
         notification.userId = user.id
         notification.message = body.message
+        notification.read = false
         notification.notificationType = body.notificationType as NotificationType
+        redisClient.smembers(user.email, (err, values: string[]) => {
+            values.forEach(socketId => {
+                this.log.info(`Emit on ws: ${socketId}`)
+                ws.to(socketId).emit('notifications', notification)
+            })
+        })
         return this.notificationRepository.create(notification)
     }
 
