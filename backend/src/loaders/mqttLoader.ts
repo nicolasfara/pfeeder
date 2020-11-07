@@ -7,12 +7,14 @@ import {env} from "../env"
 import {MqttService} from "../api/service/MqttService";
 import {Logger} from "../lib/logger";
 
-export const client = connect(env.app.mqttUri)
+export let client: any
 
 export const mqttLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {
     const mqttService = Container.get(MqttService)
     const log = new Logger()
     if (settings) {
+        log.info(`Try connecting ${env.app.mqttUri}`)
+        client = connect(env.app.mqttUri)
         if (client) {
             log.info("Connection successfully")
             settings.setData('mqttClient', client)
@@ -21,6 +23,8 @@ export const mqttLoader: MicroframeworkLoader = (settings: MicroframeworkSetting
                 client.subscribe(env.app.mqttInfo, (err) => {
                     if (!err) {
                         log.info("Subscribe to server topic")
+                    } else {
+                        log.error("Failed to subscribe to the topic" + err)
                     }
                 })
                 client.subscribe(env.app.mqttAlert, (err) => {
