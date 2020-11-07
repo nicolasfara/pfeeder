@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {first} from "rxjs/operators";
 import {DataService} from "../shared/service/data/data.service";
 import {Fodder} from "../shared/model/Fodder";
+import {Pet} from "../shared/model/Pet";
 declare var $ : any
 @Component({
   selector: 'app-addpet',
@@ -15,6 +16,7 @@ declare var $ : any
 export class AddpetComponent implements OnInit {
 
   fodders : Fodder [];
+  pets: Pet[];
   addPetForm: FormGroup;
   selectFodder = Fodder
   id: Fodder;
@@ -37,6 +39,7 @@ export class AddpetComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getFodder();
+    this.getPet();
   }
 
   addPet() {
@@ -54,11 +57,27 @@ export class AddpetComponent implements OnInit {
             $('#AddPet').modal('hide');
         });
   }
+  savePet(){
+    this.addPetForm.removeControl('currentFodder')
+    // this.addPetForm.patchValue({
+    //   currentFodder : buf2hex(this.id._id['id']['data'])
+    // })
+    const selectedPet = this.pets.find(x => x.name == this.addPetForm.get('name').value);
+    console.log(this.addPetForm.value)
+    this.authService.patchPet(this.addPetForm.value,  buf2hex(selectedPet._id['id']['data'])) .pipe(first())
+      .subscribe(
+        data => {
+          $('#AddPet').modal('hide');
+        });
+  }
   getFodder() :void {
     this.service.getFodder().then(fodders => this.fodders = fodders);
   }
   openAddFodder(){
     $(' #AddFodder').modal('show');
+  }
+  getPet():void{
+    this.service.getPets().then(pets => this.pets = pets);
   }
 
 }

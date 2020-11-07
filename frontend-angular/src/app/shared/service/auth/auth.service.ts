@@ -9,7 +9,6 @@ import {Feed} from "../../model/Feed";
 import {changePsw} from "../../model/changePsw";
 import {Fodder} from "../../model/Fodder";
 import {Ration} from "../../model/Ration";
-
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +20,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    public router: Router
+    public router: Router,
+
   ) {
   }
 
@@ -34,6 +34,14 @@ export class AuthService {
   //addPet
   addPet(pet: Pet): Observable<any> {
     const api = `${this.endpoint}/pets`;
+    return this.http.post(api, pet)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+  //patch
+  patchPet(pet: Pet, id:String): Observable<any> {
+    const api = `${this.endpoint}/pets/` + id;
     return this.http.post(api, pet)
       .pipe(
         catchError(this.handleError)
@@ -74,7 +82,11 @@ export class AuthService {
   signIn(user: User) {
     return this.http.post<any>(`${this.endpoint}/users/login`, user)
       .subscribe((result: any) => {
-        localStorage.setItem('access_token', result.token);
+        var token = result.token;
+        console.log("LOGIN:" + result.token)
+        localStorage.setItem('access_token', result.token)
+        sessionStorage.setItem('access_token', result.token);
+        console.log("sessstor:" + sessionStorage.getItem('access_token'))
         this.router.navigate(['/dashboard']);
       });
   }
@@ -89,8 +101,8 @@ export class AuthService {
   }
 
   doLogout() {
-    const removeToken = localStorage.removeItem('access_token');
-    if (removeToken == null) {
+    const removeToken = sessionStorage.removeItem('access_token');
+    if (removeToken == null ) {
       this.router.navigate(['/homepage']);
     }
   }

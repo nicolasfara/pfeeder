@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as $ from 'jquery';
+declare var $: any
 @Component({
   selector: 'app-sidenavbar',
   templateUrl: './sidenavbar.component.html',
@@ -21,6 +21,24 @@ export class SidenavbarComponent implements OnInit {
       });
     });
 
+
+    $(document).on("click", ".openAddPetModal", function () {
+
+      $(".modal-body #name").val('');
+      $(".modal-body #weight").val('');
+      $(".modal-body #idealWeight").val('');
+      $(".modal-body #age").val('');
+      $(".modal-body #petType").val('');
+      $(".modal-body #breed").val('');
+
+
+      $(".modal-body #fodder").show();
+      $(".modal-body #addFodd").show();
+      $(".modal-body #savePetButton").hide();
+      $(".modal-body #addPetButton").show();
+      $('.AllPet').append('#AddPet');
+      $('#AddPet').modal('show');
+    });
   }
 
 }

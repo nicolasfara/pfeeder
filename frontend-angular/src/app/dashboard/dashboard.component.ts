@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-
 declare var $: any
 import {DataService} from "../shared/service/data/data.service";
 import {Pet} from "../shared/model/Pet";
-import {Chart, ChartDataSets, ChartOptions} from 'chart.js';
-import {nullSafeIsEquivalent} from "@angular/compiler/src/output/output_ast";
+
 import {Ration} from "../shared/model/Ration";
+import {WebsocketService} from "../websocket.service";
 
 
 @Component({
@@ -17,13 +16,16 @@ export class DashboardComponent implements OnInit {
   fodders = [];
   pets: Pet[];
   rations: Ration[];
-
+  messageList:  string[] = [];
   hours: string;
 
-  constructor(private service: DataService) {
+  constructor(private service: DataService, private websocket: WebsocketService) {
   }
 
   ngOnInit(): void {
+    this.websocket.listen().subscribe((data)=>{
+      console.log(data);
+    })
 
     this.getPet();
     this.getFodder()

@@ -36,7 +36,7 @@ export class ShowfodderComponent implements OnInit {
       $(".modal-body #vitamins").val(vitamins);
       $(".modal-body #carbohydrates").val(carbohydrates);
 
-      $('#UpdateFodder').modal('show');
+      $('#AddFodder').modal('show');
     });
 
   }

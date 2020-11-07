@@ -14,7 +14,7 @@ export class ShowpetComponent implements OnInit {
   ngOnInit(): void {
     this.getPet();
 
-    $(document).on("click", ".openAddPetModal", function () {
+    $(document).on("click", ".openAddPetSaveModal", function () {
 
 
       const name = $(this).closest('td').prevAll('.name').text();
@@ -25,13 +25,8 @@ export class ShowpetComponent implements OnInit {
       const breed = $(this).closest('td').prevAll('.breed').text();
 
       const trueWeight : number = +weight
-      $(".modal-body #name").val('');
-      $(".modal-body #weight").val('');
-      $(".modal-body #idealWeight").val('');
-      $(".modal-body #age").val('');
-      $(".modal-body #petType").val('');
-      $(".modal-body #breed").val('');
-      $(".modal-body #name").val(name);
+
+      $(".modal-body #name").val(name).change();
       $(".modal-body #weight").val(trueWeight);
       $(".modal-body #idealWeight").val(idealWeight);
       $(".modal-body #age").val(age);
@@ -42,7 +37,7 @@ export class ShowpetComponent implements OnInit {
       $(".modal-body #addFodd").hide();
       $(".modal-body #addPetButton").hide();
       $(".modal-body #savePetButton").show();
-      $("body").append('#AddPet');
+
       $('#AddPet').modal('show');
     });
   }
