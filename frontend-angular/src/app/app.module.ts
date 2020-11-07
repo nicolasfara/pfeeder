@@ -26,6 +26,7 @@ import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.compone
 import { ShowfodderComponent } from './showfodder/showfodder.component';
 import { UpdatefodderComponent } from './updatefodder/updatefodder.component';
 import { ShowpetComponent } from './showpet/showpet.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,11 +53,11 @@ import { ShowpetComponent } from './showpet/showpet.component';
   ],
   imports: [
     BrowserModule,
-    // import HttpClientModule after BrowserModule.
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
     ChartsModule
+
   ],
   providers: [
     {
