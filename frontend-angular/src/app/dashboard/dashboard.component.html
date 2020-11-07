@@ -15,6 +15,9 @@
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Pet ration summary</div>
                   </div>
+                  <div *ngFor="let message of messageList">
+                    <p>{{message}}</p>
+                  </div>
                   <div class="table-responsive">
                     <table mdbtable class="card-table table">
                       <thead>

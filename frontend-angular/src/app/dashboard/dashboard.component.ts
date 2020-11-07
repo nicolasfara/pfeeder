@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-
 declare var $: any
 import {DataService} from "../shared/service/data/data.service";
 import {Pet} from "../shared/model/Pet";
-import {Chart, ChartDataSets, ChartOptions} from 'chart.js';
-import {nullSafeIsEquivalent} from "@angular/compiler/src/output/output_ast";
+
 import {Ration} from "../shared/model/Ration";
 
 
