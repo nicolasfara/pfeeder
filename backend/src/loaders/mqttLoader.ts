@@ -47,21 +47,18 @@ export const mqttLoader: MicroframeworkLoader = (settings: MicroframeworkSetting
                         if (!addStatus) {
                             log.error("Unable to save the new status")
                         }
-                        // TODO send via WebSocket a message for the fail
                         break
                     case env.app.mqttAlert:
                         const addAlert = await mqttService.addAlertNotification(message)
                         if (!addAlert) {
                             log.error("Unable to save the alert")
                         }
-                        // TODO send via WebSocket a message for the fail
                         break
                     case env.app.mqttInfo:
                         const addNotRes = await mqttService.addInfoNotification(message)
                         if (!addNotRes) {
                             log.error("Unable to save a new notification")
                         }
-                        // TODO send via WebSocket a message for the fail
                         break
                     default:
                         log.error("Error")
