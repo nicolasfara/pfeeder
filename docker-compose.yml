@@ -2,32 +2,67 @@ version: '3' # specify docker-compose version
 
 # Define the services/containers to be run
 services:
-  angular:
-    build: ./frontend-angular
-    ports:
-      - "4200:4200"
+  #angular:
+  #  build: ./frontend-angular
+  #  ports:
+  #    - "4200:4200"
 
-  loopback:
-    build: ./backend-loopback # specify the directory of the Dockerfile
+  backend:
+    build: ./backend # specify the directory of the Dockerfile
     ports:
       - "3000:3000"
+    environment:
+      - APP_NAME=pfeeder
+      - JWT_SECRET=PUT_HERE_YOUR_JWT_SECRET
+      - MONGO_HOST=database
+      - REDIS_HOST=redis
+      - MQTT_URI=mqtt://mosquitto
     links:
       - database
+      - redis
+      - mosquitto
     depends_on:
       - database
+      - redis
+      - mosquitto
 
   database:
     image: mongo
-    #volumes:
-    #  - "/data/db:/data/db"
+    environment:
+      - MONGO_INITBD_DATABASE=pfeeder
+      - MONGO_INITDB_ROOT_USERNAME=pfeeder_admin
+      - MONGO_INITDB_ROOT_PASSWORD=pfeeder
+    volumes:
+      - pfeeder-db:/data/db
     ports:
       - "27017:27017"
 
-  nginx: #name of the second service
-    build: ./loadbalancer # specify the directory of the Dockerfile
+  redis:
+    image: redis
+    volumes:
+      - redis-vol:/data
     ports:
-      - "80:8080" #specify ports forewarding
-    links:
-      - angular
-      - loopback
+      - "6379:6379"
+
+  mosquitto:
+    image: eclipse-mosquitto
+    volumes:
+      #- ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - mosquitto-data:/mosquitto/data
+      - mosquitto-log:/mosquitto/log
+    ports:
+      - "1883:1883"
+
+        #nginx: #name of the second service
+        #  build: ./loadbalancer # specify the directory of the Dockerfile
+        #  ports:
+        #    - "80:8080" #specify ports forewarding
+        #  links:
+        #    - angular
+        #    - loopback
+volumes:
+  pfeeder-db:
+  redis-vol:
+  mosquitto-data:
+  mosquitto-log:
 
