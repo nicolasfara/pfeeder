@@ -2,8 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": ["node", "jasmine"]
-
+    "types": ["node", "jasmine"],
+    "allowSyntheticDefaultImports": true
   },
   "files": [
     "src/main.ts",

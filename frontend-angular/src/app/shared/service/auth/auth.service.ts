@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
-import { User } from '../../model/User';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
-import {Pet} from "../../model/Pet";
-import {Feed} from "../../model/Feed";
-import {changePsw} from "../../model/changePsw";
-import {Fodder} from "../../model/Fodder";
-import {Ration} from "../../model/Ration";
+import {Injectable} from '@angular/core';
+import {User} from '../../model/User';
+import {Observable, throwError} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
+import {HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {Pet} from '../../model/Pet';
+import {Feed} from '../../model/Feed';
+import {changePsw} from '../../model/changePsw';
+import {Fodder} from '../../model/Fodder';
+import {Ration} from '../../model/Ration';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,17 +22,17 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     public router: Router,
-
   ) {
   }
 
-  //Change Password
-  changePassword(changePassword: changePsw): Observable<any>{
+  // Change Password
+  changePassword(changePassword: changePsw): Observable<any> {
     const api = `${this.endpoint}/users/password`;
-    return this.http.post(api, changePassword).pipe( catchError(this.handleError))
+    return this.http.post(api, changePassword).pipe(catchError(this.handleError));
 
   }
-  //addPet
+
+  // addPet
   addPet(pet: Pet): Observable<any> {
     const api = `${this.endpoint}/pets`;
     return this.http.post(api, pet)
@@ -39,23 +40,26 @@ export class AuthService {
         catchError(this.handleError)
       );
   }
-  //patch
-  patchPet(pet: Pet, id:String): Observable<any> {
+
+  // patch
+  patchPet(pet: Pet, id: string): Observable<any> {
     const api = `${this.endpoint}/pets/` + id;
     return this.http.post(api, pet)
       .pipe(
         catchError(this.handleError)
       );
   }
-  //addFoder
-  addFodder(fodder:Fodder) : Observable<any> {
+
+  // addFoder
+  addFodder(fodder: Fodder): Observable<any> {
     const api = `${this.endpoint}/fodders`;
     return this.http.post(api, fodder)
       .pipe(
         catchError(this.handleError)
       );
   }
-  //addFeed
+
+  // addFeed
   addFeed(feed: Feed): Observable<any> {
     const api = `${this.endpoint}/feeds`;
     return this.http.post(api, feed)
@@ -64,11 +68,12 @@ export class AuthService {
       );
   }
 
-  //addRation
-  addRation(ration: Ration, id: String) : Observable<any> {
-    const api = `${this.endpoint}/rations/`+id;
-    return  this.http.post(api,ration)
+  // addRation
+  addRation(ration: Ration, id: string): Observable<any> {
+    const api = `${this.endpoint}/rations/` + id;
+    return this.http.post(api, ration);
   }
+
   // Sign-up
   signUp(user: User): Observable<any> {
     const api = `${this.endpoint}/users`;
@@ -82,11 +87,9 @@ export class AuthService {
   signIn(user: User) {
     return this.http.post<any>(`${this.endpoint}/users/login`, user)
       .subscribe((result: any) => {
-        var token = result.token;
-        console.log("LOGIN:" + result.token)
-        localStorage.setItem('access_token', result.token)
+        console.log('LOGIN:' + result.token);
+        localStorage.setItem('access_token', result.token);
         sessionStorage.setItem('access_token', result.token);
-        console.log("sessstor:" + sessionStorage.getItem('access_token'))
         this.router.navigate(['/dashboard']);
       });
   }
@@ -102,20 +105,20 @@ export class AuthService {
 
   doLogout() {
     const removeToken = sessionStorage.removeItem('access_token');
-    if (removeToken == null ) {
+    if (removeToken == null) {
       this.router.navigate(['/homepage']);
     }
   }
 
-  //get User
+  // get User
   getCurrentUser() {
-    return this.http.get(this.endpoint+"/users");
+    return this.http.get(this.endpoint + '/users');
   }
 
   // User profile
   getUserProfile(id): Observable<any> {
     const api = `${this.endpoint}/dashboard/${id}`;
-    return this.http.get(api, { headers: this.headers }).pipe(
+    return this.http.get(api, {headers: this.headers}).pipe(
       map((res: Response) => {
         return res || {};
       }),
