@@ -15,6 +15,8 @@ services:
       - APP_NAME=pfeeder
       - JWT_SECRET=PUT_HERE_YOUR_JWT_SECRET
       - MONGO_HOST=database
+      - MONGO_PASSWORD=pfeeder
+      - MONGO_USERNAME=pfeeder_admin
       - REDIS_HOST=redis
       - MQTT_URI=mqtt://mosquitto
     links:
@@ -28,10 +30,12 @@ services:
 
   database:
     image: mongo
-    environment:
-      - MONGO_INITBD_DATABASE=pfeeder
-      - MONGO_INITDB_ROOT_USERNAME=pfeeder_admin
-      - MONGO_INITDB_ROOT_PASSWORD=pfeeder
+    #environment:
+    #  - MONGO_INITDB_DATABASE=pfeeder
+    #  - MONGO_NON_ROOT_USERNAME=pfeeder_admin
+    #  - MONGO_NON_ROOT_PASSWORD=pfeeder
+    #  - MONGO_INITDB_ROOT_USERNAME=pfeeder_admin
+    #  - MONGO_INITDB_ROOT_PASSWORD=pfeeder
     volumes:
       - pfeeder-db:/data/db
     ports:
