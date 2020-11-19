@@ -15,8 +15,6 @@ services:
       - APP_NAME=pfeeder
       - JWT_SECRET=PUT_HERE_YOUR_JWT_SECRET
       - MONGO_HOST=database
-      - MONGO_PASSWORD=pfeeder
-      - MONGO_USERNAME=pfeeder_admin
       - REDIS_HOST=redis
       - MQTT_URI=mqtt://mosquitto
     links:

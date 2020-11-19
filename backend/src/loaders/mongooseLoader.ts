@@ -1,31 +1,28 @@
-import {MicroframeworkLoader, MicroframeworkSettings} from "microframework";
 import mongoose from 'mongoose';
 
 import {env} from '../env';
+import {Logger} from "../lib/logger";
 
-export const mongooseLoader: MicroframeworkLoader = async (settings: MicroframeworkSettings | undefined) => {
-    if (settings) {
-        try {
-            /*const mongooseConnection = await mongoose.connect(
-                `mongodb://${env.db.username}:${env.db.password}@${env.db.host}:${env.db.port}/${env.db.database}`,
-                //`mongodb://${env.db.host}:${env.db.port}/${env.db.database}`,
-                {
-                    useNewUrlParser: true,
-                    useCreateIndex: true,
-                    useUnifiedTopology: true,
-                    useFindAndModify: false
-                }
-            )*/
-            const mongooseConnection = await mongoose.connect(`mongodb://${env.db.host}:${env.db.port}/${env.db.database}`,
+export default async (): Promise<void> => {
+    const logger = new Logger('Mongoose driver')
+    try {
+        logger.info("Attempt to connect to DB")
+        const username = env.db.username
+        const password = env.db.password
+        let userPass = ""
+        if (username && password) userPass = username + ":" + password + "@"
+        const connectionString = `mongodb://${userPass}${env.db.host}:${env.db.port}/${env.db.database}`
+        logger.info("Connection at: " + connectionString)
+        const connection = await mongoose.connect(connectionString,
             {
-                // user: env.db.username,
-                // pass: env.db.password,
                 useNewUrlParser: true,
-                useUnifiedTopology: true
+                useUnifiedTopology: true,
+                useFindAndModify: false,
+                useCreateIndex: true
             });
-            settings.setData('mongoose', mongooseConnection);
-        } catch (e) {
-            throw new Error(e);
-        }
+        if (!connection) logger.error("Unable to connect to DB")
+        else logger.info("Connection succeeded")
+    } catch (e) {
+        logger.error("Unable to connect to mongodb: " + e)
     }
 }
