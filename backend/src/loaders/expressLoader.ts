@@ -10,7 +10,6 @@ export default async (): Promise<Application> => {
     const logger = new Logger('Express server')
 
     logger.info("Creating the server")
-    logger.info(env.app.dirs.controllers[0])
     /**
      * We create a new express server instance.
      * We could have also use useExpressServer here to attach controllers to an existing express instance.
@@ -20,7 +19,6 @@ export default async (): Promise<Application> => {
         classTransformer: true,
         routePrefix: env.app.routePrefix,
         defaultErrorHandler: false,
-        classToPlainTransformOptions: {excludePrefixes: ['_']},
         /**
          * We can add options about how routing-controllers should configure itself.
          * Here we specify what controllers should be registered in our express server.

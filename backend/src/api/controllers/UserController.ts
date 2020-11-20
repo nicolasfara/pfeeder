@@ -3,7 +3,7 @@ import {OpenAPI, ResponseSchema} from "routing-controllers-openapi";
 import {User, UserDocument} from '../models/User';
 import jwt from 'jsonwebtoken';
 import {env} from "../../env";
-import crypto from 'crypto-js';
+import crypto from 'crypto';
 import {Logger, LoggerInterface} from "../../decorators/Logger";
 import {
     CreateUserBody,
@@ -127,7 +127,7 @@ export class UserController {
     @ResponseSchema(ForgotPasswordResponse)
     public async forgotPassword(@Body() body: ForgotPasswordRequest): Promise<ForgotPasswordResponse> {
         try {
-            const token = crypto.lib.WordArray.random(16).toString()
+            const token = crypto.randomBytes(16).toString()
             const user = await this.userRepository.findOne({ email: body.email })
             if (!user) throw new HttpError(404, `No user found with email: ${body.email}`)
             user.passwordResetToken = token
