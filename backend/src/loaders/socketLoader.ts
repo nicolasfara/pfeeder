@@ -13,9 +13,6 @@ export default async (expressServer: Server) => {
 
     log.info("Create socket.io instance")
     const io = require('socket.io')(expressServer);
-    useSocketServer(io, {
-        controllers: [SocketManager]
-    });
 
     log.info("Bind socket.io to express server")
     io.use(wsJwt.authenticate({
@@ -29,8 +26,12 @@ export default async (expressServer: Server) => {
             log.error("User not exist")
             return done(null, false, 'User not exist')
         }
-
     }))
+
+    useSocketServer(io, {
+        controllers: [SocketManager]
+    });
+
     ws = io
     log.info("socket.io driver started")
 }
