@@ -9,6 +9,7 @@ import {Feed} from '../../model/Feed';
 import {changePsw} from '../../model/changePsw';
 import {Fodder} from '../../model/Fodder';
 import {Ration} from '../../model/Ration';
+import {WebsocketService} from "../../../websocket.service";
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     public router: Router,
+    private socket: WebsocketService
   ) {
   }
 
@@ -88,7 +90,10 @@ export class AuthService {
     return this.http.post<any>(`${this.endpoint}/users/login`, user)
       .subscribe((result: any) => {
         console.log('LOGIN:' + result.token);
-        localStorage.setItem('access_token', result.token);
+        //if (localStorage.getItem('access_token') == null){
+          localStorage.setItem('access_token', result.token);
+        //}
+        this.socket.create(result.token);
         sessionStorage.setItem('access_token', result.token);
         this.router.navigate(['/dashboard']);
       });
@@ -104,10 +109,11 @@ export class AuthService {
   }
 
   doLogout() {
-    const removeToken = sessionStorage.removeItem('access_token');
-    if (removeToken == null) {
+    //const removeToken = sessionStorage.removeItem('access_token');
+    //if (removeToken == null) {
+    this.socket.close();
       this.router.navigate(['/homepage']);
-    }
+    //}
   }
 
   // get User
