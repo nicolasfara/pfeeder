@@ -29,6 +29,7 @@ import {ShowpetComponent} from './showpet/showpet.component';
 import {SocketIoModule, SocketIoConfig} from 'ngx-socket-io';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import {WebsocketService} from './websocket.service';
 
 // const token = localStorage.getItem('access_token');
 // const config: SocketIoConfig = {url: 'http://localhost:3000', options: {query: `auth_token=${token}`}};
@@ -64,7 +65,7 @@ import { ToastrModule } from 'ngx-toastr';
     AppRoutingModule,
     ReactiveFormsModule,
     ChartsModule,
-    //SocketIoModule.forRoot(config),
+    // /SocketIoModule.forRoot(config),
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
@@ -73,7 +74,7 @@ import { ToastrModule } from 'ngx-toastr';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    }, WebsocketService
   ],
   bootstrap: [AppComponent]
 })

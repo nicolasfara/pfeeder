@@ -27,11 +27,12 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('Token attuale' + localStorage.getItem('access_token'));
-    this.websocket.listen().subscribe((data: Notification) => {
-      console.log('----------ARRIVATO MESSAGGIO----------');
-      this.notifyService.showInfo('ooooo', data.message);
-      this.notifyService.showNotification(data.notificationType, data);
-    });
+
+    // this.websocket.listen().subscribe((data: Notification) => {
+    //   console.log('----------ARRIVATO MESSAGGIO----------');
+    //   this.notifyService.showInfo('ooooo', data.message);
+    //   this.notifyService.showNotification(data.notificationType, data);
+    // });
 
     this.getPet();
     this.getFodder();
