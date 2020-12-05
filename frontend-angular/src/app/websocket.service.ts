@@ -1,15 +1,17 @@
 import {Injectable} from '@angular/core';
-import {io} from 'socket.io-client/build/index';
+
 import {Observable} from 'rxjs';
+import io from 'socket.io-client/dist/socket.io.js';
 @Injectable({
   providedIn: 'root'
 })
 
 export class WebsocketService {
-
+  private socket;
+  private url = 'http://localhost:3000';
+  private token = localStorage.getItem('access_token');
   /* SOCKET ON AUTH SERVICE*/
   //
-  // token = localStorage.getItem('access_token');
   // private url = 'http://localhost:3000';
   // private socket;
   //
@@ -36,4 +38,22 @@ export class WebsocketService {
   //     this.socket = undefined;
   //   }
   // }
+  // connect(){
+  //   this.socket = io(this.url, { query: `auth_token=${(this.token)}`});
+  //   console.log("connect!");
+  // }
+  constructor() {
+    this.socket = io(this.url);
+  }
+  getMessages() {
+    const observable = new Observable(observer => {
+      this.socket.on('notifications', (data) => {
+        observer.next(data);
+      });
+      // return () => {
+      //   this.socket.disconnect();
+      //  };
+    });
+    return observable;
+  }
 }

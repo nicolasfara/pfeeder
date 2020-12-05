@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../shared/service/auth/auth.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 
 declare var $: any
@@ -21,14 +21,14 @@ export class LoginComponent implements OnInit {
     public router: Router
   ) {
     this.signinForm = this.fb.group({
-      email: [''],
-      password: ['']
-    });
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
+  });
   }
   ngOnInit(): void {
   }
 
   loginUser() {
-    this.authService.signIn(this.signinForm.value)
+    this.authService.signIn(this.signinForm.value);
   }
  }
