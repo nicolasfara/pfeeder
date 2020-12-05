@@ -5,10 +5,9 @@ import {CreateNotification, ReadNotification} from "./requests/NotificationReque
 import {NotificationDocument, Notification, NotificationType} from "../models/Notification";
 import NotificationRepository from "../repository/NotificationRepository";
 import {Types} from "mongoose";
-import {socket, ws} from "../../loaders/socketLoader";
+import {ws} from "../../loaders/socketLoader";
 import {redisClient} from "../../loaders/redisLoader";
 import {Logger, LoggerInterface} from "../../decorators/Logger";
-import {Server} from "socket.io";
 
 @JsonController('/notifications')
 export class NotificationController {
@@ -31,7 +30,7 @@ export class NotificationController {
     @Post()
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }] })
-    public async createNotification(@CurrentUser() user: UserDocument, @Body() body: CreateNotification, @socket() socketIo: Server) {
+    public async createNotification(@CurrentUser() user: UserDocument, @Body() body: CreateNotification) {
         const notification = new Notification()
         notification.userId = user.id
         notification.message = body.message

@@ -67,7 +67,7 @@ export class UserController {
             this.log.debug(`Login attempt with wrong credential: ${body.email} and ${body.password}`)
             throw new HttpError(401, `Email or password not match`)
         }
-        const token = jwt.sign({ id: user._id, email: user.email}, env.app.jwtSecret, { expiresIn: 86400 });
+        const token = jwt.sign({ id: user._id, email: user.email}, env.app.jwtSecret);
         return new LoginResponse(token)
     }
 
