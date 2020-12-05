@@ -7,7 +7,7 @@ import {Pet} from '../shared/model/Pet';
 import {Ration} from '../shared/model/Ration';
 import {WebsocketService} from '../websocket.service';
 import {NotificationService} from '../notification.service';
-import {Notification} from "../shared/model/Notification";
+import {Notification} from '../shared/model/Notification';
 
 
 @Component({
@@ -26,17 +26,19 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.websocket.listen().subscribe((data: Notification) => {
-      console.log('----------ARRIVATO MESSAGGIO----------');
-      this.notifyService.showInfo('ooooo', data.message);
-      this.notifyService.showNotification(data.notificationType, data);
-    });
+    console.log('Token attuale' + localStorage.getItem('access_token'));
+
+    // this.websocket.listen().subscribe((data: Notification) => {
+    //   console.log('----------ARRIVATO MESSAGGIO----------');
+    //   this.notifyService.showInfo('ooooo', data.message);
+    //   this.notifyService.showNotification(data.notificationType, data);
+    // });
 
     this.getPet();
     this.getFodder();
     this.getRation();
 
-    $(document).on('click', '.openRationModal', function () {
+    $(document).on('click', '.openRationModal', function() {
 
 
       const petName = $(this).closest('td').prevAll('.petName').text();

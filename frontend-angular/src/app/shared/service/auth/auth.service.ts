@@ -10,6 +10,7 @@ import {changePsw} from '../../model/changePsw';
 import {Fodder} from '../../model/Fodder';
 import {Ration} from '../../model/Ration';
 
+import {io} from 'socket.io-client/build/index';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +19,7 @@ export class AuthService {
   endpoint = 'http://localhost:3000/api';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
-
+  private socket;
   constructor(
     private http: HttpClient,
     public router: Router,
@@ -88,7 +89,10 @@ export class AuthService {
     return this.http.post<any>(`${this.endpoint}/users/login`, user)
       .subscribe((result: any) => {
         console.log('LOGIN:' + result.token);
+        const urlSocket = 'http://localhost:3000';
         localStorage.setItem('access_token', result.token);
+        this.socket = io(urlSocket, { query: `auth_token=${(result.token)}`});
+        console.log(this.socket);
         sessionStorage.setItem('access_token', result.token);
         this.router.navigate(['/dashboard']);
       });
@@ -104,10 +108,13 @@ export class AuthService {
   }
 
   doLogout() {
-    const removeToken = sessionStorage.removeItem('access_token');
-    if (removeToken == null) {
-      this.router.navigate(['/homepage']);
+    if (this.socket){
+      this.socket.removeAllListeners();
+      this.socket.disconnect();
+      this.socket = undefined;
     }
+
+    this.router.navigate(['/homepage']);
   }
 
   // get User
