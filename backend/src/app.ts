@@ -1,4 +1,5 @@
 import {env} from "./env";
+import "reflect-metadata"; // this shim is required
 import expressLoader from "./loaders/expressLoader";
 import mongooseLoader from "./loaders/mongooseLoader";
 import winstonLoader from "./loaders/winstonLoader";
@@ -58,6 +59,6 @@ import {Logger} from "./lib/logger";
         // *************************************************************************************************************
         // Setup redis driver
         // *************************************************************************************************************
-        await socketLoader(server)
+        await socketLoader(server, expressApp)
     })
 })();

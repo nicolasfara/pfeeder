@@ -5,9 +5,10 @@ import {CreateNotification, ReadNotification} from "./requests/NotificationReque
 import {NotificationDocument, Notification, NotificationType} from "../models/Notification";
 import NotificationRepository from "../repository/NotificationRepository";
 import {Types} from "mongoose";
-import {ws} from "../../loaders/socketLoader";
+import {socket, ws} from "../../loaders/socketLoader";
 import {redisClient} from "../../loaders/redisLoader";
 import {Logger, LoggerInterface} from "../../decorators/Logger";
+import {Server} from "socket.io";
 
 @JsonController('/notifications')
 export class NotificationController {
@@ -30,7 +31,7 @@ export class NotificationController {
     @Post()
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }] })
-    public async createNotification(@CurrentUser() user: UserDocument, @Body() body: CreateNotification) {
+    public async createNotification(@CurrentUser() user: UserDocument, @Body() body: CreateNotification, @socket() socketIo: Server) {
         const notification = new Notification()
         notification.userId = user.id
         notification.message = body.message
@@ -39,6 +40,7 @@ export class NotificationController {
         redisClient.smembers(user.email, (err, values: string[]) => {
             values.forEach(socketId => {
                 this.log.info(`Emit on ws: ${socketId}`)
+                // socketIo.to(socketId).emit("notifications", notification)
                 ws.to(socketId).emit('notifications', notification)
             })
         })

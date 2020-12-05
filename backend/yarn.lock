@@ -3873,10 +3873,10 @@ socket.io@2.3.0, socket.io@^2.0.1, socket.io@^2.3.0:
     socket.io-client "2.3.0"
     socket.io-parser "~3.4.0"
 
-socketio-jwt-auth@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/socketio-jwt-auth/-/socketio-jwt-auth-0.1.0.tgz#78781ef9e855689d3cb96e03bd4cb82f4bbe7671"
-  integrity sha512-Tt/AKo2LaGAmXILMvytEFC2RjvNfkfIFRhOSgr/leIZL2Lp4NWqCxyFqOTNqx58GiRyEBORVAGoHul1X2yPvFQ==
+socketio-jwt-auth@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/socketio-jwt-auth/-/socketio-jwt-auth-0.2.1.tgz#3af84cbd3b54b81470d8dc8ba21e9f3cfae334d9"
+  integrity sha512-twjxtFQcIqO46wJnsV3Ef0EylQoU9EOfr5iMXIxwycSaSMuAZlFM9CnePtceX34eJjEJ08plSntyyjZCK1t3uQ==
   dependencies:
     jwt-simple "^0.5"
     xtend "^4.0.0"

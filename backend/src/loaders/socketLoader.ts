@@ -1,14 +1,16 @@
 import {useSocketServer} from "socket-controllers";
 import {Logger} from "../lib/logger";
 import {SocketManager} from "../api/socket/SocketManager";
+import {Server} from "http";
+import {createParamDecorator} from "routing-controllers";
+import {Application} from "express";
 import {env} from "../env";
 import {User} from "../api/models/User";
-import wsJwt from 'socketio-jwt-auth';
-import {Server} from "http";
+import * as wsJwt from 'socketio-jwt-auth'
 
 export let ws: any
 
-export default async (expressServer: Server) => {
+export default async (expressServer: Server, app: Application) => {
     const log = new Logger('Socket.io driver')
 
     log.info("Create socket.io instance")
@@ -34,4 +36,16 @@ export default async (expressServer: Server) => {
 
     ws = io
     log.info("socket.io driver started")
+}
+
+export function socket(options?: { required?: boolean }) {
+    return createParamDecorator({
+        required: options && options.required,
+        value: (action) => {
+            if (action.request.app) {
+                return action.request.app.get('socketio');
+            }
+            return undefined;
+        }
+    });
 }
