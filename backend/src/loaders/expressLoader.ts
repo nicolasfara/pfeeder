@@ -1,10 +1,10 @@
-import {Application} from 'express';
 import {Action, createExpressServer} from 'routing-controllers';
 import jwt from 'jsonwebtoken';
 import {User} from '../api/models/User';
 import {env} from '../env';
 import "reflect-metadata";
 import {Logger} from "../lib/logger";
+import {Application} from "express";
 
 export default async (): Promise<Application> => {
     const logger = new Logger('Express server')
@@ -19,10 +19,8 @@ export default async (): Promise<Application> => {
         classTransformer: true,
         routePrefix: env.app.routePrefix,
         defaultErrorHandler: false,
-        /**
-         * We can add options about how routing-controllers should configure itself.
-         * Here we specify what controllers should be registered in our express server.
-         */
+         // * We can add options about how routing-controllers should configure itself.
+         // * Here we specify what controllers should be registered in our express server.
         controllers: env.app.dirs.controllers,
         middlewares: env.app.dirs.middlewares,
         interceptors: env.app.dirs.interceptors,

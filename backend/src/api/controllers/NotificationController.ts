@@ -39,7 +39,6 @@ export class NotificationController {
         redisClient.smembers(user.email, (err, values: string[]) => {
             values.forEach(socketId => {
                 this.log.info(`Emit on ws: ${socketId}`)
-                // socketIo.to(socketId).emit("notifications", notification)
                 ws.to(socketId).emit('notifications', notification)
             })
         })
