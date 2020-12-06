@@ -1,9 +1,7 @@
 import {Authorized, Body, CurrentUser, Delete, Get, HttpError, JsonController, Patch, Post} from "routing-controllers";
 import {OpenAPI, ResponseSchema} from "routing-controllers-openapi";
 import {User, UserDocument} from '../models/User';
-import jwt from 'jsonwebtoken';
-import {env} from "../../env";
-import crypto from 'crypto-js';
+import crypto from 'crypto';
 import {Logger, LoggerInterface} from "../../decorators/Logger";
 import {
     CreateUserBody,
@@ -17,6 +15,8 @@ import {ForgotPasswordResponse, LoginResponse, ResetPasswordResponse, UserRespon
 import {Param} from "routing-controllers";
 import UserRepository from "../repository/UserRepository";
 import {randomBytes} from "crypto";
+import {env} from "../../env";
+import jwt from 'jsonwebtoken'
 
 
 @JsonController('/users')
@@ -67,7 +67,7 @@ export class UserController {
             this.log.debug(`Login attempt with wrong credential: ${body.email} and ${body.password}`)
             throw new HttpError(401, `Email or password not match`)
         }
-        const token = jwt.sign({ id: user._id, email: user.email}, env.app.jwtSecret, { expiresIn: 86400 });
+        const token = jwt.sign({ id: user._id, email: user.email}, env.app.jwtSecret);
         return new LoginResponse(token)
     }
 
@@ -127,7 +127,7 @@ export class UserController {
     @ResponseSchema(ForgotPasswordResponse)
     public async forgotPassword(@Body() body: ForgotPasswordRequest): Promise<ForgotPasswordResponse> {
         try {
-            const token = crypto.lib.WordArray.random(16).toString()
+            const token = crypto.randomBytes(16).toString()
             const user = await this.userRepository.findOne({ email: body.email })
             if (!user) throw new HttpError(404, `No user found with email: ${body.email}`)
             user.passwordResetToken = token

@@ -9,6 +9,7 @@ import {Feed} from '../../model/Feed';
 import {changePsw} from '../../model/changePsw';
 import {Fodder} from '../../model/Fodder';
 import {Ration} from '../../model/Ration';
+import {WebsocketService} from '../../../websocket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     public router: Router,
+    private socketService: WebsocketService
   ) {
   }
 
@@ -87,11 +89,14 @@ export class AuthService {
   signIn(user: User) {
     return this.http.post<any>(`${this.endpoint}/users/login`, user)
       .subscribe((result: any) => {
-        console.log('LOGIN:' + result.token);
-        localStorage.setItem('access_token', result.token);
-        sessionStorage.setItem('access_token', result.token);
-        this.router.navigate(['/dashboard']);
-      });
+          localStorage.setItem('access_token', result.token);
+          sessionStorage.setItem('access_token', result.token);
+          this.socketService.setupSocketConnection();
+          this.router.navigate(['/dashboard']);
+        },
+        (error => {
+          throw error;
+        }));
   }
 
   getToken() {
@@ -104,10 +109,7 @@ export class AuthService {
   }
 
   doLogout() {
-    const removeToken = sessionStorage.removeItem('access_token');
-    if (removeToken == null) {
-      this.router.navigate(['/homepage']);
-    }
+    this.router.navigate(['/homepage']);
   }
 
   // get User

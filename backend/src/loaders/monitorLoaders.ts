@@ -1,13 +1,14 @@
 import basicAuth from 'express-basic-auth';
 import monitor from 'express-status-monitor';
-import { MicroframeworkLoader, MicroframeworkSettings } from 'microframework';
 
 import { env } from '../env';
+import {Application} from "express";
+import {Logger} from "../lib/logger";
 
-export const monitorLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {
-    if (settings && env.monitor.enabled) {
-        const expressApp = settings.getData('express_app');
-
+export default async (expressApp: Application) => {
+    const logger = new Logger('Monitor')
+    if (env.monitor.enabled) {
+        logger.info("Monitor create")
         expressApp.use(monitor());
         expressApp.get(
             env.monitor.route,

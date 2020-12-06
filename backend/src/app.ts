@@ -1,27 +1,60 @@
-import {bootstrapMicroframework} from "microframework";
-import {expressLoader} from "./loaders/expressLoader";
-import {mongooseLoader} from "./loaders/mongooseLoader";
-import {swaggerLoader} from "./loaders/swaggerLoader";
-import {iocLoader} from "./loaders/iocLoader";
-import {winstonLoader} from "./loaders/winstonLoader";
-import {monitorLoader} from "./loaders/monitorLoaders";
-import {mqttLoader} from "./loaders/mqttLoader";
-import {Logger} from "./lib/logger";
-import {socketLoader} from "./loaders/socketLoader";
-import {redisLoader} from "./loaders/redisLoader";
+import {env} from "./env";
+import "reflect-metadata"; // this shim is required
+import expressLoader from "./loaders/expressLoader";
+import mongooseLoader from "./loaders/mongooseLoader";
+import winstonLoader from "./loaders/winstonLoader";
+import iocLoader from "./loaders/iocLoader";
+import redisLoader from "./loaders/redisLoader";
+import swaggerLoader from "./loaders/swaggerLoader";
+import monitorLoaders from "./loaders/monitorLoaders";
+import mqttLoader from "./loaders/mqttLoader";
+// import {Logger} from "./lib/logger";
+import socketLoader from "./loaders/socketLoader";
 
-const log = new Logger()
+(async () => {
+    // const log = new Logger('Entrypoint')
 
-bootstrapMicroframework([
-    winstonLoader,
-    mongooseLoader,
-    expressLoader,
-    redisLoader,
-    socketLoader,
-    swaggerLoader,
-    iocLoader,
-    monitorLoader,
-    mqttLoader
-])
-    .then(() => log.info("Application is up and running."))
-    .catch(error => log.error("Application is crashed: " + error.stack));
+    // *****************************************************************************************************************
+    // Express server creation
+    await winstonLoader()
+    // *****************************************************************************************************************
+
+    // *****************************************************************************************************************
+    // Setup mongoose driver
+    await mongooseLoader();
+    // *****************************************************************************************************************
+
+    // *****************************************************************************************************************
+    // Express server creation
+    const app = await expressLoader();
+    // *****************************************************************************************************************
+
+    // *****************************************************************************************************************
+    // Setup redis driver
+    await redisLoader()
+    // *****************************************************************************************************************
+
+    // *****************************************************************************************************************
+    // Setup redis driver
+    await swaggerLoader(app)
+    // *****************************************************************************************************************
+
+    // *****************************************************************************************************************
+    // Setup routing-controllers to use typedi container
+    await iocLoader()
+    // *****************************************************************************************************************
+
+    // *****************************************************************************************************************
+    // Setup monitor controller
+    await monitorLoaders(app)
+    // *****************************************************************************************************************
+
+    // *****************************************************************************************************************
+    // Setup mqtt driver
+    await mqttLoader()
+    // *****************************************************************************************************************
+
+    const server = app.listen(3000 || env.app.port)
+    await socketLoader(server)
+
+})();

@@ -1,9 +1,8 @@
-import {MicroframeworkLoader, MicroframeworkSettings} from 'microframework';
 import {configure, format, transports} from 'winston';
 
 import {env} from '../env';
 
-export const winstonLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {
+export default async () => {
     configure({
         transports: [
             new transports.Console({

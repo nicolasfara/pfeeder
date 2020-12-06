@@ -1,34 +1,23 @@
-import {MicroframeworkLoader, MicroframeworkSettings} from "microframework";
-import {useSocketServer} from "socket-controllers";
+import {createSocketServer} from "socket-controllers";
 import {Logger} from "../lib/logger";
 import {SocketManager} from "../api/socket/SocketManager";
 import {env} from "../env";
-import {User} from "../api/models/User";
-// tslint:disable-next-line:no-var-requires
-const wsJwt = require('socketio-jwt-auth')
+import Server = require("socket.io");
 
 export let ws: any
 
-export const socketLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {
-    const log = new Logger()
-    if (settings) {
-        const io = require('socket.io')(settings.getData('express_server'));
-        useSocketServer(io, {
-            controllers: [SocketManager]
-        });
-        log.info("Socket created")
-        io.use(wsJwt.authenticate({
-            secret: env.app.jwtSecret
-        }, async (payload, done) => {
-            const user = await User.findById(payload.id)
-            if (user) return done(null, user)
-            else {
-                log.error("User not exist")
-                return done(null, false, 'User not exist')
-            }
+export default async (expressServer: any) => {
+    const log = new Logger('Socket.io driver')
 
-        }))
-        ws = io
-        settings.setData("websocket", io)
-    }
+    log.info("Create socket.io instance")
+    const io = new Server(expressServer);
+    const redis = require('socket.io-redis')
+    io.adapter(redis({ host: env.app.redisHost, port: env.app.redisPort }));
+
+    log.info("Bind socket.io to express server")
+
+    ws = createSocketServer(3001, {
+        controllers: [SocketManager]
+    })
+    log.info("socket.io driver started")
 }
