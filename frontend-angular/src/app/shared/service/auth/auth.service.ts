@@ -10,6 +10,7 @@ import {changePsw} from '../../model/changePsw';
 import {Fodder} from '../../model/Fodder';
 import {Ration} from '../../model/Ration';
 import {WebsocketService} from '../../../websocket.service';
+import {NotificationService} from '../../../notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     public router: Router,
-    private socketService: WebsocketService
+    private socketService: WebsocketService,
+    private notificationService: NotificationService
   ) {
   }
 
@@ -78,25 +80,26 @@ export class AuthService {
 
   // Sign-up
   signUp(user: User): Observable<any> {
-    const api = `${this.endpoint}/users`;
-    return this.http.post(api, user)
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http.post(`${this.endpoint}/users`, user).pipe(
+      map((result: any) => {
+        return  result || {};
+      }),
+      catchError(this.handleError)
+    );
   }
 
   // Sign-in
-  signIn(user: User) {
-    return this.http.post<any>(`${this.endpoint}/users/login`, user)
-      .subscribe((result: any) => {
+  signIn(user: User): Observable<any>  {
+    return this.http.post(`${this.endpoint}/users/login`, user).
+    pipe(
+      map((result: any) => {
           localStorage.setItem('access_token', result.token);
           sessionStorage.setItem('access_token', result.token);
           this.socketService.setupSocketConnection();
-          this.router.navigate(['/dashboard']);
-        },
-        (error => {
-          throw error;
-        }));
+          return result || {};
+      }),
+        catchError(this.handleError)
+    );
   }
 
   getToken() {
@@ -128,16 +131,16 @@ export class AuthService {
     );
   }
 
-  // Error
   handleError(error: HttpErrorResponse) {
-    let msg = '';
+    let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {
-      // client-side error
-      msg = error.error.message;
+      // Client-side errors
+      errorMessage = `Error: ${error.error.message}`;
     } else {
-      // server-side error
-      msg = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      // Server-side errors
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    return throwError(msg);
+  //  window.alert(errorMessage);
+    return throwError(errorMessage);
   }
 }

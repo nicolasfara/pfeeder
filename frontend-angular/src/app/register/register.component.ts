@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../shared/service/auth/auth.service';
 import {Router} from '@angular/router';
-import {logger} from "codelyzer/util/logger";
-import {first} from "rxjs/operators";
 
 @Component({
   selector: 'app-register',
@@ -13,28 +11,43 @@ import {first} from "rxjs/operators";
 export class RegisterComponent implements OnInit {
 
   signupForm: FormGroup;
+  errorMessage;
+  submitted = false;
+
   constructor(
     public fb: FormBuilder,
     public authService: AuthService,
     public router: Router
   ) {
-    this.signupForm = this.fb.group({
-      firstName: [''],
-      lastName: [''],
-      gender: [''],
-      email: [''],
-      password: [''],
+  }
 
+  ngOnInit(): void {
+    this.signupForm = this.fb.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(5)]]
     });
   }
-  ngOnInit(): void {
+
+  get f() {
+    return this.signupForm.controls;
   }
 
-  registerUser() {
-    this.authService.signUp(this.signupForm.value) .pipe(first())
-      .subscribe(
-        data => {
-          this.router.navigate(['/login']);
-        });
+  async registerUser() {
+    this.submitted = true;
+    this.errorMessage = '';
+    if (this.signupForm.invalid) {
+      return;
+    }
+    this.authService.signUp(this.signupForm.value).subscribe(() => {
+        this.router.navigate(['/login']);
+      },
+      (error => {
+        console.error('error caught in component');
+        this.errorMessage = error;
+        throw error;
+      }));
   }
 }

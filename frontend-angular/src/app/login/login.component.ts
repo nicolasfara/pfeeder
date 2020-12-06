@@ -1,40 +1,49 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../shared/service/auth/auth.service';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 
-declare var $: any
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
-
-  signinForm: FormGroup;
+  signInForm: FormGroup;
   submitted = false;
+  errorMessage;
+
   constructor(
     public fb: FormBuilder,
     public authService: AuthService,
     public router: Router
-  ) {}
-// convenience getter for easy access to form fields
-  get f() { return this.signinForm.controls; }
+  ) {
+  }
+  get f() {
+    return this.signInForm.controls;
+  }
 
-  loginUser() {
+  async loginUser() {
     this.submitted = true;
-    // stop here if form is invalid
-    if (this.signinForm.invalid) {
+    this.errorMessage = '';
+    if (this.signInForm.invalid) {
       return;
     }
-    this.authService.signIn(this.signinForm.value);
+    this.authService.signIn(this.signInForm.value).subscribe(() => {
+        this.router.navigate(['/dashboard']);
+      },
+      (error => {
+        console.error('error caught in component');
+        this.errorMessage = error;
+        throw error;
+      }));
   }
 
   ngOnInit(): void {
-    this.signinForm = this.fb.group({
+    this.signInForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(5)]]
     });
   }
- }
+}
