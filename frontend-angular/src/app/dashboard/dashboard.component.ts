@@ -21,18 +21,18 @@ export class DashboardComponent implements OnInit {
   rations: Ration[];
   messageList: string[] = [];
   hours: string;
-
-  constructor(private service: DataService, private websocket: WebsocketService, private notifyService: NotificationService) {
+//private websocket: WebsocketService, private notifyService: NotificationService
+  constructor(private service: DataService) {
   }
 
   ngOnInit(): void {
     console.log('Token attuale' + localStorage.getItem('access_token'));
 
-    this.websocket.getMessages().subscribe( (data: Notification) => {
-      console.log('----------ARRIVATO MESSAGGIO----------');
-      this.notifyService.showInfo('ooooo', data.message);
-      this.notifyService.showNotification(data.notificationType, data);
-    });
+    // this.websocket.getMessages().subscribe( (data: Notification) => {
+    //   console.log('----------ARRIVATO MESSAGGIO----------');
+    //   this.notifyService.showInfo('ooooo', data.message);
+    //   this.notifyService.showNotification(data.notificationType, data);
+    // });
     this.getPet();
     this.getFodder();
     this.getRation();

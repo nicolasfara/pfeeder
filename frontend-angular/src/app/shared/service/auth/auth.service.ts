@@ -10,8 +10,6 @@ import {changePsw} from '../../model/changePsw';
 import {Fodder} from '../../model/Fodder';
 import {Ration} from '../../model/Ration';
 
-import {io} from 'socket.io-client/build/index';
-import {WebsocketService} from '../../../websocket.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -20,10 +18,10 @@ export class AuthService {
   endpoint = 'http://localhost:3000/api';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
+
   constructor(
     private http: HttpClient,
     public router: Router,
-    private socket: WebsocketService
   ) {
   }
 
@@ -89,11 +87,13 @@ export class AuthService {
   signIn(user: User) {
     return this.http.post<any>(`${this.endpoint}/users/login`, user)
       .subscribe((result: any) => {
-        console.log('LOGIN:' + result.token);
-        localStorage.setItem('access_token', result.token);
-        sessionStorage.setItem('access_token', result.token);
-        this.router.navigate(['/dashboard']);
-      });
+          localStorage.setItem('access_token', result.token);
+          sessionStorage.setItem('access_token', result.token);
+          this.router.navigate(['/dashboard']);
+        },
+        (error => {
+          throw error;
+        }));
   }
 
   getToken() {

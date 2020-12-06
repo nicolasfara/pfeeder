@@ -13,22 +13,28 @@ export class LoginComponent implements OnInit {
 
 
   signinForm: FormGroup;
-
-  // @ts-ignore
+  submitted = false;
   constructor(
     public fb: FormBuilder,
     public authService: AuthService,
     public router: Router
-  ) {
-    this.signinForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
-  });
-  }
-  ngOnInit(): void {
-  }
+  ) {}
+// convenience getter for easy access to form fields
+  get f() { return this.signinForm.controls; }
 
   loginUser() {
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.signinForm.invalid) {
+      return;
+    }
     this.authService.signIn(this.signinForm.value);
+  }
+
+  ngOnInit(): void {
+    this.signinForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(5)]]
+    });
   }
  }
