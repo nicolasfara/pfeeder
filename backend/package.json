@@ -28,8 +28,11 @@
     "@types/passport-local": "^1.0.33",
     "@types/redis": "^2.8.28",
     "@types/socket.io": "^2.1.11",
+    "@types/socket.io-redis": "^1.0.26",
+    "@types/socketio-jwt": "^0.2.0",
     "@types/socketio-jwt-auth": "^0.0.0",
     "@types/swagger-ui-express": "^4.1.2",
+    "@types/ws": "^7.4.0",
     "cross-env": "^7.0.2",
     "nodemon": "^2.0.4",
     "tslint": "^6.1.2",
@@ -59,6 +62,7 @@
     "nps-utils": "^1.7.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
+    "passport-jwt.socketio": "^0.1.1",
     "passport-local": "^1.0.0",
     "redis": "^3.0.2",
     "reflect-metadata": "^0.1.13",
@@ -66,10 +70,14 @@
     "routing-controllers-openapi": "^2.0.1",
     "socket-controllers": "^0.0.5",
     "socket.io": "^2.3.0",
+    "socket.io-redis": "^6.0.1",
+    "socketio-auth": "^0.1.1",
+    "socketio-jwt": "^4.6.2",
     "socketio-jwt-auth": "^0.2.1",
     "swagger-ui-express": "^4.1.4",
     "ts-node": "^8.10.2",
     "typedi": "^0.8.0",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "ws": "^7.4.1"
   }
 }

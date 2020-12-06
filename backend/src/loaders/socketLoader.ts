@@ -1,51 +1,23 @@
-import {useSocketServer} from "socket-controllers";
+import {createSocketServer} from "socket-controllers";
 import {Logger} from "../lib/logger";
 import {SocketManager} from "../api/socket/SocketManager";
-import {Server} from "http";
-import {createParamDecorator} from "routing-controllers";
-import {Application} from "express";
 import {env} from "../env";
-import {User} from "../api/models/User";
-import * as wsJwt from 'socketio-jwt-auth'
+import Server = require("socket.io");
 
 export let ws: any
 
-export default async (expressServer: Server, app: Application) => {
+export default async (expressServer: any) => {
     const log = new Logger('Socket.io driver')
 
     log.info("Create socket.io instance")
-    const io = require('socket.io')(expressServer);
+    const io = new Server(expressServer);
+    const redis = require('socket.io-redis')
+    io.adapter(redis({ host: env.app.redisHost, port: env.app.redisPort }));
 
     log.info("Bind socket.io to express server")
-    io.use(wsJwt.authenticate({
-        secret: env.app.jwtSecret
-    }, async (payload, done) => {
-        const user = await User.findById(payload.id)
-        if (user) {
-            log.info("User found, socket authenticated")
-            return done(null, user)
-        } else {
-            log.error("User not exist")
-            return done(null, false, 'User not exist')
-        }
-    }))
 
-    useSocketServer(io, {
+    ws = createSocketServer(3001, {
         controllers: [SocketManager]
-    });
-
-    ws = io
+    })
     log.info("socket.io driver started")
-}
-
-export function socket(options?: { required?: boolean }) {
-    return createParamDecorator({
-        required: options && options.required,
-        value: (action) => {
-            if (action.request.app) {
-                return action.request.app.get('socketio');
-            }
-            return undefined;
-        }
-    });
 }

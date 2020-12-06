@@ -5,14 +5,14 @@ import mongooseLoader from "./loaders/mongooseLoader";
 import winstonLoader from "./loaders/winstonLoader";
 import iocLoader from "./loaders/iocLoader";
 import redisLoader from "./loaders/redisLoader";
-import socketLoader from "./loaders/socketLoader";
 import swaggerLoader from "./loaders/swaggerLoader";
 import monitorLoaders from "./loaders/monitorLoaders";
 import mqttLoader from "./loaders/mqttLoader";
-import {Logger} from "./lib/logger";
+// import {Logger} from "./lib/logger";
+import socketLoader from "./loaders/socketLoader";
 
 (async () => {
-    const log = new Logger('Entrypoint')
+    // const log = new Logger('Entrypoint')
 
     // *****************************************************************************************************************
     // Express server creation
@@ -26,7 +26,7 @@ import {Logger} from "./lib/logger";
 
     // *****************************************************************************************************************
     // Express server creation
-    const expressApp = await expressLoader();
+    const app = await expressLoader();
     // *****************************************************************************************************************
 
     // *****************************************************************************************************************
@@ -36,7 +36,7 @@ import {Logger} from "./lib/logger";
 
     // *****************************************************************************************************************
     // Setup redis driver
-    await swaggerLoader(expressApp)
+    await swaggerLoader(app)
     // *****************************************************************************************************************
 
     // *****************************************************************************************************************
@@ -46,7 +46,7 @@ import {Logger} from "./lib/logger";
 
     // *****************************************************************************************************************
     // Setup monitor controller
-    await monitorLoaders(expressApp)
+    await monitorLoaders(app)
     // *****************************************************************************************************************
 
     // *****************************************************************************************************************
@@ -54,11 +54,7 @@ import {Logger} from "./lib/logger";
     await mqttLoader()
     // *****************************************************************************************************************
 
-    const server = expressApp.listen(3000 || env.app.port, async () => {
-        log.info(`Server started on port ${3000 || env.app.port}`)
-        // *************************************************************************************************************
-        // Setup redis driver
-        // *************************************************************************************************************
-        await socketLoader(server, expressApp)
-    })
+    const server = app.listen(3000 || env.app.port)
+    await socketLoader(server)
+
 })();
