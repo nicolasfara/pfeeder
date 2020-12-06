@@ -11,17 +11,14 @@ export class NotificationService {
   }
 
   showNotification(message, notification) {
-    if (notification.type === 'info') {
+    if (notification === 'info') {
       this.showInfo(message, notification.message);
-    } else {
-
-      if (notification.type === 'err') {
-        this.showError(message, notification.message);
-      } else {
-        if (notification.type === 'warn') {
-          this.showWarning(message, notification.message);
-        }
-      }
+    }
+    if (notification === 'err') {
+      this.showError(message, notification.message);
+    }
+    if (notification === 'warn') {
+      this.showWarning(message, notification.message);
     }
   }
 

@@ -26,20 +26,14 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-
-    this.websocket.getMessage().subscribe( (data: Notification) => {
-      console.log('----------ARRIVATO MESSAGGIO----------');
-      console.log(data.notificationType);
-      this.notifyService.showNotification(data.message, data);
+    this.websocket.getMessage().subscribe((data: Notification) => {
+      this.notifyService.showNotification(data.message, data.notificationType);
     });
     this.getPet();
     this.getFodder();
     this.getRation();
 
     $(document).on('click', '.openRationModal', function() {
-
-
       const petName = $(this).closest('td').prevAll('.petName').text();
       const petRationGrams = $(this).closest('td').prevAll('.petRationGrams').text().replace(' g', '');
       const rationTime = $(this).closest('td').prevAll('.rationTime').text();
@@ -95,8 +89,7 @@ export class DashboardComponent implements OnInit {
 
 
   doesExist(time: Date): boolean {
-    // tslint:disable-next-line:triple-equals
-    return time.toDateString() != '';
+    return time.toDateString() !== '';
   }
 
 }
@@ -105,7 +98,3 @@ export class DashboardComponent implements OnInit {
 function buf2hex(buffer) { // buffer is an ArrayBuffer
   return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
 }
-
-/*Array.prototype.insert = function ( index, item ) {
-  this.splice( index, 0, item );
-};*/
