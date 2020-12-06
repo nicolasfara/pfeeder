@@ -11,7 +11,7 @@ export class AppComponent implements OnInit{
   title = 'frontend-angular';
   constructor(public authService: AuthService, private socketService: WebsocketService) { }
   ngOnInit() {
-    this.socketService.setupSocketConnection();
+    //this.socketService.setupSocketConnection();
   }
   logout() {
     this.authService.doLogout();

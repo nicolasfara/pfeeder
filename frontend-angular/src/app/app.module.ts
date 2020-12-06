@@ -26,7 +26,6 @@ import {ForgotpasswordComponent} from './forgotpassword/forgotpassword.component
 import {ShowfodderComponent} from './showfodder/showfodder.component';
 import {UpdatefodderComponent} from './updatefodder/updatefodder.component';
 import {ShowpetComponent} from './showpet/showpet.component';
-import {SocketIoModule, SocketIoConfig} from 'ngx-socket-io';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import {WebsocketService} from './websocket.service';

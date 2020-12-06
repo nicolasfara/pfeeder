@@ -9,6 +9,7 @@ import {Feed} from '../../model/Feed';
 import {changePsw} from '../../model/changePsw';
 import {Fodder} from '../../model/Fodder';
 import {Ration} from '../../model/Ration';
+import {WebsocketService} from '../../../websocket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     public router: Router,
+    private socketService: WebsocketService
   ) {
   }
 
@@ -89,6 +91,7 @@ export class AuthService {
       .subscribe((result: any) => {
           localStorage.setItem('access_token', result.token);
           sessionStorage.setItem('access_token', result.token);
+          this.socketService.setupSocketConnection();
           this.router.navigate(['/dashboard']);
         },
         (error => {

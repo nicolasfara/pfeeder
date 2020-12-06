@@ -11,17 +11,14 @@ export class NotificationService {
   }
 
   showNotification(message, notification) {
-
-    // tslint:disable-next-line:triple-equals
-    if (notification.type == 'info') {
+    if (notification.type === 'info') {
       this.showInfo(message, notification.message);
     } else {
-      // tslint:disable-next-line:triple-equals
-      if (notification.type == 'err') {
+
+      if (notification.type === 'err') {
         this.showError(message, notification.message);
       } else {
-        // tslint:disable-next-line:triple-equals
-        if (notification.type == 'warn') {
+        if (notification.type === 'warn') {
           this.showWarning(message, notification.message);
         }
       }
