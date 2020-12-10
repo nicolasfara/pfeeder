@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import { AuthService } from './shared/service/auth/auth.service';
-import {WebsocketService} from "./websocket.service";
+import { AuthService } from './_services/auth/auth.service';
+import {WebsocketService} from "./_services/notification/websocket.service";
 
 @Component({
   selector: 'app-root',

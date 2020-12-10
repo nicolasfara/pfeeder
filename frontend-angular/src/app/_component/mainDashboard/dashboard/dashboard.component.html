@@ -1,0 +1,115 @@
+<!-- Page Wrapper -->
+<div id="wrapper">
+  <app-sidenavbar></app-sidenavbar>
+  <div id="content-wrapper" class="d-flex flex-column">
+    <!-- Main Content -->
+    <div id="content">
+      <app-topbar></app-topbar>
+      <div class="container-fluid">
+        <!-- Content Row -->
+        <div class="row">
+          <div class="col-xl-12 col-lg-7">
+            <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-header">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Pet ration summary</div>
+                  </div>
+                  <div class="table-responsive">
+                    <table mdbtable class="card-table table">
+                      <thead>
+                      <tr>
+                        <th scope="col">Pet Name</th>
+                        <th scope="col">Weight</th>
+                        <th scope="col">Ideal weight</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Pet type</th>
+                        <th scope="col">Time of ration</th>
+                        <th scope="col">Grams per ration</th>
+                        <th scope="col">Edit</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let pet of pets; let i=index">
+
+                        <td class="petName">{{pet.name}}</td>
+                        <td class="petWeight">{{pet.weight}} kg</td>
+                        <td class="idealWeight">{{pet.idealWeight}} kg</td>
+                        <td class="petAge">{{pet.age}} years</td>
+                        <td class="petType">{{pet.petType.toString()}}</td>
+
+                      <td class="rationTime" *ngIf="rations[i]?.time else elsePerfId">{{ rations[i].time | date:'shortTime' }}</td>
+                        <ng-template #elsePerfId>
+                          <td> - </td>
+                        </ng-template>
+                          <td class="petRationGrams" *ngIf="rations[i]?.ration; else elsePerf"> {{rations[i].ration }} g</td>
+                        <ng-template #elsePerf>
+                          <td> - </td>
+                        </ng-template>
+                        <td>
+                          <a class="collapse-item openRationModal"> <i
+                            class="fas fa-fw fa-cog"></i></a>
+                        </td>
+                       <app-addration></app-addration>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-fluid">
+          <!-- Page Heading -->
+          <p class="mb-4"></p>
+          <!-- Content Row -->
+          <div class="row">
+            <!-- Donut Chart -->
+            <div class="col-xl-4 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Calories for each pet</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <app-doughnut></app-doughnut>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Cost incurred for each pet</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                 <app-barchart></app-barchart>
+                  <hr>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Status of the dispenser</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="alert alert-success" role="alert">
+                    Your dispenser is connected!
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End of Page Wrapper -->
+      </div>
+    </div>
+  </div>
+</div>
