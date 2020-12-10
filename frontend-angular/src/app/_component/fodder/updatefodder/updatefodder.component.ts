@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {AuthService} from "../../../_services/auth/auth.service";
-import {Router} from "@angular/router";
-import {DataService} from "../../../_services/data/data.service";
-import {first} from "rxjs/operators";
-import {Pet} from "../../../_models/Pet";
-declare var $: any
+import {Component, Input, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Router} from '@angular/router';
+import {DataService} from '../../../_services/data/data.service';
+import {first} from 'rxjs/operators';
+
+declare var $: any;
 @Component({
   selector: 'app-updatefodder',
   templateUrl: './updatefodder.component.html',
@@ -13,10 +12,15 @@ declare var $: any
 })
 export class UpdatefodderComponent implements OnInit {
   public updateFodderForm: FormGroup;
+  currentFodder  = localStorage.getItem('currentFodder') ;
+
+   result = JSON.parse(this.currentFodder);
+  @Input() message: string;
 
   constructor(public fb: FormBuilder,
               public router: Router,
               private service: DataService) {
+
     this.updateFodderForm = this.fb.group({
       name: [''],
       companyName: [''],
@@ -30,7 +34,28 @@ export class UpdatefodderComponent implements OnInit {
     });
   }
 
+  get f() {
+    return this.result;
+  }
   ngOnInit(): void {
+    // const currentFodder  = localStorage.getItem('currentFodder') ;
+    //
+    // const result = JSON.parse(currentFodder);
+    // console.log(result.name);
+    // this.updateFodderForm.setValue({
+    //   name: result.name,
+    //   companyName: result.companyName,
+    //   price: result.price,
+    //   weight: result.weight,
+    //   kcal: result.kcal,
+    //   proteins: result.proteins,
+    //   fats: result.fats,
+    //   vitamins: result.vitamins,
+    //   carbohydrates: result.carbohydrates
+    // });
+
+
+
   }
 
   updateFodder() {
