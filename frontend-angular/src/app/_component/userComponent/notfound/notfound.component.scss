@@ -3,8 +3,7 @@
   box-sizing: border-box;
 }
 body {
-  padding: 0;
-  margin: 0;
+  margin: 200px;
 }
 #notfound {
   position: relative;
@@ -30,7 +29,6 @@ body {
     display: inline-block;
     width: 140px;
     height: 140px;
-    background-image: url('https://images.vexels.com/media/users/3/134741/isolated/preview/07cfd1b48c4855217b811ddc85b5bf97-sad-emoji-emoticon-by-vexels.png');
     background-size: cover;
     &:before {
       content: '';
