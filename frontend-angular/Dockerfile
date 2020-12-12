@@ -1,5 +1,8 @@
-FROM node:14
-
+FROM node:14 
+ARG NODE_ENV
+ARG API_BASE_URL
+ENV NODE_ENV "$NODE_ENV"
+ENV API_BASE_URL "$API_BASE_URL"
 # set working directory
 WORKDIR /app
 
@@ -17,4 +20,9 @@ COPY . /app
 
 # start app
 CMD ng serve --host 0.0.0.0
-#CMD ["node", "dist/frontend-angular/server/main.js"]
+
+
+COPY /script/replace_api_url.sh /
+
+CMD ["sh", "replace_api_url.sh"]
+

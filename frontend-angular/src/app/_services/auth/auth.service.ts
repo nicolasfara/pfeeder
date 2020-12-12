@@ -7,17 +7,15 @@ import {Router} from '@angular/router';
 import {Pet} from '../../_models/Pet';
 import {Feed} from '../../_models/Feed';
 import {changePsw} from '../../_models/changePsw';
-import {Fodder} from '../../_models/Fodder';
 import {Ration} from '../../_models/Ration';
 import {WebsocketService} from '../notification/websocket.service';
-import {NotificationService} from '../notification/notification.service';
-
+import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService {
-  endpoint = 'http://localhost:3000/api';
+  endpoint = 'http://' + environment.apiBaseUrl + '/api';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
 
@@ -42,6 +40,7 @@ export class AuthService {
       .pipe(
         catchError(this.handleError)
       );
+
   }
 
   // patch

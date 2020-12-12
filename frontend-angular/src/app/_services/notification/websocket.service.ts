@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
-
 import {Observable} from 'rxjs';
 import io from 'socket.io-client/dist/socket.io.js';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class WebsocketService {
-  private url = 'http://localhost:3001';
+  private url = 'http://' + environment.apiBaseUrl + ':3001';
   private token = localStorage.getItem('access_token');
   private socket: any;
 
