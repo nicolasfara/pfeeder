@@ -1,7 +1,7 @@
 export class Ration {
 
-  petId: string
-  name: string
-  time: Date
-  ration: number
+  petId: string;
+  name: string;
+  time: Date;
+  ration: number;
 }

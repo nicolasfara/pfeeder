@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Pet} from '../../../_models/Pet';
 import {DataService} from '../../../_services/data/data.service';
 import {Color} from 'ng2-charts';
-
+// TODO TEST WITH FEED INSERT
 @Component({
   selector: 'app-barchart',
   templateUrl: './barchart.component.html',
@@ -11,13 +11,12 @@ import {Color} from 'ng2-charts';
 export class BarchartComponent implements OnInit {
 
   public pieChartLabels: string[] = [];
-  public feed: number[] = [];
+  public feeds: any = [];
   public pieChartData: any = [];
   public pieChartType = 'bar';
   public barChartLegend = false;
 
 
-  // events on slice click
   private pets: Pet[];
   colors: Color[] = [
     {
@@ -41,22 +40,29 @@ export class BarchartComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.dataService.sendGetPets().subscribe((data: Pet[]) => {
+    this.dataService.getPets().subscribe((data: Pet[]) => {
       this.pets = data;
       this.pets.forEach(value => this.pieChartLabels.push(value.name));
       this.pets.forEach(value => {
-        // tslint:disable-next-line:no-shadowed-variable
         // @ts-ignore
-        // tslint:disable-next-line:no-shadowed-variable
-        this.dataService.sendGetCostPet(buf2hex(value.id.id.data)).subscribe((data: number) => {
-          this.pieChartData.splice(this.pets.indexOf(value), 0, data);
+        this.dataService.sendGetFeed(buf2hex(value._id.id.data)).subscribe((f: any) => {
+          this.feeds = f;
         });
+
+        if (this.feeds.length > 0) {
+          // @ts-ignore
+          this.dataService.sendGetCostPet(buf2hex(value._id.id.data)).subscribe((cost: number) => {
+            if (cost) {
+              this.pieChartData.splice(this.pets.indexOf(value), 0, cost);
+            }
+          });
+        }
       });
     });
   }
 
 }
 
-function buf2hex(buffer) { // buffer is an ArrayBuffer
+function buf2hex(buffer) {
   return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
 }

@@ -1,5 +1,5 @@
 export class Fodder {
-  id: object;
+  _id: object;
   name: string;
   companyName: string;
   price: number;

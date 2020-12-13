@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import {User} from "../../../_models/User";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {AuthService} from "../../../_services/auth/auth.service";
-import {first} from "rxjs/operators";
-
+import {User} from '../../../_models/User';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {AuthService} from '../../../_services/auth/auth.service';
+import {first} from 'rxjs/operators';
+// TODO CHANGE PSW
+// TODO CHANGE NAME,SUR,EMAIL
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -12,11 +13,11 @@ import {first} from "rxjs/operators";
 })
 export class ProfileComponent implements OnInit {
 
-  currentUser : User
-  currentEmail : string
-  gravatar : string
-  editProfileForm: FormGroup
-  changePasswordForm : FormGroup
+  currentUser: User;
+  currentEmail: string;
+  gravatar: string;
+  editProfileForm: FormGroup;
+  changePasswordForm: FormGroup;
 
   constructor(
     public fb: FormBuilder,
@@ -32,7 +33,7 @@ export class ProfileComponent implements OnInit {
       oldPassword: [''],
       password : [''],
       confirmPassword : ['']
-    })
+    });
   }
   editProfile() {
     this.authService.signUp(this.editProfileForm.value) .pipe(first())
@@ -42,21 +43,19 @@ export class ProfileComponent implements OnInit {
         });
   }
   changePassword(){
-    console.log(this.changePasswordForm)
+    console.log(this.changePasswordForm);
     this.authService.changePassword(this.changePasswordForm.value).pipe(first()).subscribe(data => {
-                                      console.log("ok!!")
+                                      console.log('ok!!');
 
 
     });
   }
   ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe((data: User)=>{
-
-      this.currentUser = data
-      console.log(this.currentUser)
-      this.currentEmail = this.currentUser.email.split('@', 2)[0]
-      this.gravatar = this.currentUser.profile.picture
-    })
+    this.authService.getCurrentUser().subscribe((data: User) => {
+      this.currentUser = data;
+      this.currentEmail = this.currentUser.email.split('@', 2)[0];
+      this.gravatar = this.currentUser.profile.picture;
+    });
   }
 
 }

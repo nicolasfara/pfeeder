@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+// TODO FORGOT WITH EMAIL
 @Component({
   selector: 'app-forgotpassword',
   templateUrl: './forgotpassword.component.html',

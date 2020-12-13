@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {User} from '../../_models/User';
-import {Observable, throwError} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import {Observable, Subject, throwError} from 'rxjs';
+import {catchError, map, tap} from 'rxjs/operators';
 import {HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Pet} from '../../_models/Pet';
@@ -15,9 +15,10 @@ import { environment } from '../../../environments/environment';
 })
 
 export class AuthService {
-  endpoint = 'http://' + environment.apiBaseUrl + '/api';
+  endpoint = 'http://' + environment.apiBaseUrl + ':3000/api';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
+
 
   constructor(
     private http: HttpClient,
@@ -33,41 +34,8 @@ export class AuthService {
 
   }
 
-  // addPet
-  addPet(pet: Pet): Observable<any> {
-    const api = `${this.endpoint}/pets`;
-    return this.http.post(api, pet)
-      .pipe(
-        catchError(this.handleError)
-      );
-
-  }
-
-  // patch
-  patchPet(pet: Pet, id: string): Observable<any> {
-    const api = `${this.endpoint}/pets/` + id;
-    return this.http.post(api, pet)
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
 
 
-
-  // addFeed
-  addFeed(feed: Feed): Observable<any> {
-    const api = `${this.endpoint}/feeds`;
-    return this.http.post(api, feed)
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
-
-  // addRation
-  addRation(ration: Ration, id: string): Observable<any> {
-    const api = `${this.endpoint}/rations/` + id;
-    return this.http.post(api, ration);
-  }
 
   // Sign-up
   signUp(user: User): Observable<any> {

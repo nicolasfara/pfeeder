@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../../_services/auth/auth.service';
-import {User} from "../../../_models/User";
-import {Router} from "@angular/router";
-declare var $: any
+import {User} from '../../../_models/User';
+import {Router} from '@angular/router';
+
+declare var $: any;
+
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
@@ -10,26 +12,27 @@ declare var $: any
 })
 export class TopbarComponent implements OnInit {
 
-  currentUser :User
-  currentEmail : string
-  gravatar : string
-  constructor(public authService: AuthService, public router: Router) { }
+  currentUser: User;
+  currentEmail: string;
+  gravatar: string;
 
-  ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe((data: User)=>{
-      console.log(data);
-      this.currentUser = data
-      this.currentEmail = this.currentUser.email.split('@', 2)[0]
-      this.gravatar = this.currentUser.profile.picture
-    })
-
-
-    $(document).on("click", ".openLogoutModal", function () {
-      $('#logoutModal').appendTo("body").modal('show');
-    })
+  constructor(public authService: AuthService, public router: Router) {
   }
 
-  goToProfile(){
+  ngOnInit(): void {
+    this.authService.getCurrentUser().subscribe((data: User) => {
+      this.currentUser = data;
+      this.currentEmail = this.currentUser.email.split('@', 2)[0];
+      this.gravatar = this.currentUser.profile.picture;
+    });
+
+
+    $(document).on('click', '.openLogoutModal', () => {
+      $('#logoutModal').appendTo('body').modal('show');
+    });
+  }
+
+  goToProfile() {
     this.router.navigate(['/profile']);
   }
 }

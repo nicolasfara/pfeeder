@@ -13,9 +13,10 @@ declare var $: any;
 export class UpdatefodderComponent implements OnInit {
   public updateFodderForm: FormGroup;
   currentFodder  = localStorage.getItem('currentFodder') ;
-
-   result = JSON.parse(this.currentFodder);
+  result = JSON.parse(this.currentFodder);
+  fodders = [];
   @Input() message: string;
+  private fodderID: any;
 
   constructor(public fb: FormBuilder,
               public router: Router,
@@ -34,14 +35,15 @@ export class UpdatefodderComponent implements OnInit {
     });
   }
 
-  get f() {
-    return this.result;
-  }
   ngOnInit(): void {
-    // const currentFodder  = localStorage.getItem('currentFodder') ;
-    //
-    // const result = JSON.parse(currentFodder);
-    // console.log(result.name);
+    this.getFodder();
+    if ($('#UpdateFodder').hasClass('in')){
+        console.log(this.currentFodder);
+      }
+
+
+
+
     // this.updateFodderForm.setValue({
     //   name: result.name,
     //   companyName: result.companyName,
@@ -57,9 +59,21 @@ export class UpdatefodderComponent implements OnInit {
 
 
   }
-
+  getFodder(): void {
+    this.service.getFodder().then(fodders => this.fodders = fodders);
+  }
   updateFodder() {
-    this.service.addFodder(this.updateFodderForm.value).pipe(first())
+    console.log(this.result.name);
+    this.fodderID = this.fodders.filter(x => x.name === this.result.name);
+    console.log(this.fodders);
+    console.log(this.fodderID)
+    // @ts-ignore
+    const destr = this.fodderID._id.id;
+    console.log(this.fodderID);
+
+
+
+    this.service.patchFodder(buf2hex(destr.data), this.updateFodderForm.value).pipe(first())
       .subscribe(
         data => {
           $('#UpdateFodder').modal('hide');
@@ -67,4 +81,7 @@ export class UpdatefodderComponent implements OnInit {
   }
 
 
+}
+function buf2hex(buffer) { // buffer is an ArrayBuffer
+  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
 }

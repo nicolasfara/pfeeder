@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {AuthService} from '../../../_services/auth/auth.service';
 import {Router} from '@angular/router';
 import {first} from 'rxjs/operators';
 import {DataService} from '../../../_services/data/data.service';
@@ -8,7 +7,8 @@ import {Fodder} from '../../../_models/Fodder';
 import {Pet} from '../../../_models/Pet';
 
 declare var $: any;
-
+// TODO VALIDATION
+// TODO PATCH IN SAME TEMPLATE
 @Component({
   selector: 'app-addpet',
   templateUrl: './addpet.component.html',
@@ -25,7 +25,7 @@ export class AddpetComponent implements OnInit {
 
   constructor(
     public fb: FormBuilder,
-    public authService: AuthService,
+    public authService: DataService,
     public router: Router,
     private service: DataService
   ) {
@@ -50,28 +50,33 @@ export class AddpetComponent implements OnInit {
 
     this.fodderID = this.fodders.find(x => x.name === this.addPetForm.get('currentFodder').value);
     // @ts-ignore
-    console.log('Fodder: ' + this.fodderID.id.id.data);
+    console.log('Fodder: ' + this.fodderID._id.id.data);
 
 
     // @ts-ignore
-    const destr = this.fodderID.id.id;
+    const destr = this.fodderID._id.id;
     this.addPetForm.patchValue({
       currentFodder: buf2hex(destr.data)
     });
     console.log(this.addPetForm.value);
-    this.authService.addPet(this.addPetForm.value).pipe(first())
-      .subscribe(
-        data => {
-          $('#AddPet').modal('hide');
-        });
+    this.authService.addPet(this.addPetForm.value).subscribe(
+      () => {
+        $('#AddPet').modal('hide');
+        // this.addPetForm.reset({ name: '', description: '', price: 0, quantityOnHand: 0 });
+      },
+      error => { alert(error); }
+    );
   }
+
+
+
 
   savePet() {
     this.addPetForm.removeControl('currentFodder');
     // this.addPetForm.patchValue({
     //   currentFodder : buf2hex(this.id._id['id']['data'])
     // })
-    const selectedPet = this.pets.find(x => x.name == this.addPetForm.get('name').value);
+    const selectedPet = this.pets.find(x => x.name === this.addPetForm.get('name').value);
     console.log(this.addPetForm.value);
     // @ts-ignore
     this.authService.patchPet(this.addPetForm.value, buf2hex(selectedPet.id.id.data)).pipe(first())
@@ -90,7 +95,14 @@ export class AddpetComponent implements OnInit {
   }
 
   getPet(): void {
-    this.service.getPets().then(pets => this.pets = pets);
+    this.service.getPets()
+      .subscribe(
+        pets => {
+          this.pets = pets;
+         // this.addPetForm.reset({ name: '', description: '', price: 0, quantityOnHand: 0 });
+        },
+        error => { alert(error); }
+      );
   }
 
 }

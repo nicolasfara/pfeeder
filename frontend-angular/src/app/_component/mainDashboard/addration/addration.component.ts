@@ -12,6 +12,8 @@ declare var $: any;
   templateUrl: './addration.component.html',
   styleUrls: ['./addration.component.scss']
 })
+// TODO VALIDATION FORM
+// TODO PATCH RATION
 export class AddrationComponent implements OnInit {
 
   pets: Pet[] = [];
@@ -40,23 +42,28 @@ export class AddrationComponent implements OnInit {
   }
 
   getPets() {
-    this.dataService.getPets().then(pets => this.pets = pets);
+    this.dataService.getPets().subscribe((pet: Pet[]) => {
+      this.pets = pet;
+    },
+      (error => {
+        console.error('error caught in component');
+        throw error;
+      }));
   }
   getFodders(){
     this.dataService.getFodder().then(fodders => this.fodders = fodders);
   }
   addRation() {
-    this.dataService.sendGetPets().subscribe((data: Pet[]) => {
+    this.dataService.getPets().subscribe((data: Pet[]) => {
       this.pets = data;
       const petName = $('#petName').val();
-      this.petSelect = this.pets.find(x => x.name == petName);
+      this.petSelect = this.pets.find(x => x.name === petName);
       console.log(petName);
       // @ts-ignore
       this.authService.addRation(this.addRationForm.value, buf2hex(this.petSelect.id.id.data)).pipe(first())
         .subscribe(
           // tslint:disable-next-line:no-shadowed-variable
           data => {
-
             $('#AddRation').modal('hide');
           });
     });
