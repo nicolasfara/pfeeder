@@ -62,6 +62,12 @@ export default async () => {
                         log.error("Unable to save a new notification")
                     }
                     break
+                case env.app.mqttFeed:
+                    const addFeed = await mqttService.addFeed(message)
+                    if (!addFeed) {
+                        log.error("Unable to save a new feed")
+                    }
+                    break
                 default:
                     log.error("Error")
             }
