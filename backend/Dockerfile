@@ -1,16 +1,19 @@
-FROM node:10
+FROM node:lts-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY package.json ./
+RUN apk add --no-cache bash
+
+COPY package.json package-lock.json ./
 
 RUN npm install
 
 RUN npm run start build
 
-COPY . .
+COPY . ./
 
 EXPOSE 3000
+EXPOSE 3001
 
 ENV LOG_LEVEL=debug
 ENV LOG_OUTPUT=dev

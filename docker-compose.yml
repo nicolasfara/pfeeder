@@ -2,15 +2,16 @@ version: '3' # specify docker-compose version
 
 # Define the services/containers to be run
 services:
-  #angular:
-  #  build: ./frontend-angular
-  #  ports:
-  #    - "4200:4200"
+  angular:
+    build: ./frontend-angular
+    ports:
+      - "4200:4200"
 
   backend:
     build: ./backend # specify the directory of the Dockerfile
     ports:
       - "3000:3000"
+      - "3001:3001"
     environment:
       - APP_NAME=pfeeder
       - JWT_SECRET=PUT_HERE_YOUR_JWT_SECRET
@@ -55,13 +56,14 @@ services:
     ports:
       - "1883:1883"
 
-        #nginx: #name of the second service
-        #  build: ./loadbalancer # specify the directory of the Dockerfile
-        #  ports:
-        #    - "80:8080" #specify ports forewarding
-        #  links:
-        #    - angular
-        #    - loopback
+  nginx: #name of the second service
+    build: ./loadbalancer # specify the directory of the Dockerfile
+    ports:
+      - "80:8080" #specify ports forewarding
+    links:
+      - angular
+      - backend
+
 volumes:
   pfeeder-db:
   redis-vol:
