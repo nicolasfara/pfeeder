@@ -55,18 +55,12 @@ export class DoughnutComponent implements OnInit {
     this.dataService.getPets().subscribe((data: Pet[]) => {
       this.pets = data;
       this.pets.forEach(value => this.pieChartLabels.splice(this.pets.indexOf(value), 0, value.name));
-      this.pets.forEach(value => {
-
-        // @ts-ignore
-        this.s = buf2hex(value._id.id.data);
-      });
-
       // @ts-ignore
-      this.pets.forEach(value => this.dataService.sendGetFeed(buf2hex(value._id.id.data))
+      this.pets.forEach((value: Pet) => this.dataService.sendGetFeed(buf2hex(value._id.id.data))
         .subscribe((feeds: Feed[]) => {
           this.feed = feeds;
           if (this.feed.length > 0) {
-            this.feed.forEach(value1 => this.pieChartData.splice(this.pets.indexOf(value), 0, value1.quantity));
+            this.feed.forEach(value1 => this.pieChartData[this.pets.indexOf(value)] = value1.quantity);
           }
         }));
     });

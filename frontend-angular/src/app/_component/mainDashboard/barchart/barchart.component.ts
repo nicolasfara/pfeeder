@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Pet} from '../../../_models/Pet';
 import {DataService} from '../../../_services/data/data.service';
 import {Color} from 'ng2-charts';
+
 // TODO TEST WITH FEED INSERT
 @Component({
   selector: 'app-barchart',
@@ -48,15 +49,14 @@ export class BarchartComponent implements OnInit {
         this.dataService.sendGetFeed(buf2hex(value._id.id.data)).subscribe((f: any) => {
           this.feeds = f;
         });
-
-        if (this.feeds.length > 0) {
-          // @ts-ignore
-          this.dataService.sendGetCostPet(buf2hex(value._id.id.data)).subscribe((cost: number) => {
-            if (cost) {
-              this.pieChartData.splice(this.pets.indexOf(value), 0, cost);
-            }
-          });
-        }
+         // IF THERE IS NO FEED AND DO 404 NOT LANCIARE ECCEZZIONE, È GIUSTO CHE NE VISUALIZZI SOLO UNO, VEDERE
+        // QUELLO CHE HO FATTO IN DOUHNUT
+        // @ts-ignore
+        this.dataService.sendGetCostPet(buf2hex(value._id.id.data)).subscribe((cost: number) => {
+          if (cost) {
+            this.pieChartData[this.pets.indexOf(value)] = cost;
+          }
+        });
       });
     });
   }
