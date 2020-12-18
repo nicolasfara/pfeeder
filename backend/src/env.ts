@@ -40,6 +40,7 @@ export const env = {
         mqttAlert: getOsEnvOptional('MQTT_ALERT') || '/pfeeder/alert',
         mqttInfo: getOsEnvOptional('MQTT_INFO') || '/pfeeder/info',
         mqttStatus: getOsEnvOptional('MQTT_STATUS') || '/pfeeder/status',
+        mqttFeed: getOsEnvOptional('MQTT_FEED') || '/pfeeder/feed',
         redisPort: getOsEnvOptional('REDIS_PORT') || 6379,
         redisHost: getOsEnvOptional('REDIS_HOST') || 'redis',
         dirs: {
