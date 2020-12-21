@@ -45,7 +45,6 @@
 
 
 
-  <!-- Nav Item - Charts -->
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFodder" aria-expanded="true" aria-controls="collapseFodder">
       <i class="fas fa fa-building "></i>
@@ -60,6 +59,24 @@
     </div>
     <app-showfodder></app-showfodder>
     <app-addfodder></app-addfodder>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRation" aria-expanded="true" aria-controls="collapseRation">
+      <i class="fas fa fa-building "></i>
+      <span>Ration</span>
+    </a>
+    <!--change id for collapse-->
+    <div id="collapseRation" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item"   data-toggle="modal" data-target="#AddRation">Add ration</a>
+        <a class="collapse-item" data-toggle="modal" data-target="#AllRation">Show all ration</a>
+      </div>
+    </div>
+    <app-addration></app-addration>
     <!-- Divider -->
     <hr class="sidebar-divider">
 

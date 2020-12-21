@@ -60,7 +60,7 @@ export class DoughnutComponent implements OnInit {
         .subscribe((feeds: Feed[]) => {
           this.feed = feeds;
           if (this.feed.length > 0) {
-            this.feed.forEach(value1 => this.pieChartData[this.pets.indexOf(value)] = value1.quantity);
+            this.feed.forEach(value1 => this.pieChartData[this.pets.indexOf(value)] = value1.kcal);
           }
         }));
     });

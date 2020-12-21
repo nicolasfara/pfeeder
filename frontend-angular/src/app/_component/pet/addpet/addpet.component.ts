@@ -20,8 +20,9 @@ export class AddpetComponent implements OnInit {
   fodders: Fodder [];
   pets: Pet[];
   addPetForm: FormGroup;
-  selectFodder = Fodder;
   fodderID: Fodder;
+  selectedOption = 'Select Fodder';
+  errorMessage: string;
 
   constructor(
     public fb: FormBuilder,
@@ -47,28 +48,21 @@ export class AddpetComponent implements OnInit {
   }
 
   addPet() {
-
-    this.fodderID = this.fodders.find(x => x.name === this.addPetForm.get('currentFodder').value);
-    // @ts-ignore
-    console.log('Fodder: ' + this.fodderID._id.id.data);
-
-
-    // @ts-ignore
-    const destr = this.fodderID._id.id;
+    const fodderID: Fodder[] = this.fodders.filter(x => x.name === this.addPetForm.get('currentFodder').value);
     this.addPetForm.patchValue({
-      currentFodder: buf2hex(destr.data)
+      // @ts-ignore
+      currentFodder: buf2hex(fodderID[0]._id.id.data)
     });
     console.log(this.addPetForm.value);
-    this.authService.addPet(this.addPetForm.value).subscribe(
-      () => {
+    this.authService.addPet(this.addPetForm.value).subscribe(() => {
         $('#AddPet').modal('hide');
-        // this.addPetForm.reset({ name: '', description: '', price: 0, quantityOnHand: 0 });
       },
-      error => { alert(error); }
-    );
+      (error => {
+        console.error('error caught in component');
+        this.errorMessage = error;
+        throw error;
+      }));
   }
-
-
 
 
   savePet() {
@@ -99,9 +93,11 @@ export class AddpetComponent implements OnInit {
       .subscribe(
         pets => {
           this.pets = pets;
-         // this.addPetForm.reset({ name: '', description: '', price: 0, quantityOnHand: 0 });
+          // this.addPetForm.reset({ name: '', description: '', price: 0, quantityOnHand: 0 });
         },
-        error => { alert(error); }
+        error => {
+          alert(error);
+        }
       );
   }
 

@@ -7,40 +7,48 @@
       </div>
       <div class="modal-body">
         <section class="signup">
-              <div class="signup-form">
-                <form [formGroup]="addPetForm"  class="register-form" id="register-form">
-                  <div class="form-group">
-                    <input type="text"  name="name" id="name" formControlName="name" placeholder="Pet's Name"/>
-                  </div>
-                  <div class="form-group">
-                    <input type="number" name="weight" id="weight" formControlName="weight" placeholder="Weight"/>
-                  </div>
-                  <div class="form-group">
-                    <input type="number" name="idealWeight" id="idealWeight" formControlName="idealWeight" placeholder="Ideal Weight"/>
-                  </div>
-                  <div class="form-group">
-                    <input type="number" name="age" id="age" formControlName="age" placeholder="Age"/>
-                  </div>
-                  <div class="form-group">
-                    <input type="text" name="petType" formControlName="petType" id="petType" placeholder="Type"/>
-                  </div>
-                  <div class="form-group">
-                    <input type="text" name="breed" formControlName="breed" id="breed" placeholder="Breed"/>
-                  </div>
-                  <div class="form-group">
-                    <div class="form-group">
-                      <input type="text" name="fodder" formControlName="currentFodder" id="fodder" placeholder="Fodder Name"/>
-                    </div>
-                    <button type="button" id="addFodd"(click)="openAddFodder()" class="btn btn-outline-primary">Add fodder</button>
-                  </div>
-                  <div class="form-group form-button">
-                    <input type="submit" name="signup" id="addPetButton"  (click)="addPet() "class="form-submit " value="Add Pet"/>
-                  </div>
-                  <div class="form-group form-button">
-                    <input type="submit" name="signup"  (click)="savePet()" id="savePetButton" class="form-submit " value="Save Pet"/>
-                  </div>
-                </form>
+          <div class="signup-form ">
+            <form [formGroup]="addPetForm" (ngSubmit)="addPet()" class="register-form" id="register-form">
+              <div class="form-group ">
+                <label class="col-sm-6" for="name">Pet Name</label>
+                <input class="col-sm-6" type="text" name="name" id="name" formControlName="name" placeholder="Pet's Name"/>
               </div>
+              <div class="form-group">
+                <input type="number" name="weight" id="weight" formControlName="weight" placeholder="Weight"/>
+              </div>
+              <div class="form-group">
+                <input type="number" name="idealWeight" id="idealWeight" formControlName="idealWeight"
+                       placeholder="Ideal Weight"/>
+              </div>
+              <div class="form-group">
+                <input type="number" name="age" id="age" formControlName="age" placeholder="Age"/>
+              </div>
+              <div class="form-group">
+                <input type="text" name="petType" formControlName="petType" id="petType" placeholder="Type"/>
+              </div>
+              <div class="form-group">
+                <input type="text" name="breed" formControlName="breed" id="breed" placeholder="Breed"/>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3">Fodder Name:</label>
+                <select [(ngModel)]="selectedOption" formControlName="currentFodder">
+                  <option *ngFor="let o of fodders">
+                    {{o.name}}
+                  </option>
+                </select>
+              </div>
+              <div *ngIf="errorMessage" class="alert alert-danger">
+                <strong>Error!</strong> {{'Error in add new pet'}}
+              </div>
+              <div class="form-group form-button">
+                <input type="submit" name="signup" id="addPetButton" class="form-submit " value="Add Pet"/>
+              </div>
+              <div class="form-group form-button">
+                <input type="submit" name="signup" (click)="savePet()" id="savePetButton" class="form-submit "
+                       value="Save Pet"/>
+              </div>
+            </form>
+          </div>
         </section>
       </div>
     </div><!-- /.modal-content -->

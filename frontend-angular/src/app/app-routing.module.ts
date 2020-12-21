@@ -5,12 +5,12 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 // Import all the components for which navigation service has to be activated
 
 import {HomepageComponent} from './_component/home/homepage/homepage.component';
-import {LoginComponent} from './_component/userComponent/login/login.component';
-import {RegisterComponent} from './_component/userComponent/register/register.component';
-import {DashboardComponent} from "./_component/mainDashboard/dashboard/dashboard.component";
+import {LoginComponent} from './_component/user/login/login.component';
+import {RegisterComponent} from './_component/user/register/register.component';
+import {DashboardComponent} from "./_component/main/dashboard/dashboard.component";
 import {AddpetComponent} from "./_component/pet/addpet/addpet.component";
-import {ProfileComponent} from "./_component/userComponent/profile/profile.component";
-import {NotfoundComponent} from "./_component/userComponent/notfound/notfound.component";
+import {ProfileComponent} from "./_component/user/profile/profile.component";
+import {NotfoundComponent} from "./_component/user/notfound/notfound.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/homepage', pathMatch: 'full' },

@@ -1,1 +1,12 @@
+//Common
+
 @import "../../utilities/styles";
+@import 'src/app/_component/utilities/common/extend';
+@import 'src/app/_component/utilities/common/minxi';
+@import 'src/app/_component/utilities/common/global';
+
+//layout
+@import 'src/app/_component/utilities/layouts/main';
+
+// Responsive
+@import 'src/app/_component/utilities/layouts/responsive';

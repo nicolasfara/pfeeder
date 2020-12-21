@@ -18,6 +18,7 @@ import {Notification} from '../../../_models/Notification';
 export class DashboardComponent implements OnInit {
   fodders = [];
   pets: Pet[] = [];
+  petName = [];
   rations: Ration[] = [];
   messageList: string[] = [];
   hours: string;
@@ -76,6 +77,7 @@ export class DashboardComponent implements OnInit {
     this.service.getPets().subscribe(
       (pet: Pet[]) => {
         this.pets = pet;
+        this.pets.forEach(x => this.petName.push(x.name));
         // console.log(this.pets);
         // // @ts-ignore
         // this.pets.forEach( x => this.service.getRationByID(buf2hex(x._id.id)).subscribe((data: Ration) => {
