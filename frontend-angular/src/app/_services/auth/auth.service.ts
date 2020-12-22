@@ -13,7 +13,7 @@ import {environment} from '../../../environments/environment';
 })
 
 export class AuthService {
-  endpoint = 'http://' + environment.apiBaseUrl + ':3000/api';
+  endpoint = 'http://' + environment.apiBaseUrl + '/api';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
 
