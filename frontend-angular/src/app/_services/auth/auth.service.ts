@@ -1,15 +1,13 @@
 import {Injectable} from '@angular/core';
 import {User} from '../../_models/User';
-import {Observable, Subject, throwError} from 'rxjs';
-import {catchError, map, tap} from 'rxjs/operators';
+import {Observable, throwError} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 import {HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {Pet} from '../../_models/Pet';
-import {Feed} from '../../_models/Feed';
 import {changePsw} from '../../_models/changePsw';
-import {Ration} from '../../_models/Ration';
 import {WebsocketService} from '../notification/websocket.service';
-import { environment } from '../../../environments/environment';
+import {environment} from '../../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,29 +33,25 @@ export class AuthService {
   }
 
 
-
-
   // Sign-up
   signUp(user: User): Observable<any> {
     return this.http.post(`${this.endpoint}/users`, user).pipe(
       map((result: any) => {
-        return  result || {};
+        return result || {};
       }),
       catchError(this.handleError)
     );
   }
 
   // Sign-in
-  signIn(user: User): Observable<any>  {
-    return this.http.post(`${this.endpoint}/users/login`, user).
-    pipe(
+  signIn(user: User): Observable<any> {
+    return this.http.post(`${this.endpoint}/users/login`, user).pipe(
       map((result: any) => {
-          localStorage.setItem('access_token', result.token);
-          sessionStorage.setItem('access_token', result.token);
-          this.socketService.setupSocketConnection();
-          return result || {};
+        localStorage.setItem('access_token', result.token);
+        this.socketService.setupSocketConnection();
+        return result || {};
       }),
-        catchError(this.handleError)
+      catchError(this.handleError)
     );
   }
 
@@ -99,7 +93,7 @@ export class AuthService {
       // Server-side errors
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-  //  window.alert(errorMessage);
+    //  window.alert(errorMessage);
     return throwError(errorMessage);
   }
 }
