@@ -19,8 +19,6 @@ declare var $: any;
 export class AddrationComponent implements OnInit {
 
   pets: Pet[] = [];
-
-  petSelect: Pet;
   public addRationForm: FormGroup;
   submitted = false;
   errorMessage: string;

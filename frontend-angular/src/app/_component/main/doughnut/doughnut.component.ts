@@ -44,7 +44,7 @@ export class DoughnutComponent implements OnInit {
       this.pets = data;
       this.pets.forEach(value => this.pieChartLabels.splice(this.pets.indexOf(value), 0, value.name));
       // @ts-ignore
-      this.pets.forEach((value: Pet) => this.dataService.sendGetFeed(buf2hex(value._id.id.data))
+      this.pets.forEach((value: Pet) => this.dataService.getFeed(buf2hex(value._id.id.data))
         .subscribe((feeds: Feed[]) => {
           this.feed = feeds;
           if (this.feed.length > 0) {

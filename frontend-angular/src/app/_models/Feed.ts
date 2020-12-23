@@ -1,6 +1,6 @@
-
 export class Feed {
-  _id : string;
+  // tslint:disable-next-line:variable-name
+  _id: string;
   data: Date;
   quantity: number;
   kcal: number;

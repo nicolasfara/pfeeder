@@ -3,6 +3,8 @@ import {AuthService} from '../../../_services/auth/auth.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 
+declare var $: any;
+ // TODO GESTIRE PSW DIMENTICATA
 
 @Component({
   selector: 'app-login',
@@ -14,6 +16,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   errorMessage;
 
+  showForgot = false;
   constructor(
     public fb: FormBuilder,
     public authService: AuthService,
@@ -46,5 +49,9 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(5)]]
     });
+  }
+
+  openForgot() {
+    this.showForgot = true;
   }
 }

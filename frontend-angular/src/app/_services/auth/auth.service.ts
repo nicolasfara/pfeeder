@@ -4,7 +4,7 @@ import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {changePsw} from '../../_models/changePsw';
+import {ChangePsw} from '../../_models/ChangePsw';
 import {WebsocketService} from '../notification/websocket.service';
 import {environment} from '../../../environments/environment';
 
@@ -24,17 +24,16 @@ export class AuthService {
     public router: Router,
     private socketService: WebsocketService,
   ) {
-    if (this.api === 'localhost'){
+    if (this.api === 'localhost') {
       this.api = this.api.concat(':3000');
     }
     this.endpoint = 'http://' + this.api + '/api';
   }
 
   // Change Password
-  changePassword(changePassword: changePsw): Observable<any> {
+  changePassword(changePassword: ChangePsw): Observable<any> {
     const api = `${this.endpoint}/users/password`;
     return this.http.post(api, changePassword).pipe(catchError(this.handleError));
-
   }
 
 
@@ -70,7 +69,7 @@ export class AuthService {
   }
 
   doLogout() {
-    this.router.navigate(['/homepage']);
+    this.router.navigate(['/homepage']).then();
   }
 
   // get User

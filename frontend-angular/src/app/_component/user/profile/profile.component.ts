@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 import {User} from '../../../_models/User';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {AuthService} from '../../../_services/auth/auth.service';
@@ -31,25 +31,28 @@ export class ProfileComponent implements OnInit {
     });
     this.changePasswordForm = this.fb.group({
       oldPassword: [''],
-      password : [''],
-      confirmPassword : ['']
+      password: [''],
+      confirmPassword: ['']
     });
   }
+
   editProfile() {
-    this.authService.signUp(this.editProfileForm.value) .pipe(first())
+    this.authService.signUp(this.editProfileForm.value).pipe(first())
       .subscribe(
         data => {
 
         });
   }
-  changePassword(){
+
+  changePassword() {
     console.log(this.changePasswordForm);
     this.authService.changePassword(this.changePasswordForm.value).pipe(first()).subscribe(data => {
-                                      console.log('ok!!');
+      console.log('ok!!');
 
 
     });
   }
+
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe((data: User) => {
       this.currentUser = data;

@@ -1,1 +1,75 @@
-<p>showration works!</p>
+<!--<div id="AllRation" class="modal">-->
+<!--  <div class="modal-dialog modal-xl">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <h2 class="form-title text-primary">{{modalTitle}}</h2>-->
+<!--      </div>-->
+<!--      <div *ngIf="!showEditRation" class="modal-body">-->
+<!--        <div class="table-responsive">-->
+<!--          <table mdbtable class="card-table table">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--              <th scope="col">Fodder Name</th>-->
+<!--              <th scope="col">Company Name</th>-->
+<!--              <th scope="col">Price</th>-->
+<!--              <th scope="col">Weight</th>-->
+<!--              <th scope="col">Kcal</th>-->
+<!--              <th scope="col">Proteins</th>-->
+<!--              <th scope="col">Fats</th>-->
+<!--              <th scope="col">Vitamins</th>-->
+<!--              <th scope="col">Carbohydrates</th>-->
+<!--              <th scope="col">Edit</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr *ngFor="let ration of rations">-->
+<!--              <td class="name">{{ration.name}}</td>-->
+<!--              <td class="companyName">{{ration.companyName}}</td>-->
+<!--              <td class="price">{{ration.price}}</td>-->
+<!--              <td class="weight">{{ration.weight}} kg</td>-->
+<!--              <td class="kcal">{{ration.nutritionFacts.kcal}}</td>-->
+<!--              <td class="proteins">{{ration.nutritionFacts.proteins}}</td>-->
+<!--              <td class="fats">{{ration.nutritionFacts.fats}}</td>-->
+<!--              <td class="vitamins">{{ration.nutritionFacts.vitamins}}</td>-->
+<!--              <td class="carbohydrates">{{ration.nutritionFacts.carbohydrates}}</td>-->
+<!--              <td>-->
+<!--                <a class="collapse-item" (click)="EditRation(ration)"> <i-->
+<!--                  class="fas fa-fw fa-cog"></i></a>-->
+<!--              </td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--          </table>-->
+<!--        </div>-->
+<!--      </div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
+<!--      <div *ngIf="showEditRation" class="modal-body">-->
+<!--        <div class="row">-->
+<!--          <div class="col-md-10 mx-auto">-->
+<!--            <form [formGroup]="updateRationForm" (ngSubmit)="updateRation(updateRationForm)" class="register-form"-->
+<!--                  id="register-form">-->
+
+
+
+
+
+<!--              <div *ngIf="errorMessage" class="alert alert-danger">-->
+<!--                <strong>Error!</strong> {{'Error in patch fodder'}}-->
+<!--              </div>-->
+<!--              <div class="form-group form-button  row">-->
+<!--                <div class="col-sm-6">-->
+<!--                  <input type="submit" name="signup" id="addFodderButton" class="form-submit " value="Update Ration"/>-->
+<!--                </div>-->
+
+<!--                <div class="form-group form-button">-->
+<!--                  <div class="col-sm-6">-->
+<!--                    <input type="submit" name="signup" id="deleteFodderButton" class="form-submit "-->
+<!--                           value="Delete Ration"/>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </form>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
+<!--  </div>&lt;!&ndash; /.modal &ndash;&gt;-->
+<!--</div>-->

@@ -33,6 +33,6 @@ export class TopbarComponent implements OnInit {
   }
 
   goToProfile() {
-    this.router.navigate(['/profile']);
+    this.router.navigate(['/profile']).then();
   }
 }

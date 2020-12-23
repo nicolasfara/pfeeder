@@ -17,6 +17,7 @@ export class Pet {
   ];
   currentFodder: string;
 }
+
 export enum PetType {
   Dog = 'dog',
   Cat = 'cat',

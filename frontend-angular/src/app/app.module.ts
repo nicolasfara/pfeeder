@@ -21,7 +21,6 @@ import {BarchartComponent} from './_component/main/barchart/barchart.component';
 import {AddfodderComponent} from './_component/fodder/addfodder/addfodder.component';
 import {LogoutComponent} from './_component/user/logout/logout.component';
 import {NotfoundComponent} from './_component/user/notfound/notfound.component';
-import {ForgotpasswordComponent} from './_component/user/forgotpassword/forgotpassword.component';
 import {ShowfodderComponent} from './_component/fodder/showfodder/showfodder.component';
 import {ShowpetComponent} from './_component/pet/showpet/showpet.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -47,7 +46,6 @@ import { ShowrationComponent } from './_component/ration/showration/showration.c
     AddfodderComponent,
     LogoutComponent,
     NotfoundComponent,
-    ForgotpasswordComponent,
     ShowfodderComponent,
     ShowpetComponent,
     ShowrationComponent

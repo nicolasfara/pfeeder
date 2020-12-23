@@ -1,4 +1,5 @@
 export class Fodder {
+  // tslint:disable-next-line:variable-name
   _id: object;
   name: string;
   companyName: string;

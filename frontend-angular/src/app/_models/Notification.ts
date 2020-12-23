@@ -4,6 +4,7 @@ export class Notification {
   message: string;
   userId: string;
 }
+
 export enum NotificationType {
   Info = 'info',
   Err = 'err',

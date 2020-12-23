@@ -6,6 +6,7 @@ import {Observable, Subject, throwError} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {Ration} from '../../_models/Ration';
+import {Feed} from "../../_models/Feed";
 
 @Injectable({
   providedIn: 'root'
@@ -54,18 +55,18 @@ export class DataService {
     const api = `${this.endpoint}` + '/fodders/' + fodderID;
     return this.httpClient.patch(api, fodder)
       .pipe(
-      map((result: any) => {
-        return result || {};
-      }),
-      tap({
-        next: () => {
-          this.refreshNeeded$.next();
-        },
-        error: error => {
-          catchError(this.handleError);
-        }
-      })
-    );
+        map((result: any) => {
+          return result || {};
+        }),
+        tap({
+          next: () => {
+            this.refreshNeeded$.next();
+          },
+          error: error => {
+            catchError(this.handleError);
+          }
+        })
+      );
   }
 
 
@@ -105,21 +106,22 @@ export class DataService {
     const api = `${this.endpoint}/pets/` + id;
     return this.httpClient.patch(api, pet)
       .pipe(
-      map((result: any) => {
-        return result || {};
-      }),
-      tap({
-        next: () => {
-          this.refreshNeeded$.next();
-        },
-        error: error => {
-          catchError(this.handleError);
-        }
-      })
-    );
+        map((result: any) => {
+          return result || {};
+        }),
+        tap({
+          next: () => {
+            this.refreshNeeded$.next();
+          },
+          error: error => {
+            catchError(this.handleError);
+          }
+        })
+      );
   }
 
-  /* Ration API */
+  /** ------ Ration API  ------ */
+
 
   public getRation() {
     return this.httpClient.get(this.endpoint + '/rations');
@@ -154,26 +156,37 @@ export class DataService {
   }
 
 
-  /* Cost API */
+  /** API to get cost for a particular pet */
 
-  public sendGetCostPet(id: string) {
-    return this.httpClient.get(this.endpoint + '/feeds/' + id + '/cost');
+  public getCostPet(id: string) {
+    return this.httpClient.get(this.endpoint + '/feeds/' + id + '/cost')
+      .pipe(
+        map((result: Ration) => {
+          return result;
+        }),
+        catchError(this.handleError)
+      );
   }
 
-  public sendGetFeed(id: string) {
-    return this.httpClient.get(this.endpoint + '/feeds/' + id);
+  /** API to get feed for a particular pet */
+  public getFeed(id: string) {
+    return this.httpClient.get(this.endpoint + '/feeds/' + id)
+      .pipe(
+        map((result: Feed[]) => {
+          return result;
+        }),
+        catchError(this.handleError)
+      );
   }
 
+  /** Function to handle error in server request */
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {
-      // Client-side errors
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      // Server-side errors
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    //  window.alert(errorMessage);
     return throwError(errorMessage);
   }
 }

@@ -31,7 +31,7 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  get f() {
+  get form() {
     return this.signupForm.controls;
   }
 
