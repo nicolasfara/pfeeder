@@ -29,7 +29,7 @@ export class WebsocketService {
   getMessage() {
     return new Observable(observer => {
       this.socket.on('notifications', data => {
-        observer.next(data);
+        observer.next();
       });
     });
   }

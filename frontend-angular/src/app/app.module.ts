@@ -27,6 +27,7 @@ import {ShowpetComponent} from './_component/pet/showpet/showpet.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import {WebsocketService} from './_services/notification/websocket.service';
+import { ShowrationComponent } from './_component/ration/showration/showration.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {WebsocketService} from './_services/notification/websocket.service';
     NotfoundComponent,
     ForgotpasswordComponent,
     ShowfodderComponent,
-    ShowpetComponent
+    ShowpetComponent,
+    ShowrationComponent
   ],
   imports: [
     BrowserModule,

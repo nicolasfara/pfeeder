@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DataService} from '../../../_services/data/data.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Fodder} from '../../../_models/Fodder';
@@ -6,7 +6,7 @@ import {Fodder} from '../../../_models/Fodder';
 // TODO RENDERE LA TABELLA CON SUBJECT CON AGGIORNAMENTO COME IN DASHBOARD
 // TODO mettere a posto visualizzazione da mobile
 // TODO fare anche delete
-// TODO controllo form valida da modifica
+
 @Component({
   selector: 'app-showfodder',
   templateUrl: './showfodder.component.html',
@@ -20,6 +20,8 @@ export class ShowfodderComponent implements OnInit {
   private currentFodderName: string;
   errorMessage: string;
   modalTitle: string;
+  submitted = false;
+
 
   constructor(private service: DataService, public fb: FormBuilder) {
   }

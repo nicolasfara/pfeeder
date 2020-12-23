@@ -3,7 +3,7 @@ import {DataService} from '../../../_services/data/data.service';
 import {Pet} from '../../../_models/Pet';
 import {Feed} from '../../../_models/Feed';
 import {Color} from 'ng2-charts';
-// TODO TEST WITH FEED INSERT
+
 @Component({
   selector: 'app-doughnut',
   templateUrl: './doughnut.component.html',
@@ -36,18 +36,6 @@ export class DoughnutComponent implements OnInit {
     }
   ];
 
-  // event on pie chart slice hover
-  private s: string;
-
-
-  // events on slice click
-  public chartClicked(e: any): void {
-
-  }
-
-  public chartHovered(e: any): void {
-
-  }
 
   ngOnInit(): void {
 
@@ -68,8 +56,8 @@ export class DoughnutComponent implements OnInit {
 
   getPets() {
     this.dataService.getPets().subscribe((pet: Pet[]) => {
-      this.pets = pet;
-    },
+        this.pets = pet;
+      },
       (error => {
         console.error('error caught in component');
         throw error;

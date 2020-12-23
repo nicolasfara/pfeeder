@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Pet} from '../../../_models/Pet';
 import {DataService} from '../../../_services/data/data.service';
 import {Color} from 'ng2-charts';
+import {Feed} from '../../../_models/Feed';
 
-// TODO TEST WITH FEED INSERT
 @Component({
   selector: 'app-barchart',
   templateUrl: './barchart.component.html',
@@ -46,11 +46,9 @@ export class BarchartComponent implements OnInit {
       this.pets.forEach(value => this.pieChartLabels.push(value.name));
       this.pets.forEach(value => {
         // @ts-ignore
-        this.dataService.sendGetFeed(buf2hex(value._id.id.data)).subscribe((f: any) => {
+        this.dataService.sendGetFeed(buf2hex(value._id.id.data)).subscribe((f: Feed) => {
           this.feeds = f;
         });
-         // IF THERE IS NO FEED AND DO 404 NOT LANCIARE ECCEZZIONE, È GIUSTO CHE NE VISUALIZZI SOLO UNO, VEDERE
-        // QUELLO CHE HO FATTO IN DOUHNUT
         // @ts-ignore
         this.dataService.sendGetCostPet(buf2hex(value._id.id.data)).subscribe((cost: number) => {
           if (cost) {

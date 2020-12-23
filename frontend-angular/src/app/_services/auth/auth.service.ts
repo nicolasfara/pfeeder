@@ -13,7 +13,8 @@ import {environment} from '../../../environments/environment';
 })
 
 export class AuthService {
-  endpoint = 'http://' + environment.apiBaseUrl + '/api';
+  api = environment.apiBaseUrl;
+  endpoint: string;
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
 
@@ -23,6 +24,10 @@ export class AuthService {
     public router: Router,
     private socketService: WebsocketService,
   ) {
+    if (this.api === 'localhost'){
+      this.api = this.api.concat(':3000');
+    }
+    this.endpoint = 'http://' + this.api + '/api';
   }
 
   // Change Password

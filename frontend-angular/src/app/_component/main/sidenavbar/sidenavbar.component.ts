@@ -13,7 +13,7 @@ export class SidenavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Toggle the side navigation
+
     $(document).ready(() => {
       $('#sidebarToggle, #sidebarToggleTop').on('click', () => {
         $('body').toggleClass('sidebar-toggled');
@@ -33,8 +33,6 @@ export class SidenavbarComponent implements OnInit {
       $('.modal-body #age').val('');
       $('.modal-body #petType').val('');
       $('.modal-body #breed').val('');
-
-
       $('.modal-body #fodder').show();
       $('.modal-body #addFodd').show();
       $('.modal-body #savePetButton').hide();

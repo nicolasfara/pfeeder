@@ -5,9 +5,7 @@ import {DataService} from '../../../_services/data/data.service';
 
 declare var $: any;
 // TODO ADD SUBJECT TO UPDATE
-// TODO PATCH FORM IN THE SAME TEMPLATE
-// TODO VALIDATE FORM
-// TODO ADD LABEL IN HTML
+
 @Component({
   selector: 'app-addfodder',
   templateUrl: './addfodder.component.html',

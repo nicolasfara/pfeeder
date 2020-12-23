@@ -33,20 +33,38 @@ export class DataService {
   // addFodder
   addFodder(fodder: Fodder): Observable<any> {
     const api = `${this.endpoint}/fodders`;
-    return this.httpClient.post(api, fodder).pipe(
-      tap(() => {
-        this.refreshNeeded$.next();
-      }));
+    return this.httpClient.post(api, fodder)
+      .pipe(
+        map((result: any) => {
+          return result || {};
+        }),
+        tap({
+          next: () => {
+            this.refreshNeeded$.next();
+          },
+          error: error => {
+            catchError(this.handleError);
+          }
+        })
+      );
   }
 
   // patchFodder
   patchFodder(fodderID, fodder: Fodder): Observable<any> {
     const api = `${this.endpoint}` + '/fodders/' + fodderID;
-    return this.httpClient.post(api, fodder).pipe(
+    return this.httpClient.patch(api, fodder)
+      .pipe(
       map((result: any) => {
         return result || {};
       }),
-      catchError(this.handleError)
+      tap({
+        next: () => {
+          this.refreshNeeded$.next();
+        },
+        error: error => {
+          catchError(this.handleError);
+        }
+      })
     );
   }
 
@@ -66,19 +84,39 @@ export class DataService {
     const api = `${this.endpoint}/pets`;
     return this.httpClient.post(api, pet)
       .pipe(
-        tap(() => {
-          this.refreshNeeded$.next();
-        }));
+        map((result: any) => {
+          return result || {};
+        }),
+        tap({
+          next: () => {
+            this.refreshNeeded$.next();
+          },
+          error: error => {
+            catchError(this.handleError);
+          }
+        })
+      );
 
   }
+
 
   // patch
   patchPet(pet: Pet, id: string): Observable<any> {
     const api = `${this.endpoint}/pets/` + id;
-    return this.httpClient.post(api, pet)
+    return this.httpClient.patch(api, pet)
       .pipe(
-        catchError(this.handleError)
-      );
+      map((result: any) => {
+        return result || {};
+      }),
+      tap({
+        next: () => {
+          this.refreshNeeded$.next();
+        },
+        error: error => {
+          catchError(this.handleError);
+        }
+      })
+    );
   }
 
   /* Ration API */
@@ -87,7 +125,7 @@ export class DataService {
     return this.httpClient.get(this.endpoint + '/rations');
   }
 
-  public getRationByID(petID: string): Observable<Ration>{
+  public getRationByID(petID: string): Observable<Ration> {
     return this.httpClient.get(this.endpoint + '/rations/' + petID).pipe(
       map((result: Ration) => {
         return result;
@@ -95,10 +133,24 @@ export class DataService {
       catchError(this.handleError)
     );
   }
+
   // addRation
   addRation(ration: Ration, id: string): Observable<any> {
     const api = `${this.endpoint}/rations/` + id;
-    return this.httpClient.post(api, ration);
+    return this.httpClient.post(api, ration)
+      .pipe(
+        map((result: any) => {
+          return result || {};
+        }),
+        tap({
+          next: () => {
+            this.refreshNeeded$.next();
+          },
+          error: error => {
+            catchError(this.handleError);
+          }
+        })
+      );
   }
 
 

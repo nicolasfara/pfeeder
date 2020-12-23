@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {first} from 'rxjs/operators';
 import {AuthService} from '../../../_services/auth/auth.service';
 import {Router} from '@angular/router';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Pet} from '../../../_models/Pet';
 import {Fodder} from '../../../_models/Fodder';
 import {DataService} from '../../../_services/data/data.service';
+
 declare var $: any;
+
 @Component({
   selector: 'app-addration',
   templateUrl: './addration.component.html',
@@ -17,59 +19,64 @@ declare var $: any;
 export class AddrationComponent implements OnInit {
 
   pets: Pet[] = [];
-  fodders: Fodder[] = [];
-   petSelect: Pet;
+
+  petSelect: Pet;
   public addRationForm: FormGroup;
+  submitted = false;
+  errorMessage: string;
+
   constructor(
     public fb: FormBuilder,
-    public authService: AuthService,
     public router: Router,
     private dataService: DataService
   ) {
     this.addRationForm = this.fb.group({
-      name: [''],
-      ration: [''],
-      minutes: [''],
-      hours: [''],
-     // petId: [''] // L'utente selezionerà i nomi dei pet disponibili
-      /* Poi si fa una query prima e si seleziona l'fodderSelect dei pet e dei fodder inserito*/
-
+      name: ['', [Validators.required]],
+      ration: ['', [Validators.required, Validators.minLength(1), Validators.pattern('^[0-9]*$')]],
+      minutes: ['', [Validators.required, Validators.minLength(1), Validators.pattern('^[0-9]*$')]],
+      hours: ['', [Validators.required, Validators.minLength(1), Validators.pattern('^[0-9]*$')]],
+      petId: ['', [Validators.required]]
     });
   }
+
   ngOnInit(): void {
-     this.getPets();
-     this.getFodders();
+    this.getPets();
+  }
+
+  get f() {
+    return this.addRationForm.controls;
   }
 
   getPets() {
     this.dataService.getPets().subscribe((pet: Pet[]) => {
-      this.pets = pet;
-    },
+        this.pets = pet;
+      },
       (error => {
         console.error('error caught in component');
         throw error;
       }));
   }
-  getFodders(){
-    this.dataService.getFodder().then(fodders => this.fodders = fodders);
-  }
-  addRation() {
-    this.dataService.getPets().subscribe((data: Pet[]) => {
-      this.pets = data;
-      const petName = $('#petName').val();
-      this.petSelect = this.pets.find(x => x.name === petName);
-      console.log(petName);
-      // @ts-ignore
-      this.authService.addRation(this.addRationForm.value, buf2hex(this.petSelect.id.id.data)).pipe(first())
-        .subscribe(
-          // tslint:disable-next-line:no-shadowed-variable
-          data => {
-            $('#AddRation').modal('hide');
-          });
-    });
-  }
 
+  addRation() {
+    this.submitted = true;
+    this.errorMessage = '';
+    if (this.addRationForm.invalid) {
+      return;
+    }
+    const petId: Pet[] = this.pets.filter(x => x.name === this.addRationForm.value.petId);
+    // @ts-ignore
+    this.dataService.addRation(this.addRationForm.value, buf2hex(petId[0]._id.id.data))
+      .subscribe(() => {
+          $('#AddRation').modal('hide');
+        },
+        (error => {
+          console.error('error caught in component');
+          this.errorMessage = error;
+          throw error;
+        }));
+  }
 }
+
 function buf2hex(buffer) { // buffer is an ArrayBuffer
   return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
 }

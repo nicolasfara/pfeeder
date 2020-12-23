@@ -6,32 +6,75 @@
         <h2 class="form-title text-primary">Add Ration</h2>
       </div>
       <div class="modal-body">
-        <section class="signup">
-          <div class="signup-form">
+        <div class="row">
+          <div class="col-md-10 mx-auto">
             <form [formGroup]="addRationForm" (ngSubmit)="addRation()" class="register-form" id="register-form">
-              <div class="form-group">
-                <input type="text" name="name" id="name" formControlName="name" placeholder="Ration name"/>
+              <div class="form-group row">
+                <div class=" col-sm-12 row">
+                  <label class="col-sm-6" for="name">Ration Name</label>
+                  <input class="col-sm-6" type="text" name="name" id="name" formControlName="name"
+                         placeholder="Ration Name"
+                         [ngClass]="{ 'is-invalid': submitted && f.name.errors }"/>
+                  <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Name is required</div>
+                  </div>
+                </div>
               </div>
-              <div class="form-group">
-                <input type="number" name="ration" id="ration" formControlName="ration" placeholder="Quantity"/>
+              <div class="form-group row">
+                <div class=" col-sm-12 row">
+                  <label class="col-sm-6" for="ration">Ration quantity</label>
+                <input class="col-sm-6" type="number" name="ration" id="ration" formControlName="ration" placeholder="Quantity"
+                       [ngClass]="{ 'is-invalid': submitted && f.ration.errors }"/>
+                  <div *ngIf="submitted && f.ration.errors" class="invalid-feedback">
+                    <div *ngIf="f.ration.errors.required">Quantity is required</div>
+                  </div>
+                </div>
               </div>
-              <div class="form-group">
-                <input type="number" name="minutes" id="minutes" formControlName="minutes" placeholder="Minutes"/>
+              <div class="form-group row">
+                <div class=" col-sm-12 row">
+                  <label class="col-sm-6" for="minutes">Ration minutes</label>
+                <input class="col-sm-6" type="number" name="minutes" id="minutes" formControlName="minutes" placeholder="Minutes"
+                       [ngClass]="{ 'is-invalid': submitted && f.minutes.errors }"/>
+                  <div *ngIf="submitted && f.minutes.errors" class="invalid-feedback">
+                    <div *ngIf="f.minutes.errors.required">Minutes is required</div>
+                  </div>
+                </div>
               </div>
-              <div class="form-group">
-                <input type="number" name="hours" id="hours" formControlName="hours" placeholder="Hours"/>
+              <div class="form-group row">
+                <div class=" col-sm-12 row">
+                  <label class="col-sm-6" for="hours">Ration hours</label>
+                <input class="col-sm-6" type="number" name="hours" id="hours" formControlName="hours" placeholder="Hours"
+                       [ngClass]="{ 'is-invalid': submitted && f.hours.errors }"/>
+                  <div *ngIf="submitted && f.hours.errors" class="invalid-feedback">
+                    <div *ngIf="f.hours.errors.required">Hours is required</div>
+                  </div>
               </div>
-              <div class="form-group">
-                <input type="text" readonly name="petName" id="petName"/>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-12  row">
+                  <label class="col-sm-6" for="#petName">Pet Name</label>
+                  <select  formControlName="petId" class=" col-sm-6 form-control" id="#petName">
+                    <option *ngFor="let o of pets">
+                      {{o.name}}
+                    </option>
+                  </select>
+                </div>
               </div>
 
-              <div class="form-group form-button">
-                <input type="submit" name="signup" id="addRationButton" class="form-submit " value="Add Ration"/>
+              <div *ngIf="errorMessage" class="alert alert-danger">
+                <strong>Error!</strong> {{'Error in add new ration'}}
+              </div>
+              <div class="form-group form-button row">
+                <div class=" col-sm-12  row">
+                  <label class="col-sm-6"></label>
+                  <input class="col-sm-6 form-submit" type="submit" name="signup" id="addRationButton" value="Add Ration"/>
+                </div>
               </div>
             </form>
           </div>
-        </section>
+
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+</div>
