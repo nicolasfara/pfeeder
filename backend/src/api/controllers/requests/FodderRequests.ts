@@ -1,4 +1,4 @@
-import {IsNotEmpty, IsNumber, IsObject, IsString} from "class-validator";
+import {IsNotEmpty, IsNumber, IsString} from "class-validator";
 
 export class CreateFodder {
     @IsString()
@@ -33,12 +33,14 @@ export class PatchFodder {
     public price: number;
     @IsNumber()
     public weight: number;
-    @IsObject()
-    public nutritionFacts: {
-        kcal: number;
-        proteins: number;
-        fats: number;
-        vitamins: number;
-        carbohydrates: number;
-    };
+    @IsNumber()
+    kcal: number;
+    @IsNumber()
+    proteins: number;
+    @IsNumber()
+    fats: number;
+    @IsNumber()
+    vitamins: number;
+    @IsNumber()
+    carbohydrates: number;
 }

@@ -1,8 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {DataService} from '../../../_services/data/data.service';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Fodder} from '../../../_models/Fodder';
 
-
-declare var $: any
+// TODO RENDERE LA TABELLA CON SUBJECT CON AGGIORNAMENTO COME IN DASHBOARD
+// TODO mettere a posto visualizzazione da mobile
+// TODO fare anche delete
 
 @Component({
   selector: 'app-showfodder',
@@ -11,47 +14,65 @@ declare var $: any
 
 })
 export class ShowfodderComponent implements OnInit {
-  fodders = [];
+  fodders: Fodder[] = [];
+  showEditProduct = false;
+  public updateFodderForm: FormGroup;
+  private currentFodderName: string;
+  errorMessage: string;
+  modalTitle: string;
+  submitted = false;
 
-  constructor(private service: DataService) {
+
+  constructor(private service: DataService, public fb: FormBuilder) {
   }
 
   ngOnInit(): void {
+    this.showEditProduct = false;
+    this.modalTitle = 'Fodder Dashboard';
     this.getFodder();
-
-    $(document).on('click', '.openUpdateFodder', function () {
-      const name = $(this).closest('td').prevAll('.fodderName').text();
-      const companyName = $(this).closest('td').prevAll('.companyName').text();
-      const price = $(this).closest('td').prevAll('.price').text();
-      const weight = $(this).closest('td').prevAll('.weight').text().replace(' kg', '');
-      const trueWeight: number = +weight;
-      const kcal = $(this).closest('td').prevAll('.kcal').text();
-      const proteins = $(this).closest('td').prevAll('.proteins').text();
-      const  fats = $(this).closest('td').prevAll('.fats').text();
-      const  vitamins = $(this).closest('td').prevAll('.vitamins').text();
-      const carbohydrates = $(this).closest('td').prevAll('.carbohydrates').text();
-      const obj = { name, companyName, price, trueWeight, kcal, proteins, fats, vitamins, carbohydrates };
-      const myJSON = JSON.stringify(obj);
-      localStorage.setItem('currentFodder', myJSON);
-
-      // $(".modal-body #fodderName").val(fodderName);
-      // $(".modal-body #companyName").val(companyName);
-      // $(".modal-body #price").val(price);
-      // $(".modal-body #weight").val(weight);
-      // $(".modal-body #kcal").val(kcal);
-      // $(".modal-body #proteins").val(proteins);
-      // $(".modal-body #fats").val(fats);
-      // $(".modal-body #vitamins").val(vitamins);
-      // $(".modal-body #carbohydrates").val(carbohydrates);
-
-      $('#UpdateFodder').modal('show');
+    this.service.refreshNeeded.subscribe(() => {
+      this.getFodder();
     });
+  }
 
+  EditFodder(fodderform) {
+    this.showEditProduct = true;
+    this.modalTitle = 'Update fodder';
+    this.currentFodderName = fodderform.name;
+    this.updateFodderForm = this.fb.group({
+      name: fodderform.name,
+      companyName: fodderform.companyName,
+      price: fodderform.price,
+      weight: fodderform.weight,
+      kcal: fodderform.nutritionFacts.kcal,
+      proteins: fodderform.nutritionFacts.proteins,
+      fats: fodderform.nutritionFacts.fats,
+      vitamins: fodderform.nutritionFacts.vitamins,
+      carbohydrates: fodderform.nutritionFacts.carbohydrates
+    });
   }
 
   getFodder(): void {
     this.service.getFodder().then(fodders => this.fodders = fodders);
+  }
 
+  updateFodder(updateFodderForm) {
+    const updateFodder = updateFodderForm.value;
+    const fodderID: Fodder[] = this.fodders.filter(x => x.name === this.currentFodderName);
+    // @ts-ignore
+    this.service.patchFodder(buf2hex(fodderID[0]._id.id.data), updateFodder)
+      .subscribe(() => {
+          this.showEditProduct = false;
+        },
+        (error => {
+          console.error('error caught in component');
+          this.errorMessage = error;
+          throw error;
+        })
+      );
   }
 }
 
+function buf2hex(buffer) { // buffer is an ArrayBuffer
+  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
+}

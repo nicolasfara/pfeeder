@@ -1,0 +1,86 @@
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion #sidebarToggle" id="accordionSidebar">
+
+  <!-- Sidebar - Brand -->
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../../../../index.html">
+    <div class="sidebar-brand-icon rotate-n-15">
+      <i class="fas fa-laugh-wink"></i>
+    </div>
+    <div class="sidebar-brand-text mx-3">PFeeder</div>
+  </a>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0">
+
+  <!-- Nav Item - Dashboard -->
+  <li class="nav-item active">
+    <a class="nav-link">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Dashboard</span></a>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Nav Item - Pages Collapse Menu -->
+  <!-- Nav Item - Utilities Collapse Menu -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+      <i class="fas fa fa-paw"></i>
+      <span>Pets</span>
+    </a>
+    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item openAddPetModal"  >Add pet</a>
+        <a class="collapse-item" data-toggle="modal" data-target="#AllPet">Show all pets</a>
+      </div>
+    </div>
+  </li>
+  <app-addpet></app-addpet>
+  <app-showpet></app-showpet>
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Heading -->
+
+
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFodder" aria-expanded="true" aria-controls="collapseFodder">
+      <i class="fas fa fa-building "></i>
+      <span>Fodder</span>
+    </a>
+    <!--change id for collapse-->
+    <div id="collapseFodder" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item"   data-toggle="modal" data-target="#AddFodder">Add fodder</a>
+        <a class="collapse-item" data-toggle="modal" data-target="#AllFodder">Show all fodder</a>
+      </div>
+    </div>
+    <app-showfodder></app-showfodder>
+    <app-addfodder></app-addfodder>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRation" aria-expanded="true" aria-controls="collapseRation">
+      <i class="fas fa fa-building "></i>
+      <span>Ration</span>
+    </a>
+    <!--change id for collapse-->
+    <div id="collapseRation" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item"   data-toggle="modal" data-target="#AddRation">Add ration</a>
+        <a class="collapse-item" data-toggle="modal" data-target="#AllRation">Show all ration</a>
+      </div>
+    </div>
+    <app-addration></app-addration>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+  </li>
+
+</ul>
+<!-- End of Sidebar -->

@@ -1,0 +1,76 @@
+<app-navbar></app-navbar>
+<div class="main">
+  <section *ngIf="!showForgot" class="sign-in">
+    <div class="container">
+      <div class="signin-content">
+        <div class="signin-image">
+          <img
+            src="https://images.vanityfair.it/wp-content/uploads/2018/05/10132411/Gatto-felice-P.jpg"
+            alt="sing up image">
+        </div>
+        <div class="signin-form">
+          <h2 class="form-title text-primary">Sign in</h2>
+          <form [formGroup]="signInForm" (ngSubmit)="loginUser()" class="register-form" id="login-form">
+            <div class="form-group">
+              <input type="email" formControlName="email" placeholder="Your Email" name="email" id="email"
+                     [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">Email is required</div>
+                <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" formControlName="password"
+                     [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
+              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Password is required</div>
+                <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+              </div>
+            </div>
+            <div *ngIf="errorMessage" class="alert alert-danger">
+              <strong>Error!</strong> {{'Username or password are not correct'}}
+            </div>
+            <div class="form-group form-button">
+              <a href="#" (click)="openForgot()" data-toggle="modal">Forgot my password</a>
+            </div>
+            <div class="form-group form-button">
+              <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--modal-->
+  <section *ngIf="showForgot" class="sign-in">
+    <div class="container">
+      <div class="signin-content">
+        <div class="signin-image">
+          <img
+            src="https://static9.depositphotos.com/1594610/1215/i/600/depositphotos_12155260-stock-photo-sad-little-kitten.jpg"
+            alt="sing up image">
+        </div>
+        <div class="signin-form">
+          <h3 class="form-title text-center text-primary">What's my Password?</h3>
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="text-center">
+                <p>If you have forgotten your password you can reset it here.</p>
+                <div class="panel-body">
+                  <br>
+                  <fieldset>
+                    <div class="form-group">
+                      <input class="form-control input-lg" placeholder="E-mail Address" name="email" type="email">
+                    </div>
+                    <input type="submit" class="form-submit" value="Send My Password"/>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

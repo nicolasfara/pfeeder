@@ -2,8 +2,6 @@ export class User {
   id: object;
   email: string;
   password: string;
-  passwordResetToken: string;
-  passwordResetExpires: Date;
   role: string[];
   apiKeys: string[];
 

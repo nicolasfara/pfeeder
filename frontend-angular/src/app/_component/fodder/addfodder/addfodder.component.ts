@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {DataService} from '../../../_services/data/data.service';
 
 declare var $: any;
+// TODO ADD SUBJECT TO UPDATE
 
 @Component({
   selector: 'app-addfodder',
@@ -19,6 +20,7 @@ export class AddfodderComponent implements OnInit {
               public router: Router,
               private service: DataService) {
   }
+
   get f() {
     return this.addFodderForm.controls;
   }
@@ -39,6 +41,7 @@ export class AddfodderComponent implements OnInit {
       })
     );
   }
+
   ngOnInit(): void {
     this.addFodderForm = this.fb.group({
       name: ['', [Validators.required]],

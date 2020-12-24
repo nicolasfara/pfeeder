@@ -4,93 +4,58 @@ import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {Pet} from '../../_models/Pet';
-import {Feed} from '../../_models/Feed';
-import {changePsw} from '../../_models/changePsw';
-import {Fodder} from '../../_models/Fodder';
-import {Ration} from '../../_models/Ration';
+import {ChangePsw} from '../../_models/ChangePsw';
 import {WebsocketService} from '../notification/websocket.service';
-import {NotificationService} from '../notification/notification.service';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService {
-  endpoint = 'http://localhost:3000/api';
+  api = environment.apiBaseUrl;
+  endpoint: string;
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
+
 
   constructor(
     private http: HttpClient,
     public router: Router,
     private socketService: WebsocketService,
   ) {
+    if (this.api === 'localhost') {
+      this.api = this.api.concat(':3000');
+    }
+    this.endpoint = 'http://' + this.api + '/api';
   }
 
   // Change Password
-  changePassword(changePassword: changePsw): Observable<any> {
+  changePassword(changePassword: ChangePsw): Observable<any> {
     const api = `${this.endpoint}/users/password`;
     return this.http.post(api, changePassword).pipe(catchError(this.handleError));
-
   }
 
-  // addPet
-  addPet(pet: Pet): Observable<any> {
-    const api = `${this.endpoint}/pets`;
-    return this.http.post(api, pet)
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
-
-  // patch
-  patchPet(pet: Pet, id: string): Observable<any> {
-    const api = `${this.endpoint}/pets/` + id;
-    return this.http.post(api, pet)
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
-
-
-
-  // addFeed
-  addFeed(feed: Feed): Observable<any> {
-    const api = `${this.endpoint}/feeds`;
-    return this.http.post(api, feed)
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
-
-  // addRation
-  addRation(ration: Ration, id: string): Observable<any> {
-    const api = `${this.endpoint}/rations/` + id;
-    return this.http.post(api, ration);
-  }
 
   // Sign-up
   signUp(user: User): Observable<any> {
     return this.http.post(`${this.endpoint}/users`, user).pipe(
       map((result: any) => {
-        return  result || {};
+        return result || {};
       }),
       catchError(this.handleError)
     );
   }
 
   // Sign-in
-  signIn(user: User): Observable<any>  {
-    return this.http.post(`${this.endpoint}/users/login`, user).
-    pipe(
+  signIn(user: User): Observable<any> {
+    return this.http.post(`${this.endpoint}/users/login`, user).pipe(
       map((result: any) => {
-          localStorage.setItem('access_token', result.token);
-          sessionStorage.setItem('access_token', result.token);
-          this.socketService.setupSocketConnection();
-          return result || {};
+        localStorage.setItem('access_token', result.token);
+        this.socketService.setupSocketConnection();
+        return result || {};
       }),
-        catchError(this.handleError)
+      catchError(this.handleError)
     );
   }
 
@@ -104,7 +69,7 @@ export class AuthService {
   }
 
   doLogout() {
-    this.router.navigate(['/homepage']);
+    this.router.navigate(['/homepage']).then();
   }
 
   // get User
@@ -132,7 +97,7 @@ export class AuthService {
       // Server-side errors
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-  //  window.alert(errorMessage);
+    //  window.alert(errorMessage);
     return throwError(errorMessage);
   }
 }

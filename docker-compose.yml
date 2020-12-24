@@ -3,6 +3,8 @@ version: '3' # specify docker-compose version
 # Define the services/containers to be run
 services:
   angular:
+    environment:
+    - API_BASE_URL=backend
     build: ./frontend-angular
     ports:
       - "4200:4200"
@@ -37,8 +39,6 @@ services:
     #  - MONGO_INITDB_ROOT_PASSWORD=pfeeder
     volumes:
       - pfeeder-db:/data/db
-    ports:
-      - "27017:27017"
 
   redis:
     image: redis

@@ -1,48 +1,130 @@
-
 <div id="AllFodder" class="modal">
-  <div class="modal-dialog modal-xl" >
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="form-title text-primary">Fodder Dashboard</h2>
+        <h2 class="form-title text-primary">{{modalTitle}}</h2>
       </div>
-      <div class="modal-body">
+      <div *ngIf="!showEditProduct" class="modal-body">
         <div class="table-responsive">
-        <table mdbtable class="card-table table">
-          <thead>
-          <tr>
-            <th scope="col">Fodder Name</th>
-            <th scope="col">Company Name</th>
-            <th scope="col">Price</th>
-            <th scope="col">Weight</th>
-            <th scope="col">Kcal</th>
-            <th scope="col">Proteins</th>
-            <th scope="col">Fats</th>
-            <th scope="col">Vitamins</th>
-            <th scope="col">Carbohydrates</th>
-            <th scope="col">Edit</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let fodder of fodders">
-            <td class="fodderName">{{fodder.name}}</td>
-            <td class="companyName">{{fodder.companyName}}</td>
-            <td class="price">{{fodder.price}}</td>
-            <td class="weight">{{fodder.weight}} kg</td>
-            <td class="kcal">{{fodder.nutritionFacts.kcal}}</td>
-            <td class="proteins">{{fodder.nutritionFacts.proteins}}</td>
-            <td class="fats">{{fodder.nutritionFacts.fats}}</td>
-            <td class="vitamins">{{fodder.nutritionFacts.vitamins}}</td>
-            <td class="carbohydrates">{{fodder.nutritionFacts.carbohydrates}}</td>
-            <td>
-              <a class="collapse-item openUpdateFodder"> <i
-                class="fas fa-fw fa-cog"></i></a>
-            </td>
-            <app-updatefodder></app-updatefodder>
-          </tr>
-          </tbody>
-        </table>
+          <table mdbtable class="card-table table">
+            <thead>
+            <tr>
+              <th scope="col">Fodder Name</th>
+              <th scope="col">Company Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Weight</th>
+              <th scope="col">Kcal</th>
+              <th scope="col">Proteins</th>
+              <th scope="col">Fats</th>
+              <th scope="col">Vitamins</th>
+              <th scope="col">Carbohydrates</th>
+              <th scope="col">Edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let fodder of fodders">
+              <td class="name">{{fodder.name}}</td>
+              <td class="companyName">{{fodder.companyName}}</td>
+              <td class="price">{{fodder.price}}</td>
+              <td class="weight">{{fodder.weight}} kg</td>
+              <td class="kcal">{{fodder.nutritionFacts.kcal}}</td>
+              <td class="proteins">{{fodder.nutritionFacts.proteins}}</td>
+              <td class="fats">{{fodder.nutritionFacts.fats}}</td>
+              <td class="vitamins">{{fodder.nutritionFacts.vitamins}}</td>
+              <td class="carbohydrates">{{fodder.nutritionFacts.carbohydrates}}</td>
+              <td>
+                <a class="collapse-item" (click)="EditFodder(fodder)"> <i
+                  class="fas fa-fw fa-cog"></i></a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div><!-- /.modal-content -->
+      <div *ngIf="showEditProduct" class="modal-body">
+        <div class="row">
+          <div class="col-md-10 mx-auto">
+            <form [formGroup]="updateFodderForm" (ngSubmit)="updateFodder(updateFodderForm)" class="register-form"
+                  id="register-form">
+              <div class="form-group row">
+                <div class="col-sm-6 row">
+                  <label class="col-sm-6" for="name">Fodder Name</label>
+                  <input class="col-sm-6" type="text" name="name" id="name" formControlName="name"
+                         placeholder="Fodder's Name"/>
+                </div>
+                <div class="col-sm-6 row">
+                  <label class="col-sm-6" for="kcal">Kcal</label>
+                  <input class="col-sm-6" type="number" name="kcal" id="kcal" formControlName="kcal"
+                         placeholder="Kcal" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 row">
+                  <label class="col-sm-6" for="companyName">Company Name</label>
+                  <input class="col-sm-6" type="text" name="companyName" id="companyName" formControlName="companyName"
+                         placeholder="Company Name" />
+                </div>
+                <div class="col-sm-6 row">
+                  <label class="col-sm-6" for="proteins">Proteins</label>
+                  <input class="col-sm-6" type="number" name="proteins" id="proteins" formControlName="proteins"
+                         placeholder="Proteins" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 row">
+                  <label class="col-sm-6" for="price">Price</label>
+                  <input class="col-sm-6" type="number" name="price" id="price" formControlName="price"
+                         placeholder="Price" />
+                </div>
+                <div class="col-sm-6 row">
+                  <label class="col-sm-6" for="fats">Fats</label>
+                  <input class="col-sm-6" type="number" name="fats" id="fats" formControlName="fats"
+                         placeholder="Fats" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 row">
+                  <label class="col-sm-6" for="weight">Weight</label>
+                  <input class="col-sm-6" type="number" name="weight" id="weight" formControlName="weight"
+                         placeholder="Weight" />
+                </div>
+                <div class="col-sm-6 row">
+                  <label class="col-sm-6" for="name">Vitamins</label>
+                  <input class="col-sm-6" type="number" name="vitamins" id="vitamins" formControlName="vitamins"
+                         placeholder="Vitamins" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 row">
+                </div>
+                <div class="col-sm-6 row">
+                  <label class="col-sm-6" for="carbohydrates">Carbohydrates</label>
+                  <input class="col-sm-6" type="number" name="carbohydrates" id="carbohydrates"
+                         formControlName="carbohydrates"
+                         placeholder="Carbohydrates" />
+                </div>
+              </div>
+              <div *ngIf="errorMessage" class="alert alert-danger">
+                <strong>Error!</strong> {{'Error in patch fodder'}}
+              </div>
+              <div class="form-group form-button  row">
+                <div class="col-sm-6">
+                  <input type="submit" name="signup" id="addFodderButton" class="form-submit " value="Update Fodder"/>
+                </div>
+
+                <div class="form-group form-button">
+                  <div class="col-sm-6">
+                    <input type="submit" name="signup" id="deleteFodderButton" class="form-submit "
+                           value="Delete Fodder"/>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 </div>
+
+

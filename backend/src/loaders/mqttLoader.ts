@@ -39,6 +39,13 @@ export default async () => {
                     log.error("Failed to subscribe to the topic: " + err)
                 }
             })
+            client.subscribe(env.app.mqttFeed, (err) => {
+                if (!err) {
+                    log.info("Subscribe to server topic: " + env.app.mqttFeed)
+                } else {
+                    log.error("Failed to subscribe to the topic: " + err)
+                }
+            })
         })
 
         client.on('message', async (topic, message) => {
@@ -60,6 +67,12 @@ export default async () => {
                     const addNotRes = await mqttService.addInfoNotification(message)
                     if (!addNotRes) {
                         log.error("Unable to save a new notification")
+                    }
+                    break
+                case env.app.mqttFeed:
+                    const addFeed = await mqttService.addFeed(message)
+                    if (!addFeed) {
+                        log.error("Unable to save a new feed")
                     }
                     break
                 default:

@@ -1,5 +1,6 @@
 export class Pet {
-  id: object;
+  // tslint:disable-next-line:variable-name
+  _id: object;
   userId: string;
   name: string;
   weight: number;
@@ -16,6 +17,7 @@ export class Pet {
   ];
   currentFodder: string;
 }
+
 export enum PetType {
   Dog = 'dog',
   Cat = 'cat',

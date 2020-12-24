@@ -1,4 +1,4 @@
-$italic: 'Vollkorn', serif;
+//$italic: 'Vollkorn', serif;
 .site-blocks-cover {
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -43,9 +43,9 @@ $italic: 'Vollkorn', serif;
 	h1 {
 		font-size: 4rem;
 		// font-weight: 400;
-		color: $black;
+		color: $blue;
 		font-weight: 900;
-		text-transform: uppercase;
+		//text-transform: uppercase;
 		@include media-breakpoint-down(md) {
 			font-size: 2rem;
 		}
@@ -85,6 +85,7 @@ $italic: 'Vollkorn', serif;
 			font-size: $font-size-base + 2rem;
 		}
 	}
+
 }
 .circle-bg {
 	position: relative;
@@ -1760,7 +1761,7 @@ figure {
 		font-size: 18px;
 		border-radius: 7px;
 		color: $black;
-		font-family: $italic;
+	//	font-family: $italic;
 
 		position: relative;
 

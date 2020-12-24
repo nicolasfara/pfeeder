@@ -1,6 +1,6 @@
 import {Service} from "typedi";
 import NotificationRepository from "../repository/NotificationRepository";
-import {GeneralMessage, MessageStatus} from "./MessageInterface";
+import {FeedMessage, GeneralMessage, MessageStatus} from "./MessageInterface";
 import UserRepository from "../repository/UserRepository";
 import {Notification, NotificationDocument, NotificationType} from "../models/Notification";
 import {Types} from "mongoose";
@@ -9,14 +9,41 @@ import {ws} from "../../loaders/socketLoader";
 import {LoggerInterface} from "../../lib/logger";
 import {Logger} from "../../decorators/Logger";
 import {UserDocument} from "../models/User";
+import {Feed} from "../models/Feed";
+import FeedRepository from "../repository/FeedRepository";
+import PetRepository from "../repository/PetRepository";
 
 @Service()
 export class MqttService {
     constructor(
         private notificationRepository: NotificationRepository,
+        private feedRepository: FeedRepository,
+        private petRepository: PetRepository,
         private userRepository: UserRepository,
         @Logger(__filename) private log: LoggerInterface
     ) { }
+
+    public async addFeed(message: Buffer): Promise<boolean> {
+        let parsedMessage: FeedMessage
+        try {
+            parsedMessage = JSON.parse(message.toString())
+        } catch (e) {
+            this.log.error(e)
+            return false
+        }
+        const user = await this.userRepository.findOne({ apiKeys: parsedMessage.deviceId })
+        if (user) {
+            const feed = new Feed()
+            feed.quantity = parsedMessage.quantity
+            feed.kcal = parsedMessage.kcal
+            feed.fodderId = Types.ObjectId(parsedMessage.fodderId)
+            const petId = await this.petRepository.findOne({ name: parsedMessage.petName })
+            if (!petId) return false
+            feed.petId = petId._id
+            const savedFeed = await this.feedRepository.create(feed)
+            return !!savedFeed
+        } else return false
+    }
 
     public async addInfoNotification(message: Buffer): Promise<boolean> {
         let parsedMessage: GeneralMessage

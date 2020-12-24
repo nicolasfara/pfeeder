@@ -54,7 +54,7 @@ export class FeedController {
         if (petFeeds.length > 0) {
             return petFeeds.map(e => e.fodderId.price).reduce((acc, curr) => acc + curr)
         } else {
-            throw new HttpError(402, `Unable to find feeds for this pet`)
+            throw new HttpError(404, `Unable to find feeds for this pet`)
         }
     }
 }

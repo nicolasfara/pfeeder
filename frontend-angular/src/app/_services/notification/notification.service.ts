@@ -7,7 +7,7 @@ import {ToastrService} from 'ngx-toastr';
 export class NotificationService {
 
 
-  constructor(private toastr: ToastrService) {
+  constructor(private toast: ToastrService) {
   }
 
   showNotification(message, notification) {
@@ -21,15 +21,16 @@ export class NotificationService {
       this.showWarning(message, notification.message);
     }
   }
+
   showError(message, title) {
-    this.toastr.error(message, title);
+    this.toast.error(message, title);
   }
 
   showInfo(message, title) {
-    this.toastr.info(message, title);
+    this.toast.info(message, title);
   }
 
   showWarning(message, title) {
-    this.toastr.warning(message, title);
+    this.toast.warning(message, title);
   }
 }

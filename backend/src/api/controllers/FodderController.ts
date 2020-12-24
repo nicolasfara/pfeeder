@@ -42,7 +42,13 @@ export class FodderController {
     @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async patchFodderById(@Param('id') id: string, @Body() body: PatchFodder): Promise<FodderDocument> {
         const fodder = await this.fodderRepository.findOne({ _id: id })
-        fodder.nutritionFacts = body.nutritionFacts
+        fodder.nutritionFacts = {
+            kcal: body.kcal,
+            proteins: body.proteins,
+            fats: body.fats,
+            vitamins: body.vitamins,
+            carbohydrates: body.carbohydrates
+        }
         fodder.companyName = body.companyName
         fodder.name = body.name
         fodder.price = body.price

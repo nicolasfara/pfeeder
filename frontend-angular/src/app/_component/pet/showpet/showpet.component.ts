@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {Pet} from "../../../_models/Pet";
-import {DataService} from "../../../_services/data/data.service";
-declare var $: any
+import {Component, OnInit} from '@angular/core';
+import {Pet} from '../../../_models/Pet';
+import {DataService} from '../../../_services/data/data.service';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Fodder} from '../../../_models/Fodder';
+
+declare var $: any;
+
 @Component({
   selector: 'app-showpet',
   templateUrl: './showpet.component.html',
@@ -9,41 +13,83 @@ declare var $: any
 })
 export class ShowpetComponent implements OnInit {
   pets: Pet[];
-  constructor(private service: DataService) { }
+  modalTitle = 'Show Pet';
+  showEditPet = false;
+  public editPetForm: FormGroup;
+  private currentPetName: string;
+   errorMessage: string;
+   fodders: Fodder[] = [];
+  private currentFodderName: string;
+  selectedOption = 'Select Fodder';
+  selectPet = 'Select Pet';
+
+  petType = [
+    'cat',
+    'dog',
+    'other'
+  ];
+  constructor(private service: DataService, public fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.getPet();
-
-    $(document).on("click", ".openAddPetSaveModal", function () {
-
-
-      const name = $(this).closest('td').prevAll('.name').text();
-      const weight = $(this).closest('td').prevAll('.weight').text().replace(' kg', '');
-      const idealWeight = $(this).closest('td').prevAll('.idealWeight').text().replace(' kg', '');
-      const age = $(this).closest('td').prevAll('.age').text().replace(' years', '');
-      const petType = $(this).closest('td').prevAll('.petType').text();
-      const breed = $(this).closest('td').prevAll('.breed').text();
-
-      const trueWeight : number = +weight
-
-      $(".modal-body #name").val(name).change();
-      $(".modal-body #weight").val(trueWeight);
-      $(".modal-body #idealWeight").val(idealWeight);
-      $(".modal-body #age").val(age);
-      $(".modal-body #petType").val(petType);
-      $(".modal-body #breed").val(breed);
-
-      $(".modal-body #fodder").hide();
-      $(".modal-body #addFodd").hide();
-      $(".modal-body #addPetButton").hide();
-      $(".modal-body #savePetButton").show();
-
-      $('#AddPet').modal('show');
+    this.getFodder();
+    this.service.refreshNeeded.subscribe(() => {
+      this.getPet();
+    });
+  }
+  EditPet(petform) {
+    this.showEditPet = true;
+    this.modalTitle = 'Update pet';
+    this.currentPetName = petform.name;
+    console.log(petform.petType);
+    this.editPetForm = this.fb.group({
+      name: petform.name,
+      age: petform.age,
+      weight: petform.weight,
+      petType: petform.petType,
+      breed: petform.breed,
     });
   }
   getPet(): void {
-    this.service.getPets().then(pets => this.pets = pets);
+    this.service.getPets().subscribe((pet: Pet[]) => {
+        this.pets = pet;
+      },
+      (error => {
+        console.error('error caught in component');
+        throw error;
+      }));
 
   }
+  getFodder(): void {
+    this.service.getFodder().then(fodders => this.fodders = fodders);
+  }
+  updatePet(updatePetForm ) {
+    const updatePet = updatePetForm.value;
+    const petID: Pet[] = this.pets.filter(x => x.name === this.currentPetName);
+    console.log(updatePet);
+    const pet = {
+      name: updatePet.name,
+      weight: updatePet.weight,
+      age: updatePet.age,
+      petType: updatePet.petType,
+      breed: updatePet.breed
+    };
+    // @ts-ignore
+    this.service.patchPet(pet, buf2hex(petID[0]._id.id.data))
+      .subscribe(() => {
+          this.showEditPet = false;
+        },
+        (error => {
+          console.error('error caught in component');
+          this.errorMessage = error;
+          throw error;
+        })
+      );
+  }
 
+}
+
+function buf2hex(buffer) { // buffer is an ArrayBuffer
+  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
 }
