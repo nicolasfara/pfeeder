@@ -80,12 +80,12 @@ export class UserController {
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async getUser(@CurrentUser() user: UserDocument, @Body() body: UpdateUser): Promise<UserDocument> {
-        /*try {
-            return await this.userService.updateUser(body as UserDocument);
-        } catch (e) {
-            throw new HttpError(500, e.message)
-        }*/
-        throw new HttpError(500, "Not implemented")
+        const updateUser = user
+        updateUser.profile.firstName = body.firstName
+        updateUser.profile.lastName = body.lastName
+        updateUser.email = body.email
+
+        return await this.userRepository.update(user._id, updateUser)
     }
 
     /**

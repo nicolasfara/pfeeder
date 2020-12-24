@@ -33,13 +33,10 @@ export class UpdateUser {
     @IsEmail()
     email: string;
     @IsEmpty()
-    profile: {
-        lastName: string;
-        firstName: string;
-        gender: string;
-        location: string;
-        picture: string;
-    };
+    @IsString()
+    lastName: string;
+    @IsString()
+    firstName: string;
 }
 
 export class UpdatePassword {
