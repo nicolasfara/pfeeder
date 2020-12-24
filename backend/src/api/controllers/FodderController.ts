@@ -38,7 +38,7 @@ export class FodderController {
     }
 
     @Patch('/:id')
-    @Authorized('admin')
+    @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }] })
     public async patchFodderById(@Param('id') id: string, @Body() body: PatchFodder): Promise<FodderDocument> {
         const fodder = await this.fodderRepository.findOne({ _id: id })
