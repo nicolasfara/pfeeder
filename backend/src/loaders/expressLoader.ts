@@ -1,4 +1,4 @@
-import {Action, createExpressServer} from 'routing-controllers';
+import {Action, useExpressServer} from 'routing-controllers';
 import jwt from 'jsonwebtoken';
 import {User} from '../api/models/User';
 import {env} from '../env';
@@ -6,7 +6,7 @@ import "reflect-metadata";
 import {Logger} from "../lib/logger";
 import {Application} from "express";
 
-export default async (): Promise<Application> => {
+export default async (exp: any): Promise<Application> => {
     const logger = new Logger('Express server')
 
     logger.info("Creating the server")
@@ -14,7 +14,7 @@ export default async (): Promise<Application> => {
      * We create a new express server instance.
      * We could have also use useExpressServer here to attach controllers to an existing express instance.
      */
-    return createExpressServer({
+    return useExpressServer(exp, {
         cors: true,
         classTransformer: true,
         routePrefix: env.app.routePrefix,
@@ -25,6 +25,10 @@ export default async (): Promise<Application> => {
         middlewares: env.app.dirs.middlewares,
         interceptors: env.app.dirs.interceptors,
         currentUserChecker: async (action: Action, value?: any) => {
+            if (!action.request.headers.authorization) {
+                logger.warn("No authentication token provided")
+                return undefined
+            }
             const token = action.request.headers.authorization.split(' ')[1];
             try {
                 const decoded: any = jwt.verify(token, env.app.jwtSecret);
@@ -34,6 +38,7 @@ export default async (): Promise<Application> => {
             }
         },
         authorizationChecker: async (action: Action, roles?: string[]) => {
+            if (!action.request.headers.authorization) return false
             const token = action.request.headers.authorization.split(' ')[1];
             try {
                 const decoded: any = jwt.verify(token, env.app.jwtSecret);

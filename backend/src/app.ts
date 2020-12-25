@@ -10,6 +10,7 @@ import monitorLoaders from "./loaders/monitorLoaders";
 import mqttLoader from "./loaders/mqttLoader";
 // import {Logger} from "./lib/logger";
 import socketLoader from "./loaders/socketLoader";
+import express from "express";
 
 (async () => {
     // const log = new Logger('Entrypoint')
@@ -17,6 +18,9 @@ import socketLoader from "./loaders/socketLoader";
     // *****************************************************************************************************************
     // Express server creation
     await winstonLoader()
+    const exp = express()
+    const app = require("http").Server(exp)
+    const io = require("socket.io")(app)
     // *****************************************************************************************************************
 
     // *****************************************************************************************************************
@@ -26,7 +30,7 @@ import socketLoader from "./loaders/socketLoader";
 
     // *****************************************************************************************************************
     // Express server creation
-    const app = await expressLoader();
+    const expSwagger = await expressLoader(exp);
     // *****************************************************************************************************************
 
     // *****************************************************************************************************************
@@ -36,7 +40,7 @@ import socketLoader from "./loaders/socketLoader";
 
     // *****************************************************************************************************************
     // Setup redis driver
-    await swaggerLoader(app)
+    await swaggerLoader(expSwagger)
     // *****************************************************************************************************************
 
     // *****************************************************************************************************************
@@ -46,7 +50,7 @@ import socketLoader from "./loaders/socketLoader";
 
     // *****************************************************************************************************************
     // Setup monitor controller
-    await monitorLoaders(app)
+    await monitorLoaders(expSwagger)
     // *****************************************************************************************************************
 
     // *****************************************************************************************************************
@@ -54,7 +58,7 @@ import socketLoader from "./loaders/socketLoader";
     await mqttLoader()
     // *****************************************************************************************************************
 
-    const server = app.listen(3000 || env.app.port)
-    await socketLoader(server)
+    await socketLoader(io)
+    app.listen(3000 || env.app.port)
 
 })();

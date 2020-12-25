@@ -3,12 +3,12 @@ import basicAuth from 'express-basic-auth';
 import {getMetadataArgsStorage} from 'routing-controllers';
 import {routingControllersToSpec} from 'routing-controllers-openapi';
 import * as swaggerUi from 'swagger-ui-express';
-import express, {Application} from 'express';
+import express from 'express';
 
 import {env} from '../env';
 import {Logger} from "../lib/logger";
 
-export default async (expressApp: Application) => {
+export default async (expressApp: any) => {
     const logger = new Logger('Swagger')
     logger.info("Create swagger instance")
     if (env.swagger.enabled) {

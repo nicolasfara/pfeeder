@@ -1,4 +1,4 @@
-import {createSocketServer} from "socket-controllers";
+import {useSocketServer} from "socket-controllers";
 import {Logger} from "../lib/logger";
 import {SocketManager} from "../api/socket/SocketManager";
 import {env} from "../env";
@@ -16,7 +16,7 @@ export default async (expressServer: any) => {
 
     log.info("Bind socket.io to express server")
 
-    ws = createSocketServer(3001, {
+    ws = useSocketServer(expressServer, {
         controllers: [SocketManager]
     })
     log.info("socket.io driver started")
