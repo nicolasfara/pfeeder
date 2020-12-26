@@ -21,8 +21,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    public router: Router,
-    private socketService: WebsocketService,
+    public router: Router
   ) {
     if (this.api === 'localhost') {
       this.api = this.api.concat(':3000');
@@ -52,7 +51,6 @@ export class AuthService {
     return this.http.post(`${this.endpoint}/users/login`, user).pipe(
       map((result: any) => {
         localStorage.setItem('access_token', result.token);
-        this.socketService.setupSocketConnection();
         return result || {};
       }),
       catchError(this.handleError)
