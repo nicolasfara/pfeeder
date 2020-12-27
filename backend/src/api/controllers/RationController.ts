@@ -57,13 +57,12 @@ export class RationController {
         return this.rationRepository.findMany({ petId: { $in: petId }})
     }
 
-    @Patch('/:petId/:rationName')
+    @Patch('/:rationId')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
     public async patchRationByName(
         @CurrentUser() user: UserDocument,
-        @Param("petId") petId: string,
-        @Param("rationName") rationName: string,
+        @Param("rationId") rationId: string,
         @Body() body: UpdateRation
     ): Promise<RationDocument> {
         const newTime = new Date()
@@ -74,7 +73,11 @@ export class RationController {
             time: newTime,
             ration: body.ration
         }
-        return this.rationRepository.updateWithQuery({ petId, name: rationName}, newRation)
+        const rationToDelete = await this.rationRepository.findOne({_id: rationId})
+        const petId = rationToDelete.petId
+        const rationName = rationToDelete.name
+
+        return this.rationRepository.updateWithQuery({ petId, name: rationName }, newRation)
     }
 
     @Get('/:petId')
@@ -85,15 +88,18 @@ export class RationController {
     }
 
 
-    @Delete('/:petId/:rationName')
+    @Delete('/:rationId/')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
     public async deleteRation(
         @CurrentUser() user: UserDocument,
-        @Param("petId") petId: string,
-        @Param("rationName") rationName: string
+        @Param("rationId") rationId: string,
     ): Promise<PetDocument> {
-        const removedRation = await this.rationRepository.findAndDelete({petId, name: rationName})
+        const rationToDelete = await this.rationRepository.findOne({_id: rationId})
+        const petId = rationToDelete.petId
+        const rationName = rationToDelete.name
+
+        const removedRation = await this.rationRepository.findAndDelete({ petId, name: rationName })
         if (!removedRation) throw new HttpError(500, `Unable to remove the given ration`)
         return this.petRepository.findAndUpdate({_id: petId, userId: user.id },
             {
