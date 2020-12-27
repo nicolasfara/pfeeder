@@ -16,21 +16,18 @@ export class WebsocketService {
     this.socket = io(this.url, {
       transports: ['websocket']
     });
-  }
-
-  setupSocketConnection() {
-    this.socket.on('connection', () => {
-      this.socket.emit('authentication', {
-        token: this.token
-      });
+    this.socket.emit('authentication', {
+      token: this.token
     });
   }
+
 
   getMessage() {
     return new Observable(observer => {
       this.socket.on('notifications', data => {
-        observer.next();
+        observer.next(data);
       });
     });
   }
+
 }

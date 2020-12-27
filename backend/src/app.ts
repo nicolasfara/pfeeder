@@ -10,7 +10,6 @@ import monitorLoaders from "./loaders/monitorLoaders";
 import mqttLoader from "./loaders/mqttLoader";
 // import {Logger} from "./lib/logger";
 import socketLoader from "./loaders/socketLoader";
-import express from "express";
 
 (async () => {
     // const log = new Logger('Entrypoint')
@@ -18,9 +17,6 @@ import express from "express";
     // *****************************************************************************************************************
     // Express server creation
     await winstonLoader()
-    const exp = express()
-    const app = require("http").Server(exp)
-    const io = require("socket.io")(app)
     // *****************************************************************************************************************
 
     // *****************************************************************************************************************
@@ -30,7 +26,7 @@ import express from "express";
 
     // *****************************************************************************************************************
     // Express server creation
-    const expSwagger = await expressLoader(exp);
+    const expSwagger = await expressLoader();
     // *****************************************************************************************************************
 
     // *****************************************************************************************************************
@@ -58,7 +54,7 @@ import express from "express";
     await mqttLoader()
     // *****************************************************************************************************************
 
-    await socketLoader(io)
-    app.listen(3000 || env.app.port)
+    await socketLoader()
+    expSwagger.listen(3000 || env.app.port)
 
 })();

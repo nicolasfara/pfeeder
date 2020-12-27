@@ -6,7 +6,7 @@ import {DataService} from '../../../_services/data/data.service';
 import {Fodder} from '../../../_models/Fodder';
 import {Pet} from '../../../_models/Pet';
 declare var $: any;
-// TODO PATCH IN SAME TEMPLATE
+
 @Component({
   selector: 'app-addpet',
   templateUrl: './addpet.component.html',

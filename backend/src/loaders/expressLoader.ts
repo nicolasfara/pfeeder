@@ -1,4 +1,4 @@
-import {Action, useExpressServer} from 'routing-controllers';
+import {Action, createExpressServer} from 'routing-controllers';
 import jwt from 'jsonwebtoken';
 import {User} from '../api/models/User';
 import {env} from '../env';
@@ -6,7 +6,7 @@ import "reflect-metadata";
 import {Logger} from "../lib/logger";
 import {Application} from "express";
 
-export default async (exp: any): Promise<Application> => {
+export default async (): Promise<Application> => {
     const logger = new Logger('Express server')
 
     logger.info("Creating the server")
@@ -14,7 +14,7 @@ export default async (exp: any): Promise<Application> => {
      * We create a new express server instance.
      * We could have also use useExpressServer here to attach controllers to an existing express instance.
      */
-    return useExpressServer(exp, {
+    return createExpressServer({
         cors: true,
         classTransformer: true,
         routePrefix: env.app.routePrefix,

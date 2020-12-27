@@ -6,7 +6,7 @@ import {Observable, Subject, throwError} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {Ration} from '../../_models/Ration';
-import {Feed} from "../../_models/Feed";
+import {Feed} from '../../_models/Feed';
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +71,15 @@ export class DataService {
 
 
   /* Pet API */
+  public getFodderByPet(petId: string): Observable<any> {
+    return this.httpClient.get(this.endpoint + '/pets/' + petId + '/fodder').pipe(
+      map((result: any) => {
+        return result;
+      }),
+      catchError(this.handleError)
+    );
+  }
+
   public getPets(): Observable<Pet[]> {
     return this.httpClient.get(this.endpoint + '/pets').pipe(
       map((result: Pet[]) => {

@@ -4,7 +4,7 @@ import {User} from '../../../_models/User';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {AuthService} from '../../../_services/auth/auth.service';
 import {first} from 'rxjs/operators';
-// TODO CHANGE PSW
+
 // TODO CHANGE NAME,SUR,EMAIL
 @Component({
   selector: 'app-profile',

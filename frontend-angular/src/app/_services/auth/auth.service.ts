@@ -5,7 +5,6 @@ import {catchError, map} from 'rxjs/operators';
 import {HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {ChangePsw} from '../../_models/ChangePsw';
-import {WebsocketService} from '../notification/websocket.service';
 import {environment} from '../../../environments/environment';
 
 @Injectable({
@@ -21,8 +20,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    public router: Router,
-    private socketService: WebsocketService,
+    public router: Router
   ) {
     if (this.api === 'localhost') {
       this.api = this.api.concat(':3000');
@@ -52,7 +50,6 @@ export class AuthService {
     return this.http.post(`${this.endpoint}/users/login`, user).pipe(
       map((result: any) => {
         localStorage.setItem('access_token', result.token);
-        this.socketService.setupSocketConnection();
         return result || {};
       }),
       catchError(this.handleError)
@@ -91,13 +88,10 @@ export class AuthService {
   handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {
-      // Client-side errors
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      // Server-side errors
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    //  window.alert(errorMessage);
     return throwError(errorMessage);
   }
 }
