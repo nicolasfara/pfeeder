@@ -1,9 +1,9 @@
-/* Error: Undefined mixin.
+/* Error: Can't find stylesheet to import.
  *   ,
- * 1 |  a:focus, a:active { text-decoration: none; outline: none; @include transition(all 300ms ease 0s); }
- *   |                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ * 1 | @import 'src/app/_component/utilities/common/minxi';
+ *   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  *   '
- *   global.scss 1:60  root stylesheet */
+ *   global.scss 1:9  root stylesheet */
 
 body::before {
   font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
@@ -13,5 +13,5 @@ body::before {
   padding: 1em;
   margin-bottom: 1em;
   border-bottom: 2px solid black;
-  content: "Error: Undefined mixin.\a   \2577 \a 1 \2502   a:focus, a:active { text-decoration: none; outline: none; @include transition(all 300ms ease 0s); }\d\a   \2502                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\a   \2575 \a   global.scss 1:60  root stylesheet";
+  content: "Error: Can't find stylesheet to import.\a   \2577 \a 1 \2502  @import 'src/app/_component/utilities/common/minxi';\d\a   \2502          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\a   \2575 \a   global.scss 1:9  root stylesheet";
 }
