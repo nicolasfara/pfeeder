@@ -105,12 +105,22 @@ export class AuthService {
       );
   }
   handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Unknown error!';
+    let errorMessage: string;
     if (error.error instanceof ErrorEvent) {
       errorMessage = `Error: ${error.error.message}`;
     } else {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     return throwError(errorMessage);
+  }
+
+  patchUser(usr) {
+    return  this.http.patch(this.endpoint + '/users' , usr)
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError(this.handleError)
+      );
   }
 }

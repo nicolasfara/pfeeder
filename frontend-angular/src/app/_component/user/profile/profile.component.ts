@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute, ParamMap} from '@angular/router';
+import {Router} from '@angular/router';
 import {User} from '../../../_models/User';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {AuthService} from '../../../_services/auth/auth.service';
-import {first} from 'rxjs/operators';
 
 // TODO CHANGE NAME,SUR,EMAIL
 @Component({
@@ -18,6 +17,7 @@ export class ProfileComponent implements OnInit {
   gravatar: string;
   editProfileForm: FormGroup;
   changePasswordForm: FormGroup;
+  errorMessage: string;
 
   constructor(
     public fb: FormBuilder,
@@ -26,8 +26,7 @@ export class ProfileComponent implements OnInit {
     this.editProfileForm = this.fb.group({
       firstName: [''],
       lastName: [''],
-      email: [''],
-      picture: ['']
+      email: ['']
     });
     this.changePasswordForm = this.fb.group({
       oldPassword: [''],
@@ -37,20 +36,27 @@ export class ProfileComponent implements OnInit {
   }
 
   editProfile() {
-    this.authService.signUp(this.editProfileForm.value).pipe(first())
-      .subscribe(
-        data => {
-
-        });
+    this.authService.patchUser(this.editProfileForm.value)
+      .subscribe(() => {
+          this.router.navigate(['/dashboard']).then();
+        },
+        (error => {
+          console.error('error caught in component');
+          this.errorMessage = error;
+          throw error;
+        }));
   }
 
   changePassword() {
-    console.log(this.changePasswordForm);
-    this.authService.changePassword(this.changePasswordForm.value).pipe(first()).subscribe(data => {
-      console.log('ok!!');
-
-
-    });
+    this.authService.changePassword(this.changePasswordForm.value)
+      .subscribe(() => {
+          this.router.navigate(['/login']).then();
+        },
+        (error => {
+          console.error('error caught in component');
+          this.errorMessage = error;
+          throw error;
+        }));
   }
 
   ngOnInit(): void {
@@ -60,5 +66,4 @@ export class ProfileComponent implements OnInit {
       this.gravatar = this.currentUser.profile.picture;
     });
   }
-
 }
