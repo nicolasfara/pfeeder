@@ -47,11 +47,10 @@ export class DashboardComponent implements OnInit {
       (pet: Pet[]) => {
         this.pets = pet;
         this.pets.forEach(x => this.petName.push(x.name));
-        // // @ts-ignore
-        // this.pets.forEach(x => this.service.getFodderByPet(buf2hex(x._id.id.data)).subscribe((fodder: Fodder) => {
-        //
-        //   this.fodders.push(fodder.companyName);
-        // }));
+        // @ts-ignore
+        this.pets.forEach(x => this.service.getFodderByPet(buf2hex(x._id.id.data)).subscribe((fodder: any) => {
+          this.fodders.push(fodder.currentFodder.name);
+        }));
       },
       (error => {
         console.error('error caught in component');

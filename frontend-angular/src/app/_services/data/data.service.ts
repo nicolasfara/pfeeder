@@ -71,9 +71,9 @@ export class DataService {
 
 
   /* Pet API */
-  public getFodderByPet(petId: string): Observable<Fodder> {
+  public getFodderByPet(petId: string): Observable<any> {
     return this.httpClient.get(this.endpoint + '/pets/' + petId + '/fodder').pipe(
-      map((result: Fodder) => {
+      map((result: any) => {
         return result;
       }),
       catchError(this.handleError)
