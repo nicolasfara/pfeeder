@@ -73,7 +73,7 @@ export class RationController {
             time: newTime,
             ration: body.ration
         }
-        const rationToDelete = await this.rationRepository.findOne({_id: rationId})
+        const rationToDelete = await this.rationRepository.findOne({ _id: rationId })
         const petId = rationToDelete.petId
         const rationName = rationToDelete.name
 
