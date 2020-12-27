@@ -1,4 +1,15 @@
-import {Authorized, Body, CurrentUser, Get, HttpError, JsonController, Param, Patch, Post} from "routing-controllers";
+import {
+    Authorized,
+    Body,
+    CurrentUser,
+    Delete,
+    Get,
+    HttpError,
+    JsonController,
+    Param,
+    Patch,
+    Post
+} from "routing-controllers";
 import {OpenAPI} from "routing-controllers-openapi";
 import {UserDocument} from "../models/User";
 import {Logger, LoggerInterface} from "../../decorators/Logger";
@@ -71,5 +82,22 @@ export class RationController {
     @OpenAPI({ security: [{ bearerAuth: [] }]})
     public async getAllPetRations(@CurrentUser() user: UserDocument, @Param("petId") petId: string): Promise<RationDocument[]> {
         return this.rationRepository.findMany({ petId })
+    }
+
+
+    @Delete('/:petId/:rationName')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }]})
+    public async deleteRation(
+        @CurrentUser() user: UserDocument,
+        @Param("petId") petId: string,
+        @Param("rationName") rationName: string
+    ): Promise<PetDocument> {
+        const removedRation = await this.rationRepository.findAndDelete({petId, name: rationName})
+        if (!removedRation) throw new HttpError(500, `Unable to remove the given ration`)
+        return this.petRepository.findAndUpdate({_id: petId, userId: user.id },
+            {
+                $pull: { rationPerDay: removedRation.id }
+            })
     }
 }

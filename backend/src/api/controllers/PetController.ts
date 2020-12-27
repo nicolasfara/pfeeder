@@ -3,7 +3,7 @@ import {
     Body,
     CurrentUser,
     Delete,
-    Get, HttpError,
+    Get,
     JsonController,
     Param,
     Patch, Post
@@ -15,13 +15,11 @@ import {OpenAPI} from "routing-controllers-openapi";
 import {AddFodderToPet, CreatePet, UpdatePet} from "./requests/PetRequests";
 import PetRepository from "../repository/PetRepository";
 import {Types} from "mongoose";
-import RationRepository from "../repository/RationRepository";
 
 @JsonController('/pets')
 export class PetController {
     constructor(
         private petRepository: PetRepository,
-        private rationRepository: RationRepository,
         @Logger(__filename) private log: LoggerInterface
     ) {
     }
@@ -69,22 +67,6 @@ export class PetController {
     @OpenAPI({ security: [{ bearerAuth: [] }]})
     public async deletePetById(@CurrentUser() user: UserDocument, @Param("id") id: string): Promise<PetDocument> {
         return await this.petRepository.delete(Types.ObjectId(id))
-    }
-
-    @Delete('/:petId/rations/:rationName')
-    @Authorized()
-    @OpenAPI({ security: [{ bearerAuth: [] }]})
-    public async deleteRation(
-        @CurrentUser() user: UserDocument,
-        @Param("petId") petId: string,
-        @Param("rationName") rationName: string
-    ): Promise<PetDocument> {
-        const removedRation = await this.rationRepository.findAndDelete({petId, name: rationName})
-        if (!removedRation) throw new HttpError(500, `Unable to remove the given ration`)
-        return this.petRepository.findAndUpdate({_id: petId, userId: user.id },
-            {
-                $pull: { rationPerDay: removedRation.id }
-            })
     }
 
     @Post('/:id/fodder')
