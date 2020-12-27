@@ -6,7 +6,6 @@ import {Ration} from '../../../_models/Ration';
 import {WebsocketService} from '../../../_services/notification/websocket.service';
 import {NotificationService} from '../../../_services/notification/notification.service';
 import {Notification} from '../../../_models/Notification';
-import {Fodder} from "../../../_models/Fodder";
 
 
 // TODO SISTEMARE NOME PET NELLE RAZIONI IN BASE A RAZIONE NON AGGIUNTA DI PETNAME IN VETTORE
@@ -21,6 +20,7 @@ export class DashboardComponent implements OnInit {
   fodders = [];
   pets: Pet[] = [];
   petName = [];
+  petIDs = [];
   rations: Ration[] = [];
   messageList: string[] = [];
   hours: string;
@@ -46,21 +46,39 @@ export class DashboardComponent implements OnInit {
     this.service.getPets().subscribe(
       (pet: Pet[]) => {
         this.pets = pet;
-        this.pets.forEach(x => this.petName.push(x.name));
+        // this.pets.forEach(x => this.petName.push(x.name));
         // @ts-ignore
-        this.pets.forEach(x => this.service.getFodderByPet(buf2hex(x._id.id.data)).subscribe((fodder: any) => {
+        this.pets.forEach(x => this.service.getFodderByPet(buf2hex(x._id.id.data)).subscribe((fodder) => {
           this.fodders.push(fodder.currentFodder.name);
         }));
+        // @ts-ignore
+        // this.pets.forEach(x => this.service.getRationByID(buf2hex(x._id.id.data)).subscribe((ration: Ration) => {
+        //   this.rations.push(ration);
+        //   console.log(ration.petId);
+        //   // this.pets =
+        // }));
       },
       (error => {
         console.error('error caught in component');
         throw error;
       }));
+
   }
+
   getRation(): void {
     this.service.getRation().subscribe((data: Ration[]) => {
       this.rations = data;
-
+      // TODO PET NAME ARE INCORRECT
+     //  this.rations.forEach(x => this.petIDs.push(x.petId));
+     //  this.petIDs.forEach( x => {
+     //    console.log(buf2hex(x.id.value));
+     //    this.pets.forEach( y => {
+     //      // @ts-ignore
+     //      if (buf2hex(x.id.value) === buf2hex(y._id.id.value)) {
+     //       this.petName.push(y.name);
+     //     }
+     //   });
+     // });
     });
 
   }

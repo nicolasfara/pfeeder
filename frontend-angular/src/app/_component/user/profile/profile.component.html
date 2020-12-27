@@ -3,17 +3,19 @@
   <!-- Sign up form -->
   <section class="signup">
     <div class="container">
-      <div class="signup-content">
-        <div class="signup-form">
-          <h3 class="form-title text-primary">Profile</h3>
+      <h3 class="text-primary text-center">Profile</h3>
+<!--      <div class="signup-content">-->
+<!--        <div class="signup-form">-->
           <form [formGroup]="editProfileForm" (ngSubmit)="editProfile()" class="register-form" id="register-form">
             <div class="form-group">
               <figure><img src="{{currentUser.profile.picture}}" alt="sing up image"></figure>
             </div>
-            <div class="form-group">
-              <label for="firstName"><i class="zmdi zmdi-account material-icons-name"></i></label>
-              <input type="text" name="firstName" id="firstName" formControlName="firstName"
+            <div class="form-group row">
+              <div class=" col-sm-12 row">
+                <label class="col-sm-6" for="firstName">First Name</label>
+              <input class="col-sm-6" type="text" name="firstName" id="firstName" formControlName="firstName"
                      placeholder="{{currentUser.profile.firstName}}"/>
+            </div>
             </div>
             <div class="form-group">
               <label for="lastName"><i class="zmdi zmdi-account material-icons-name"></i></label>
@@ -28,31 +30,8 @@
               <input type="submit" name="signup" id="changeProfile" class="form-submit" value="Change profile"/>
             </div>
           </form>
-        </div>
-        <div class="signup-image">
-          <form [formGroup]="changePasswordForm" (ngSubmit)="changePassword()" class="password-form" id="password-form">
-            <h4 class="form-title text-primary">Change password</h4>
-            <div class="form-group">
-              <label for="oldPassword"><i class="zmdi zmdi-lock"></i></label>
-              <input type="password" name="oldPassword" formControlName="oldPassword" id="oldPassword"
-                     placeholder="Current Password"/>
-            </div>
-            <div class="form-group">
-              <label for="password"><i class="zmdi zmdi-lock"></i></label>
-              <input type="password" name="password" formControlName="password" id="password"
-                     placeholder="New Password"/>
-            </div>
-            <div class="form-group">
-              <label for="confirmPassword"><i class="zmdi zmdi-lock"></i></label>
-              <input type="password" name="confirmPassword" formControlName="confirmPassword" id="confirmPassword"
-                     placeholder="Confirm new Password"/>
-            </div>
-            <div class="form-group form-button">
-              <input type="submit" name="signup" id="signup" class="form-submit" value="Change password"/>
-            </div>
-          </form>
-        </div>
+<!--        </div>-->
       </div>
-    </div>
+<!--    </div>-->
   </section>
 </div>
