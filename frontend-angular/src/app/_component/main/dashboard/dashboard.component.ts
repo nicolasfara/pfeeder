@@ -6,8 +6,9 @@ import {Ration} from '../../../_models/Ration';
 import {WebsocketService} from '../../../_services/notification/websocket.service';
 import {NotificationService} from '../../../_services/notification/notification.service';
 import {Notification} from '../../../_models/Notification';
+import {Fodder} from "../../../_models/Fodder";
 
-//TODO SISTEMARE NOME CURRENT FODDER
+
 // TODO SISTEMARE NOME PET NELLE RAZIONI IN BASE A RAZIONE NON AGGIUNTA DI PETNAME IN VETTORE
 
 
@@ -38,7 +39,6 @@ export class DashboardComponent implements OnInit {
       this.getRation();
     });
     this.getPet();
-    this.getFodder();
     this.getRation();
   }
 
@@ -47,18 +47,17 @@ export class DashboardComponent implements OnInit {
       (pet: Pet[]) => {
         this.pets = pet;
         this.pets.forEach(x => this.petName.push(x.name));
+        // // @ts-ignore
+        // this.pets.forEach(x => this.service.getFodderByPet(buf2hex(x._id.id.data)).subscribe((fodder: Fodder) => {
+        //
+        //   this.fodders.push(fodder.companyName);
+        // }));
       },
       (error => {
         console.error('error caught in component');
         throw error;
       }));
   }
-
-  getFodder(): void {
-    this.service.getFodder().then(fodders => this.fodders = fodders);
-  }
-
-
   getRation(): void {
     this.service.getRation().subscribe((data: Ration[]) => {
       this.rations = data;
@@ -72,3 +71,7 @@ export class DashboardComponent implements OnInit {
   }
 }
 
+
+function buf2hex(buffer) { // buffer is an ArrayBuffer
+  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
+}
