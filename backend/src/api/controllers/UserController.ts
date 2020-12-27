@@ -127,7 +127,7 @@ export class UserController {
     @ResponseSchema(ForgotPasswordResponse)
     public async forgotPassword(@Body() body: ForgotPasswordRequest): Promise<ForgotPasswordResponse> {
         try {
-            const token = crypto.randomBytes(16).toString()
+            const token = crypto.randomBytes(16).toString('hex')
             const user = await this.userRepository.findOne({ email: body.email })
             if (!user) throw new HttpError(404, `No user found with email: ${body.email}`)
             user.passwordResetToken = token
