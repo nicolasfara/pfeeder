@@ -6,7 +6,7 @@ import {Observable, Subject, throwError} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {Ration} from '../../_models/Ration';
-import {Feed} from "../../_models/Feed";
+import {Feed} from '../../_models/Feed';
 
 @Injectable({
   providedIn: 'root'
