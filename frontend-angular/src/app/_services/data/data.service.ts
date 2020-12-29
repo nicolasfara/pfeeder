@@ -79,7 +79,22 @@ export class DataService {
       catchError(this.handleError)
     );
   }
-
+  deletePet(petId: string): Observable<any> {
+    return this.httpClient.delete(this.endpoint + '/pets/' + petId)
+      .pipe(
+        map((result: any) => {
+          return result || {};
+        }),
+        tap({
+          next: () => {
+            this.refreshNeeded$.next();
+          },
+          error: error => {
+            catchError(this.handleError);
+          }
+        })
+      );
+  }
   public getPets(): Observable<Pet[]> {
     return this.httpClient.get(this.endpoint + '/pets').pipe(
       map((result: Pet[]) => {
@@ -230,6 +245,7 @@ export class DataService {
     }
     return throwError(errorMessage);
   }
+
 
 
 }
