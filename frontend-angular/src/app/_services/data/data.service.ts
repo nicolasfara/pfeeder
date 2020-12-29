@@ -13,10 +13,15 @@ import {Feed} from '../../_models/Feed';
 })
 export class DataService {
 
-  endpoint = 'http://' + environment.apiBaseUrl + ':3000/api';
+  endpoint = '';
   private refreshNeeded$ = new Subject<void>();
 
   constructor(private httpClient: HttpClient) {
+    if (environment.apiBaseUrl === 'localhost'){
+      this.endpoint = 'http://' + environment.apiBaseUrl + ':3000/api';
+    }else{
+      this.endpoint = 'http://' + environment.apiBaseUrl + '/api';
+    }
   }
 
   /* For real time update */

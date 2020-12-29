@@ -19,7 +19,6 @@ export class ShowpetComponent implements OnInit {
   private currentPetName: string;
    errorMessage: string;
    fodders: Fodder[] = [];
-  private currentFodderName: string;
   selectedOption = 'Select Fodder';
   selectPet = 'Select Pet';
 
@@ -28,7 +27,7 @@ export class ShowpetComponent implements OnInit {
     'dog',
     'other'
   ];
-  private deletePopUp = false;
+  deletePopUp = false;
   private currentPet: Pet;
   constructor(private service: DataService, public fb: FormBuilder) {
   }
