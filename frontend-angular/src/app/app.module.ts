@@ -27,6 +27,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import {WebsocketService} from './_services/notification/websocket.service';
 import { ShowrationComponent } from './_component/ration/showration/showration.component';
+import { SwitchfodderComponent } from './_component/pet/switchfodder/switchfodder.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { ShowrationComponent } from './_component/ration/showration/showration.c
     NotfoundComponent,
     ShowfodderComponent,
     ShowpetComponent,
-    ShowrationComponent
+    ShowrationComponent,
+    SwitchfodderComponent
   ],
   imports: [
     BrowserModule,
