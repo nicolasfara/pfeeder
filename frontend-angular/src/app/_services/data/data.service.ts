@@ -161,7 +161,22 @@ export class DataService {
       catchError(this.handleError)
     );
   }
-
+  deleteRation(rationId: string): Observable<any> {
+      return this.httpClient.delete(this.endpoint + '/rations/' + rationId)
+        .pipe(
+          map((result: any) => {
+            return result || {};
+          }),
+          tap({
+            next: () => {
+              this.refreshNeeded$.next();
+            },
+            error: error => {
+              catchError(this.handleError);
+            }
+          })
+        );
+  }
   // addRation
   addRation(ration: Ration, id: string): Observable<any> {
     const api = `${this.endpoint}/rations/` + id;
