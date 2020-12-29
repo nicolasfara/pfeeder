@@ -54,7 +54,8 @@ export class RationController {
     public async getUserRations(@CurrentUser() user: UserDocument) {
         this.log.info("All rations")
         const petId = (await this.petRepository.findMany({ userId: user.id })).map(p => Types.ObjectId(p._id))
-        return this.rationRepository.findMany({ petId: { $in: petId }})
+        // return this.rationRepository.findMany({ petId: { $in: petId }})
+        return this.rationRepository.getRationWithPet({ petId: { $in: petId }})
     }
 
     @Patch('/:rationId')

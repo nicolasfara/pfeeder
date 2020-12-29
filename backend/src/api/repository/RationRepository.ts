@@ -5,7 +5,13 @@ class RationRepository extends BaseRepository<RationDocument> {
     constructor() {
         super(Ration);
     }
+
+    public async getRationWithPet(query: any) {
+        return super.findMany(query, "petId", "petId")
+    }
 }
+
+
 
 Object.seal(RationRepository)
 export = RationRepository
