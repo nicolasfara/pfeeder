@@ -7,7 +7,7 @@ class RationRepository extends BaseRepository<RationDocument> {
     }
 
     public async getRationWithPet(query: any) {
-        return super.findMany(query, "petId", "petId")
+        return super.findMany(query, undefined, "petId")
     }
 }
 
