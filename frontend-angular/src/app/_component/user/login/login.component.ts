@@ -3,9 +3,6 @@ import {AuthService} from '../../../_services/auth/auth.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 
-declare var $: any;
- // TODO GESTIRE PSW DIMENTICATA
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -17,6 +14,11 @@ export class LoginComponent implements OnInit {
   errorMessage;
 
   showForgot = false;
+  forgotPswForm: FormGroup;
+  returnToken: string;
+  showReset = false;
+  resetPswForm: FormGroup;
+
   constructor(
     public fb: FormBuilder,
     public authService: AuthService,
@@ -49,9 +51,38 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(5)]]
     });
+    this.forgotPswForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
+
+    this.resetPswForm = this.fb.group({
+      password: ['', [Validators.required, Validators.minLength(5)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(5)]]
+    });
   }
 
   openForgot() {
     this.showForgot = true;
+  }
+
+  forgotPsw() {
+    this.authService.forgotPsw(this.forgotPswForm.value).subscribe((token: any) => {
+      this.showReset = true;
+      this.returnToken = token.token;
+    });
+  }
+
+  resetPassword() {
+    this.authService.resetPsw(this.returnToken, this.resetPswForm.value)
+      .subscribe(() => {
+          this.showReset = false;
+          this.showForgot = false;
+          this.router.navigate(['/login']).then();
+        },
+        (error => {
+          console.error('error caught in component');
+          this.errorMessage = error;
+          throw error;
+        }));
   }
 }

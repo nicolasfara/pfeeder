@@ -85,13 +85,42 @@ export class AuthService {
     );
   }
 
+  forgotPsw(email): Observable<string> {
+    return  this.http.post(this.endpoint + '/users/forgot', email)
+      .pipe(
+        map((res: string) => {
+          return res;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  resetPsw(token: string, psw): Observable<any> {
+    return  this.http.post(this.endpoint + '/users/reset/' + token, psw)
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError(this.handleError)
+      );
+  }
   handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Unknown error!';
+    let errorMessage: string;
     if (error.error instanceof ErrorEvent) {
       errorMessage = `Error: ${error.error.message}`;
     } else {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     return throwError(errorMessage);
+  }
+
+  patchUser(usr) {
+    return  this.http.patch(this.endpoint + '/users' , usr)
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError(this.handleError)
+      );
   }
 }

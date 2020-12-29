@@ -136,6 +136,23 @@ export class DataService {
     return this.httpClient.get(this.endpoint + '/rations');
   }
 
+  patchRation(rationID, ration): Observable<any> {
+    const api = `${this.endpoint}/rations/` + rationID;
+    return this.httpClient.patch(api, ration)
+      .pipe(
+        map((result: any) => {
+          return result || {};
+        }),
+        tap({
+          next: () => {
+            this.refreshNeeded$.next();
+          },
+          error: error => {
+            catchError(this.handleError);
+          }
+        })
+      );
+  }
   public getRationByID(petID: string): Observable<Ration> {
     return this.httpClient.get(this.endpoint + '/rations/' + petID).pipe(
       map((result: Ration) => {
@@ -198,4 +215,6 @@ export class DataService {
     }
     return throwError(errorMessage);
   }
+
+
 }
