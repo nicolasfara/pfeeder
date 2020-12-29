@@ -26,7 +26,7 @@ export class ShowrationComponent implements OnInit {
   getRation() {
     this.dataService.getRation().subscribe((rations1: Ration[]) => {
         this.rations = rations1;
-        this.rations.forEach( x => x.time = new Date(x.time));
+        console.log(this.rations)
       },
       (error => {
         console.error('error caught in component');

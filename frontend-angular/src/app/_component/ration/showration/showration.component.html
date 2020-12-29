@@ -19,8 +19,8 @@
             </thead>
             <tbody>
             <tr *ngFor="let ration of rations; let i=index">
-              <!--              <td class="petName">{{petName[i]}}</td>-->
-              <td class="petName">{{ration.name}}</td>
+                            <td class="petName">{{ration.petId.name}}</td>
+<!--              <td class="petName">{{ration.name}}</td>-->
               <td class="rationName">{{ration.name}}</td>
               <td class="rationHour"
                   *ngIf="ration?.time else elsePerfId">{{ ration.time | date: 'h'}}</td>
