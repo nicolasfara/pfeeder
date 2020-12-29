@@ -69,16 +69,16 @@ export class DashboardComponent implements OnInit {
     this.service.getRation().subscribe((data: Ration[]) => {
       this.rations = data;
       // TODO PET NAME ARE INCORRECT
-     //  this.rations.forEach(x => this.petIDs.push(x.petId));
-     //  this.petIDs.forEach( x => {
-     //    console.log(buf2hex(x.id.value));
-     //    this.pets.forEach( y => {
-     //      // @ts-ignore
-     //      if (buf2hex(x.id.value) === buf2hex(y._id.id.value)) {
-     //       this.petName.push(y.name);
-     //     }
-     //   });
-     // });
+      this.rations.forEach(x => this.petIDs.push(x.petId));
+
+      this.petIDs.forEach( x => {
+        this.pets.forEach( y => {
+          // @ts-ignore
+          if (x.id.value === y._id.id.value) {
+           this.petName.push(y.name);
+         }
+       });
+     });
     });
 
   }
