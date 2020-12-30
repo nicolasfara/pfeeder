@@ -12,8 +12,7 @@ import {environment} from '../../../environments/environment';
 })
 
 export class AuthService {
-  api = environment.apiBaseUrl;
-  endpoint: string;
+  endpoint = '';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
 
@@ -22,10 +21,11 @@ export class AuthService {
     private http: HttpClient,
     public router: Router
   ) {
-    if (this.api === 'localhost') {
-      this.api = this.api.concat(':3000');
+    if (environment.apiBaseUrl === 'localhost'){
+      this.endpoint = 'http://' + environment.apiBaseUrl + ':3000/api';
+    }else{
+      this.endpoint = 'http://' + environment.apiBaseUrl + '/api';
     }
-    this.endpoint = 'http://' + this.api + '/api';
   }
 
   // Change Password
@@ -70,8 +70,13 @@ export class AuthService {
   }
 
   // get User
-  getCurrentUser() {
-    return this.http.get(this.endpoint + '/users');
+  getCurrentUser(): Observable<User> {
+    return this.http.get(this.endpoint + '/users').pipe(
+      map((res: User) => {
+        return res;
+      }),
+      catchError(this.handleError)
+    );
   }
 
   // User profile
@@ -114,7 +119,7 @@ export class AuthService {
     return throwError(errorMessage);
   }
 
-  patchUser(usr) {
+  patchUser(usr: User) {
     return  this.http.patch(this.endpoint + '/users' , usr)
       .pipe(
         map((res: any) => {

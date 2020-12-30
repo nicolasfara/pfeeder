@@ -31,13 +31,15 @@
     </a>
     <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <a class="collapse-item openAddPetModal"  >Add pet</a>
+        <a class="collapse-item" data-toggle="modal" data-target="#AddPet" >Add pet</a>
         <a class="collapse-item" data-toggle="modal" data-target="#AllPet">Show all pets</a>
+        <a class="collapse-item" data-toggle="modal" data-target="#PetFodder">Switch fodder to pet</a>
       </div>
     </div>
   </li>
   <app-addpet></app-addpet>
   <app-showpet></app-showpet>
+  <app-switchfodder></app-switchfodder>
   <!-- Divider -->
   <hr class="sidebar-divider">
 

@@ -62,8 +62,8 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr *ngFor="let ration of rations; let i=index">
-                        <td class="petName">{{petName[i]}}</td>
+                      <tr *ngFor="let ration of rations">
+                        <td class="petName">{{ration.petId.name}}</td>
                         <td class="rationTime"
                             *ngIf="ration?.time else elsePerfId">{{ ration.time | date:'shortTime' }}</td>
                         <ng-template #elsePerfId>

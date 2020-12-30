@@ -68,17 +68,6 @@ export class DashboardComponent implements OnInit {
   getRation(): void {
     this.service.getRation().subscribe((data: Ration[]) => {
       this.rations = data;
-      // TODO PET NAME ARE INCORRECT
-      this.rations.forEach(x => this.petIDs.push(x.petId));
-
-      this.petIDs.forEach( x => {
-        this.pets.forEach( y => {
-          // @ts-ignore
-          if (x.id.value === y._id.id.value) {
-           this.petName.push(y.name);
-         }
-       });
-     });
     });
 
   }

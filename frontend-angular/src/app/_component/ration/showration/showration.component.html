@@ -4,7 +4,7 @@
       <div class="modal-header">
         <h2 class="form-title text-primary">{{modalTitle}}</h2>
       </div>
-      <div *ngIf="!showEditRation" class="modal-body">
+      <div *ngIf="!showEditRation && !deletePopUp" class="modal-body">
         <div class="table-responsive">
           <table mdbtable class="card-table table">
             <thead>
@@ -15,12 +15,12 @@
               <th scope="col">Minutes of ration</th>
               <th scope="col">Grams per ration</th>
               <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let ration of rations; let i=index">
-              <!--              <td class="petName">{{petName[i]}}</td>-->
-              <td class="petName">{{ration.name}}</td>
+              <td class="petName">{{ration.petId.name}}</td>
               <td class="rationName">{{ration.name}}</td>
               <td class="rationHour"
                   *ngIf="ration?.time else elsePerfId">{{ ration.time | date: 'h'}}</td>
@@ -38,15 +38,30 @@
                 <td> -</td>
               </ng-template>
               <td>
-                <a class="collapse-item" (click)="EditRation(ration)"> <i
+                <a class="collapse-item" (click)="editRation(ration)"> <i
                   class="fas fa-fw fa-cog"></i></a>
               </td>
+              <td>
+                <a class="collapse-item" (click)="deleteRationPopUp(ration)"><i class="far fa-trash-alt"></i></a>
+              </td>
+
             </tr>
             </tbody>
 
           </table>
         </div>
       </div><!-- /.modal-content -->
+      <div *ngIf="deletePopUp" class="modal-body">
+        <div class="modal-header">
+          <h3 class="text-center">Are you sure?</h3>
+        </div>
+
+        <p>Do you really want to delete these ration? This process cannot be undone.</p>
+        <button class="btn btn-secondary" type="button" style="margin-right: 10px" (click)="cancelOperation()">Cancel
+        </button>
+        <button class="btn btn-primary" (click)="deleteRation()">Delete ration</button>
+      </div>
+
       <div *ngIf="showEditRation" class="modal-body">
         <div class="row">
           <div class="col-md-10 mx-auto">
@@ -62,44 +77,31 @@
               <div class="form-group row">
                 <div class=" col-sm-12 row">
                   <label class="col-sm-6" for="ration">Ration quantity</label>
-                  <input class="col-sm-6" type="number" name="ration" id="ration" formControlName="ration" placeholder="Quantity"/>
+                  <input class="col-sm-6" type="number" name="ration" id="ration" formControlName="ration"
+                         placeholder="Quantity"/>
                 </div>
               </div>
               <div class="form-group row">
                 <div class=" col-sm-12 row">
                   <label class="col-sm-6" for="minutes">Ration minutes</label>
-                  <input class="col-sm-6" type="number" name="minutes" id="minutes" formControlName="minutes" placeholder="Minutes"/>
+                  <input class="col-sm-6" type="number" name="minutes" id="minutes" formControlName="minutes"
+                         placeholder="Minutes"/>
                 </div>
               </div>
               <div class="form-group row">
                 <div class=" col-sm-12 row">
                   <label class="col-sm-6" for="hours">Ration hours</label>
-                  <input class="col-sm-6" type="number" name="hours" id="hours" formControlName="hours" placeholder="Hours" />
+                  <input class="col-sm-6" type="number" name="hours" id="hours" formControlName="hours"
+                         placeholder="Hours"/>
                 </div>
               </div>
-<!--              <div class="form-group row">-->
-<!--                <div class="col-sm-12  row">-->
-<!--                  <label class="col-sm-6" for="#petName">Pet Name</label>-->
-<!--                  <select  formControlName="petId" class=" col-sm-6 form-control" id="#petName">-->
-<!--                    <option *ngFor="let o of pets">-->
-<!--                      {{o.name}}-->
-<!--                    </option>-->
-<!--                  </select>-->
-<!--                </div>-->
-<!--              </div>-->
               <div *ngIf="errorMessage" class="alert alert-danger">
                 <strong>Error!</strong> {{'Error in patch fodder'}}
               </div>
               <div class="form-group form-button  row">
+                <div class="col-sm-6"></div>
                 <div class="col-sm-6">
                   <input type="submit" name="signup" id="updateRationButton" class="form-submit " value="Update Ration"/>
-                </div>
-
-                <div class="form-group form-button">
-                  <div class="col-sm-6">
-                    <input type="submit" name="signup" id="deleteRationButton" class="form-submit "
-                           value="Delete Ration"/>
-                  </div>
                 </div>
               </div>
             </form>

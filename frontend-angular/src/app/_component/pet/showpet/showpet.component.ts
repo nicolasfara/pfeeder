@@ -19,7 +19,6 @@ export class ShowpetComponent implements OnInit {
   private currentPetName: string;
    errorMessage: string;
    fodders: Fodder[] = [];
-  private currentFodderName: string;
   selectedOption = 'Select Fodder';
   selectPet = 'Select Pet';
 
@@ -28,6 +27,8 @@ export class ShowpetComponent implements OnInit {
     'dog',
     'other'
   ];
+  deletePopUp = false;
+  private currentPet: Pet;
   constructor(private service: DataService, public fb: FormBuilder) {
   }
 
@@ -88,6 +89,31 @@ export class ShowpetComponent implements OnInit {
       );
   }
 
+  deletePetPopUp(pet: Pet) {
+    this.deletePopUp = true;
+    this.currentPet = pet;
+  }
+
+  cancelOperation() {
+    this.deletePopUp = false;
+    this.currentPet = null;
+  }
+
+  deletePet() {
+
+    // @ts-ignore
+    this.service.deletePet(buf2hex(this.currentPet._id.id.data))
+      .subscribe(() => {
+          this.deletePopUp = false;
+          this.currentPet = null;
+        },
+        (error => {
+          console.error('error caught in component');
+          this.errorMessage = error;
+          throw error;
+        })
+      );
+  }
 }
 
 function buf2hex(buffer) { // buffer is an ArrayBuffer

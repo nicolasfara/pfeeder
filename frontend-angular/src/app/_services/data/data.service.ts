@@ -13,10 +13,15 @@ import {Feed} from '../../_models/Feed';
 })
 export class DataService {
 
-  endpoint = 'http://' + environment.apiBaseUrl + ':3000/api';
+  endpoint = '';
   private refreshNeeded$ = new Subject<void>();
 
   constructor(private httpClient: HttpClient) {
+    if (environment.apiBaseUrl === 'localhost'){
+      this.endpoint = 'http://' + environment.apiBaseUrl + ':3000/api';
+    }else{
+      this.endpoint = 'http://' + environment.apiBaseUrl + '/api';
+    }
   }
 
   /* For real time update */
@@ -79,7 +84,22 @@ export class DataService {
       catchError(this.handleError)
     );
   }
-
+  deletePet(petId: string): Observable<any> {
+    return this.httpClient.delete(this.endpoint + '/pets/' + petId)
+      .pipe(
+        map((result: any) => {
+          return result || {};
+        }),
+        tap({
+          next: () => {
+            this.refreshNeeded$.next();
+          },
+          error: error => {
+            catchError(this.handleError);
+          }
+        })
+      );
+  }
   public getPets(): Observable<Pet[]> {
     return this.httpClient.get(this.endpoint + '/pets').pipe(
       map((result: Pet[]) => {
@@ -161,7 +181,22 @@ export class DataService {
       catchError(this.handleError)
     );
   }
-
+  deleteRation(rationId: string): Observable<any> {
+      return this.httpClient.delete(this.endpoint + '/rations/' + rationId)
+        .pipe(
+          map((result: any) => {
+            return result || {};
+          }),
+          tap({
+            next: () => {
+              this.refreshNeeded$.next();
+            },
+            error: error => {
+              catchError(this.handleError);
+            }
+          })
+        );
+  }
   // addRation
   addRation(ration: Ration, id: string): Observable<any> {
     const api = `${this.endpoint}/rations/` + id;
@@ -215,6 +250,7 @@ export class DataService {
     }
     return throwError(errorMessage);
   }
+
 
 
 }

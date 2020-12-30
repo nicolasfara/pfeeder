@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   editProfileForm: FormGroup;
   changePasswordForm: FormGroup;
   errorMessage: string;
+  openPsw = false;
 
   constructor(
     public fb: FormBuilder,
@@ -35,8 +36,8 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  editProfile() {
-    this.authService.patchUser(this.editProfileForm.value)
+  editProfile(editProfileForm) {
+    this.authService.patchUser(editProfileForm.value)
       .subscribe(() => {
           this.router.navigate(['/dashboard']).then();
         },
@@ -64,6 +65,16 @@ export class ProfileComponent implements OnInit {
       this.currentUser = data;
       this.currentEmail = this.currentUser.email.split('@', 2)[0];
       this.gravatar = this.currentUser.profile.picture;
+
+      this.editProfileForm = this.fb.group({
+        firstName: this.currentUser.profile.firstName,
+        lastName: this.currentUser.profile.lastName,
+        email: this.currentUser.email
+      });
     });
+  }
+
+  openChangePassword() {
+    this.openPsw = true;
   }
 }
