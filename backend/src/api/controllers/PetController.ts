@@ -29,7 +29,7 @@ export class PetController {
     @OpenAPI({ security: [{ bearerAuth: [] }]})
     public async getUserPets(@CurrentUser() user: UserDocument): Promise<PetDocument[]> {
         this.log.info(`Return all pets for user: ${user.email}`);
-        return await this.petRepository.findMany({ userId: user.id })
+        return await this.petRepository.findMany({ userId: user.id }, null, "currentFodder")
     }
 
     @Get('/:id')
