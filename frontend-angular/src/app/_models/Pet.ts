@@ -1,3 +1,5 @@
+import {Fodder} from "./Fodder";
+
 export class Pet {
   // tslint:disable-next-line:variable-name
   _id: object;
@@ -15,7 +17,7 @@ export class Pet {
       ration: number;
     },
   ];
-  currentFodder: string;
+  currentFodder: Fodder;
 }
 
 export enum PetType {

@@ -12,7 +12,6 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 export class SwitchfodderComponent implements OnInit {
 
   pets: Pet[] = [];
-  foddersName = [];
   fodders: Fodder[] = [];
   showEditPetFodder = false;
   errorMessage: string;
@@ -27,21 +26,14 @@ export class SwitchfodderComponent implements OnInit {
     this.getPet();
     this.getFodder();
     this.dataService.refreshNeeded.subscribe(() => {
-      console.log("siii")
       this.getPet();
+      this.getFodder();
     });
   }
   getPet(): void {
-    this.foddersName = [];
     this.dataService.getPets().subscribe(
       (pet: Pet[]) => {
         this.pets = pet;
-
-        // @ts-ignore
-        this.pets.forEach(x => this.dataService.getFodderByPet(buf2hex(x._id.id.data)).subscribe((fodder) => {
-          this.foddersName.push(fodder.currentFodder.name);
-          console.log(this.foddersName)
-        }));
       },
       (error => {
         console.error('error caught in component');
@@ -50,12 +42,12 @@ export class SwitchfodderComponent implements OnInit {
 
   }
 
-  EditPetFodder(pet: Pet, fodderName) {
+  EditPetFodder(pet: Pet) {
     this.showEditPetFodder = true;
     this.currentPetName = pet.name;
     this.editFodderPetForm = this.fb.group({
       name : pet.name,
-      currentFodder: fodderName
+      currentFodder: pet.currentFodder.name
     });
   }
 

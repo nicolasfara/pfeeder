@@ -19,11 +19,11 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr *ngFor="let pet of pets; let i=index">
+                  <tr *ngFor="let pet of pets">
                     <td class="petName">{{pet.name}}</td>
-                    <td class="currentFodder">{{foddersName[i]}}</td>
+                    <td class="currentFodder">{{pet.currentFodder.name}}</td>
                     <td>
-                      <a class="collapse-item" (click)="EditPetFodder(pet,foddersName[i])"> <i
+                      <a class="collapse-item" (click)="EditPetFodder(pet)"> <i
                         class="fas fa-fw fa-cog">
 
                       </i></a>

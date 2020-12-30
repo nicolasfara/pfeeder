@@ -7,24 +7,14 @@ import {WebsocketService} from '../../../_services/notification/websocket.servic
 import {NotificationService} from '../../../_services/notification/notification.service';
 import {Notification} from '../../../_models/Notification';
 
-
-// TODO SISTEMARE NOME PET NELLE RAZIONI IN BASE A RAZIONE NON AGGIUNTA DI PETNAME IN VETTORE
-
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  fodders = [];
   pets: Pet[] = [];
-  petName = [];
-  petIDs = [];
   rations: Ration[] = [];
-  messageList: string[] = [];
-  hours: string;
-
   constructor(private service: DataService, private websocket: WebsocketService, private notifyService: NotificationService) {
   }
 
@@ -46,23 +36,11 @@ export class DashboardComponent implements OnInit {
     this.service.getPets().subscribe(
       (pet: Pet[]) => {
         this.pets = pet;
-        // this.pets.forEach(x => this.petName.push(x.name));
-        // @ts-ignore
-        this.pets.forEach(x => this.service.getFodderByPet(buf2hex(x._id.id.data)).subscribe((fodder) => {
-          this.fodders.push(fodder.currentFodder.name);
-        }));
-        // @ts-ignore
-        // this.pets.forEach(x => this.service.getRationByID(buf2hex(x._id.id.data)).subscribe((ration: Ration) => {
-        //   this.rations.push(ration);
-        //   console.log(ration.petId);
-        //   // this.pets =
-        // }));
       },
       (error => {
         console.error('error caught in component');
         throw error;
       }));
-
   }
 
   getRation(): void {

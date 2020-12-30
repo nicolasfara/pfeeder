@@ -8,7 +8,6 @@
       <div class="container-fluid">
         <!-- Content Row -->
         <div class="row">
-
           <div class="col-xl-8 col-lg-7">
             <div class="card border-left-primary shadow h-100 py-2">
               <div class="card-header">
@@ -35,7 +34,7 @@
                         <td class="idealWeight">{{pet.idealWeight}} kg</td>
                         <td class="petAge">{{pet.age}} years</td>
                         <td class="petType">{{pet.petType.toString()}}</td>
-                        <td class="currentFodder">{{fodders[i]}}</td>
+                        <td class="currentFodder">{{pet.currentFodder.name}}</td>
                       </tr>
                       </tbody>
                     </table>
@@ -131,7 +130,6 @@
             </div>
           </div>
         </div>
-        <!-- End of Page Wrapper -->
       </div>
     </div>
   </div>

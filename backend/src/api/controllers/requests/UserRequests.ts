@@ -1,4 +1,4 @@
-import {IsEmail, IsEmpty, IsNotEmpty, IsString} from "class-validator";
+import {IsEmail, IsNotEmpty, IsString} from "class-validator";
 
 export class BaseUser {
     @IsNotEmpty()
@@ -29,13 +29,14 @@ export class LoginBody {
 }
 
 export class UpdateUser {
-    @IsEmpty()
+
     @IsEmail()
     email: string;
-    @IsEmpty()
+    @IsNotEmpty()
     @IsString()
     lastName: string;
     @IsString()
+    @IsNotEmpty()
     firstName: string;
 }
 
