@@ -4,7 +4,7 @@ import {User} from '../../../_models/User';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {AuthService} from '../../../_services/auth/auth.service';
 
-// TODO CHANGE NAME,SUR,EMAIL
+// TODO METTERE BACK ANCHE IN CHANGE PSW
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',

@@ -1,6 +1,6 @@
 <!-- Modal HTML Markup -->
-<div id="AddPet" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+<div id="AddPet" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="overflow: auto">
+  <div class="modal-dialog">
     <div class="modal-content ">
       <div class="modal-header">
         <h2 class="modal-title text-primary ">Add pet</h2>
@@ -12,111 +12,97 @@
         <div class="row">
           <div class="col-md-10 mx-auto">
             <form [formGroup]="addPetForm" (ngSubmit)="addPet()" class="register-form" id="register-form">
+              <div class="form-row">
+                <label class="col-md-6 col-form-label " for="name">Pet Name</label>
+                <input class="col-md-6" type="text" name="name" id="name" formControlName="name"
+                       placeholder="Pet's Name"
+                       [ngClass]="{ 'is-invalid': submitted && f.name.errors }"/>
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback text-center">
+                  <div *ngIf="f.name.errors.required">Name is required</div>
+                </div>
+              </div>
+              <br>
+              <div class="form-row">
+                <label class="col-md-6 col-form-label " for="weight">Weight</label>
+                <input class="col-md-6" type="number" name="weight" id="weight" formControlName="weight"
+                       placeholder="Weight"
+                       [ngClass]="{ 'is-invalid': submitted && f.weight.errors }"/>
+                <div *ngIf="submitted && f.weight.errors" class="invalid-feedback text-center">
+                  <div *ngIf="f.weight.errors.required">Weight is required</div>
+                  <div *ngIf="f.weight.errors" class="text-danger">Number Only</div>
+                </div>
+              </div>
+              <br>
+              <div class="form-row">
+                <label class="col-md-6 col-form-label" for="idealWeight">Ideal Weight</label>
+                <input class="col-md-6" type="number" name="idealWeight" id="idealWeight"
+                       formControlName="idealWeight"
+                       placeholder="Ideal Weight"
+                       [ngClass]="{ 'is-invalid': submitted && f.idealWeight.errors }"/>
+                <div *ngIf="submitted && f.idealWeight.errors" class="invalid-feedback text-center">
+                  <div *ngIf="f.idealWeight.errors.required">Ideal Weight is required</div>
+                  <div *ngIf="f.idealWeight.errors" class="text-danger">Number Only</div>
+                </div>
+              </div>
+              <br>
+              <div class="form-row">
+                <label class="col-md-6 col-form-label" for="age">Age</label>
+                <input class="col-md-6" type="number" name="age" id="age" formControlName="age" placeholder="Age"
+                       [ngClass]="{ 'is-invalid': submitted && f.age.errors }"/>
+                <div *ngIf="submitted && f.age.errors" class="invalid-feedback text-center">
+                  <div *ngIf="f.age.errors.required">Age is required</div>
+                  <div *ngIf="f.age.errors" class="text-danger">Number Only</div>
+                </div>
+              </div>
 
+              <br>
+              <div class="form-row">
+                <label class="col-md-6 col-form-label" for="petType">Pet type</label>
+                <select formControlName="petType" class=" col-sm-6 form-control" id="petType">
+                  <option *ngFor="let o of petType" [ngClass]="{ 'is-invalid': submitted && f.petType.errors }">
+                    {{o}}
+                  </option>
+                </select>
+                <!-- error block NON VA NON SO XK -->
+                <div *ngIf="submitted && f.petType.errors?.required" class="invalid-feedback text-center">
+                  Pet type is required
+                </div>
 
+              </div>
+              <br>
+              <div class="form-row">
+                <label class="col-sm-6" for="breed">Breed</label>
+                <input class="col-sm-6" type="text" name="breed" formControlName="breed" id="breed"
+                       placeholder="Breed"
+                       [ngClass]="{ 'is-invalid': submitted && f.breed.errors }"/>
+                <div *ngIf="submitted && f.breed.errors" class="invalid-feedback text-center">
+                  <div *ngIf="f.breed.errors.required">Breed is required</div>
+                </div>
+              </div>
 
+              <br>
+              <div class="form-row">
+                <label class="col-sm-6" for="currentFodder">Current Fodder Name:</label>
+                <select [(ngModel)]="selectedOption" formControlName="currentFodder" class=" col-sm-6 form-control"
+                        id="currentFodder">
+                  <option *ngFor="let o of fodders">
+                    {{o.name}}
+                  </option>
+                </select>
+                <!-- error block NON VA NON SO XK -->
+                <div *ngIf="submitted && f.currentFodder.errors?.required">
+                  <sup>*</sup>Current Fodder Name is required
+                </div>
 
-              <div class="form-group row">
-<!--                <div class=" col-sm-12 row">-->
-                  <label class="col-md-4 col-form-label " for="name">Pet Name</label>
-                  <input data-placement="top"  class="col-md-6" type="text" name="name" id="name" formControlName="name"
-                         placeholder="Pet's Name"
-                         [ngClass]="{ 'is-invalid': submitted && f.name.errors }"/>
-                  <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-                    <div *ngIf="f.name.errors.required">Name is required</div>
-                  </div>
-                </div>
-<!--              </div>-->
-              <div class="form-group row ">
-                <div class="col-sm-12  row">
-                  <label class="col-sm-6" for="weight">Weight</label>
-                  <input class="col-sm-6" type="number" name="weight" id="weight" formControlName="weight"
-                         placeholder="Weight"
-                         [ngClass]="{ 'is-invalid': submitted && f.weight.errors }"/>
-                  <div *ngIf="submitted && f.weight.errors" class="invalid-feedback">
-                    <div *ngIf="f.weight.errors.required">Weight is required</div>
-                    <div *ngIf="f.weight.errors" class="text-danger">Number Only</div>
-                  </div>
-                </div>
               </div>
-              <div class="form-group row">
-                <div class="col-sm-12  row">
-                  <label class="col-sm-6" for="idealWeight">Ideal Weight</label>
-                  <input class="col-sm-6" type="number" name="idealWeight" id="idealWeight"
-                         formControlName="idealWeight"
-                         placeholder="Ideal Weight"
-                         [ngClass]="{ 'is-invalid': submitted && f.idealWeight.errors }"/>
-                  <div *ngIf="submitted && f.idealWeight.errors" class="invalid-feedback">
-                    <div *ngIf="f.idealWeight.errors.required">Ideal Weight is required</div>
-                    <div *ngIf="f.idealWeight.errors" class="text-danger">Number Only</div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-12  row">
-                  <label class="col-sm-6" for="age">Age</label>
-                  <input class="col-sm-6" type="number" name="age" id="age" formControlName="age" placeholder="Age"
-                         [ngClass]="{ 'is-invalid': submitted && f.age.errors }"/>
-                  <div *ngIf="submitted && f.age.errors" class="invalid-feedback">
-                    <div *ngIf="f.age.errors.required">Age is required</div>
-                    <div *ngIf="f.age.errors" class="text-danger">Number Only</div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-12  row">
-                  <label class="col-sm-6" for="petType">Pet type</label>
-                  <select  formControlName="petType" class=" col-sm-6 form-control" id="petType">
-                    <option *ngFor="let o of petType">
-                      {{o}}
-                    </option>
-                  </select>
-                  <!-- error block NON VA NON SO XK -->
-                  <div *ngIf="submitted && f.petType.errors?.required">
-                    <sup>*</sup>Pet type is required
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-12  row">
-                  <label class="col-sm-6" for="breed">Breed</label>
-                  <input class="col-sm-6" type="text" name="breed" formControlName="breed" id="breed"
-                         placeholder="Breed"
-                         [ngClass]="{ 'is-invalid': submitted && f.breed.errors }"/>
-                  <div *ngIf="submitted && f.breed.errors" class="invalid-feedback">
-                    <div *ngIf="f.breed.errors.required">Breed is required</div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class=" col-sm-12  row">
-                  <label class="col-sm-6" for="currentFodder">Current Fodder Name:</label>
-                  <select [(ngModel)]="selectedOption" formControlName="currentFodder" class=" col-sm-6 form-control"
-                          id="currentFodder">
-                    <option *ngFor="let o of fodders">
-                      {{o.name}}
-                    </option>
-                  </select>
-                  <!-- error block NON VA NON SO XK -->
-                  <div *ngIf="submitted && f.currentFodder.errors?.required">
-                    <sup>*</sup>Current Fodder Name is required
-                  </div>
-                </div>
-              </div>
+              <br>
               <div *ngIf="errorMessage" class="alert alert-danger">
                 <strong>Error!</strong> {{'Error in add new pet'}}
               </div>
-<!--              <div class="form-group form-button row">-->
-<!--                <div class=" col-sm-12  row">-->
-<!--                  <label class="col-sm-6">-->
-<!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--                  </label>-->
-<!--                  <input class="col-sm-6 form-submit" type="submit" name="signup" id="addPetButton" value="Add Pet"/>-->
-<!--                </div>-->
-<!--              </div>-->
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" type="submit" name="signup" id="addPetButton">Add pet</button>
+                <button type="button" class="btn btn-primary" type="submit" name="signup" id="addPetButton">Add pet
+                </button>
               </div>
             </form>
           </div>

@@ -4,8 +4,9 @@ import {Router} from '@angular/router';
 import {DataService} from '../../../_services/data/data.service';
 
 declare var $: any;
-// TODO ADD SUBJECT TO UPDATE
 
+
+//TODO METTERE A POSTO LABEL COME IN ADD PET
 @Component({
   selector: 'app-addfodder',
   templateUrl: './addfodder.component.html',

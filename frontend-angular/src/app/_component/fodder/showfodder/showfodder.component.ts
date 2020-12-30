@@ -3,9 +3,8 @@ import {DataService} from '../../../_services/data/data.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Fodder} from '../../../_models/Fodder';
 
-// TODO RENDERE LA TABELLA CON SUBJECT CON AGGIORNAMENTO COME IN DASHBOARD
 // TODO mettere a posto visualizzazione da mobile
-// TODO fare anche delete
+
 
 @Component({
   selector: 'app-showfodder',

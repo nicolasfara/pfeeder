@@ -15,6 +15,7 @@ import {Notification} from '../../../_models/Notification';
 export class DashboardComponent implements OnInit {
   pets: Pet[] = [];
   rations: Ration[] = [];
+
   constructor(private service: DataService, private websocket: WebsocketService, private notifyService: NotificationService) {
   }
 

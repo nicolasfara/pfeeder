@@ -19,6 +19,7 @@ export class SwitchfodderComponent implements OnInit {
   editFodderPetForm: FormGroup;
   currentFodderPet: any;
   currentPetName: string;
+  modalTitle = 'Pet associate to fodder';
 
   constructor(private dataService: DataService, public fb: FormBuilder) { }
 
@@ -42,7 +43,8 @@ export class SwitchfodderComponent implements OnInit {
 
   }
 
-  EditPetFodder(pet: Pet) {
+  editPetFodder(pet: Pet) {
+    this.modalTitle = 'Update pet fodder association';
     this.showEditPetFodder = true;
     this.currentPetName = pet.name;
     this.editFodderPetForm = this.fb.group({
@@ -60,12 +62,12 @@ export class SwitchfodderComponent implements OnInit {
     const petID: Pet[] = this.pets.filter(x => x.name === this.currentPetName);
     const fodderID: Fodder[] = this.fodders.filter(x => x.name === this.currentFodderPet.currentFodder);
 
-    const fodderupdate = {
+    const fodderUpdate = {
       // @ts-ignore
       fodderId: buf2hex(fodderID[0]._id.id.data)
     };
     // @ts-ignore
-    this.dataService.patchFodderPet(buf2hex(petID[0]._id.id.data), fodderupdate)
+    this.dataService.patchFodderPet(buf2hex(petID[0]._id.id.data), fodderUpdate)
       .subscribe(() => {
           this.showEditPetFodder = false;
         },

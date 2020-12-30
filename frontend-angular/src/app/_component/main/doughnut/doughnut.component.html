@@ -1,5 +1,5 @@
 <div class="container">
-  <canvas baseChart *ngIf="feed && pieChartData"
+  <canvas baseChart *ngIf="feed && pieChartData && pieChartLabels && pets"
           [data]="pieChartData"
           [labels]="pieChartLabels"
           [chartType]="pieChartType"
