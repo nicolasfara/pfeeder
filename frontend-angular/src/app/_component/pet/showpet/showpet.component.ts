@@ -37,6 +37,7 @@ export class ShowpetComponent implements OnInit {
     this.getFodder();
     this.service.refreshNeeded.subscribe(() => {
       this.getPet();
+      this.getFodder();
     });
   }
   EditPet(petform) {

@@ -81,9 +81,6 @@ export class AddpetComponent implements OnInit {
 
   savePet() {
     this.addPetForm.removeControl('currentFodder');
-    // this.addPetForm.patchValue({
-    //   currentFodder : buf2hex(this.id._id['id']['data'])
-    // })
     const selectedPet = this.pets.find(x => x.name === this.addPetForm.get('name').value);
     console.log(this.addPetForm.value);
     // @ts-ignore
@@ -108,9 +105,10 @@ export class AddpetComponent implements OnInit {
         }
       );
   }
-
 }
-
+$(window).on('pop', () =>{
+  $('#AddPet').modal('hide');
+});
 function buf2hex(buffer) { // buffer is an ArrayBuffer
   return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
 }

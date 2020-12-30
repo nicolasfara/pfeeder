@@ -129,6 +129,23 @@ export class DataService {
 
   }
 
+  patchFodderPet(petId: string, fodderId): Observable<any> {
+    const api = `${this.endpoint}/pets/` + petId + '/fodder';
+    return this.httpClient.patch(api, fodderId)
+      .pipe(
+        map((result: any) => {
+          return result;
+        }),
+        tap({
+          next: () => {
+            this.refreshNeeded$.next();
+          },
+          error: error => {
+            catchError(this.handleError);
+          }
+        })
+      );
+  }
 
   // patch
   patchPet(pet: Pet, id: string): Observable<any> {
@@ -250,7 +267,6 @@ export class DataService {
     }
     return throwError(errorMessage);
   }
-
 
 
 }

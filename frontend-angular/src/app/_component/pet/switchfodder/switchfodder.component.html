@@ -6,7 +6,7 @@
 <!--        <h2 class="form-title text-primary text-center">{{modalTitle}}</h2>-->
         <h2 class="form-title text-primary text-center">Pet and Fodder</h2>
       </div>
-        <div class="card border-left-primary shadow h-100 py-2">
+        <div *ngIf="!showEditPetFodder"  class="card border-left-primary shadow h-100 py-2">
           <div class="card-header">
             <div class="row no-gutters align-items-center">
               <div class="table-responsive">
@@ -14,21 +14,20 @@
                   <thead>
                   <tr>
                     <th scope="col">Pet Name</th>
-                    <th scope="col">Weight</th>
-                    <th scope="col">Ideal weight</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Pet type</th>
                     <th scope="col">Current Fodder</th>
+                    <th scope="col"> Edit</th>
                   </tr>
                   </thead>
                   <tbody>
                   <tr *ngFor="let pet of pets; let i=index">
                     <td class="petName">{{pet.name}}</td>
-                    <td class="petWeight">{{pet.weight}} kg</td>
-                    <td class="idealWeight">{{pet.idealWeight}} kg</td>
-                    <td class="petAge">{{pet.age}} years</td>
-                    <td class="petType">{{pet.petType.toString()}}</td>
-                    <td class="currentFodder">{{fodders[i]}}</td>
+                    <td class="currentFodder">{{foddersName[i]}}</td>
+                    <td>
+                      <a class="collapse-item" (click)="EditPetFodder(pet,foddersName[i])"> <i
+                        class="fas fa-fw fa-cog">
+
+                      </i></a>
+                    </td>
                   </tr>
                   </tbody>
                 </table>
@@ -36,110 +35,46 @@
             </div>
           </div>
         </div>
-<!--      <div *ngIf="!showEditPet && !deletePopUp" class="modal-body ">-->
-<!--        <div class="table-responsive">-->
-<!--          <table mdbtable class="card-table table">-->
-<!--            <thead>-->
-<!--            <tr>-->
-<!--              <th scope="col">Pet Name</th>-->
-<!--              <th scope="col">Weight</th>-->
-<!--              <th scope="col">Ideal weight</th>-->
-<!--              <th scope="col">Age</th>-->
-<!--              <th scope="col">Pet type</th>-->
-<!--              <th scope="col">Breed</th>-->
-<!--              <th scope="col">Edit</th>-->
-<!--              <th scope="col">Delete</th>-->
-<!--            </tr>-->
-<!--            </thead>-->
-<!--            <tbody>-->
-<!--            <tr *ngFor="let pet of pets; let i=index">-->
-<!--              <td class="name">{{pet.name}}</td>-->
-<!--              <td class="weight">{{pet.weight}} kg</td>-->
-<!--              <td class="idealWeight">{{pet.idealWeight}} kg</td>-->
-<!--              <td class="age">{{pet.age}} years</td>-->
-<!--              <td class="petType">{{pet.petType.toString()}}</td>-->
-<!--              <td class="breed">{{pet.breed}}</td>-->
-<!--              <td>-->
-<!--                <a class="collapse-item" (click)="EditPet(pet)"> <i-->
-<!--                  class="fas fa-fw fa-cog">-->
+      <div *ngIf="showEditPetFodder" class="modal-body">
+        <div class="row">
+          <div class=" mx-auto">
+            <form [formGroup]="editFodderPetForm" (ngSubmit)="updatePetFodder(editFodderPetForm)" class="register-form"
+                  id="register-form">
+              <div class="form-group row">
+                <div class=" col-sm-12 row">
+                  <label class="col-sm-6" for="name">Pet Name</label>
+                  <input class="col-sm-6" type="text" name="name" id="name" formControlName="name"
+                         placeholder="Pet's Name" />
+                </div>
+              </div>
+                 <div class="form-group row">
+                <div class=" col-sm-12  row">
+                  <label class="col-sm-6" for="currentFodder">Current Fodder Name:</label>
+                  <select [(ngModel)]="selectedOption" formControlName="currentFodder" class=" col-sm-6 form-control"
+                          id="currentFodder">
+                    <option *ngFor="let o of fodders">
+                      {{o.name}}
+                    </option>
+                  </select>
 
-<!--                </i></a>-->
-<!--              </td>-->
-<!--              <td>-->
-<!--                <a class="collapse-item" (click)="deletePetPopUp(pet)"><i class="far fa-trash-alt"></i></a>-->
-<!--              </td>-->
-<!--            </tr>-->
-<!--            </tbody>-->
-<!--          </table>-->
-<!--        </div>-->
-<!--      </div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
-<!--      <div *ngIf="deletePopUp" class="modal-body">-->
-<!--        <div class="modal-header">-->
-<!--          <h3 class="text-center">Are you sure?</h3>-->
-<!--        </div>-->
+                </div>
+              </div>
 
-<!--        <p>Do you really want to delete these pet? This process cannot be undone.</p>-->
-<!--        <button class="btn btn-secondary" type="button" style="margin-right: 10px" (click)="cancelOperation()">Cancel-->
-<!--        </button>-->
-<!--        <button class="btn btn-primary" (click)="deletePet()">Delete pet</button>-->
-<!--      </div>-->
-<!--      <div *ngIf="showEditPet" class="modal-body">-->
-<!--        <div class="row">-->
-<!--          <div class=" mx-auto">-->
-<!--            <form [formGroup]="editPetForm" (ngSubmit)="updatePet(editPetForm)" class="register-form"-->
-<!--                  id="register-form">-->
-<!--              <div class="form-group row">-->
-<!--                <div class=" col-sm-12 row">-->
-<!--                  <label class="col-sm-6" for="name">Pet Name</label>-->
-<!--                  <input class="col-sm-6" type="text" name="name" id="name" formControlName="name"-->
-<!--                         placeholder="Pet's Name"/>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="form-group row ">-->
-<!--                <div class="col-sm-12  row">-->
-<!--                  <label class="col-sm-6" for="weight">Weight</label>-->
-<!--                  <input class="col-sm-6" type="number" name="weight" id="weight" formControlName="weight"-->
-<!--                         placeholder="Weight"/>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="form-group row">-->
-<!--                <div class="col-sm-12  row">-->
-<!--                  <label class="col-sm-6" for="age">Age</label>-->
-<!--                  <input class="col-sm-6" type="number" name="age" id="age" formControlName="age" placeholder="Age"/>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="form-group row">-->
-<!--                <div class="col-sm-12  row">-->
-<!--                  <label class="col-sm-6" for="petType">Pet type</label>-->
-<!--                  <select formControlName="petType" class=" col-sm-6 form-control" id="petType">-->
-<!--                    <option *ngFor="let o of petType">-->
-<!--                      {{o}}-->
-<!--                    </option>-->
-<!--                  </select>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="form-group row">-->
-<!--                <div class="col-sm-12  row">-->
-<!--                  <label class="col-sm-6" for="breed">Breed</label>-->
-<!--                  <input class="col-sm-6" type="text" name="breed" formControlName="breed" id="breed"-->
-<!--                         placeholder="Breed"/>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div *ngIf="errorMessage" class="alert alert-danger">-->
-<!--                <strong>Error!</strong> {{'Error in add new pet'}}-->
-<!--              </div>-->
-<!--              <div class="form-group form-button row">-->
-<!--                <div class="col-sm-6"></div>-->
-<!--                <div class="col-sm-6">-->
-<!--                  <input class="form-submit" type="submit" name="signup" id="savePetButton"-->
-<!--                         value="Save Pet"/>-->
-<!--                </div>-->
-<!--              </div>-->
+              <div *ngIf="errorMessage" class="alert alert-danger">
+                <strong>Error!</strong> {{'Error in add new pet'}}
+              </div>
+              <div class="form-group form-button row">
+                <div class="col-sm-6"></div>
+                <div class="col-sm-6">
+                  <input class="form-submit" type="submit" name="signup" id="saveFodderPetButton"
+                         value="Save Foddet to pet"/>
+                </div>
+              </div>
 
-<!--            </form>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+            </form>
+          </div>
+        </div>
+      </div>
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
 </div>

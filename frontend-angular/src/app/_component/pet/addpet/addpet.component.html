@@ -1,25 +1,32 @@
 <!-- Modal HTML Markup -->
-<div id="AddPet" class="modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
+<div id="AddPet" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content ">
       <div class="modal-header">
-        <h2 class="form-title text-primary">Add pet</h2>
+        <h2 class="modal-title text-primary ">Add pet</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body">
         <div class="row">
           <div class="col-md-10 mx-auto">
             <form [formGroup]="addPetForm" (ngSubmit)="addPet()" class="register-form" id="register-form">
+
+
+
+
               <div class="form-group row">
-                <div class=" col-sm-12 row">
-                  <label class="col-sm-6" for="name">Pet Name</label>
-                  <input class="col-sm-6" type="text" name="name" id="name" formControlName="name"
+<!--                <div class=" col-sm-12 row">-->
+                  <label class="col-md-4 col-form-label " for="name">Pet Name</label>
+                  <input data-placement="top"  class="col-md-6" type="text" name="name" id="name" formControlName="name"
                          placeholder="Pet's Name"
                          [ngClass]="{ 'is-invalid': submitted && f.name.errors }"/>
                   <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
                     <div *ngIf="f.name.errors.required">Name is required</div>
                   </div>
                 </div>
-              </div>
+<!--              </div>-->
               <div class="form-group row ">
                 <div class="col-sm-12  row">
                   <label class="col-sm-6" for="weight">Weight</label>
@@ -99,11 +106,17 @@
               <div *ngIf="errorMessage" class="alert alert-danger">
                 <strong>Error!</strong> {{'Error in add new pet'}}
               </div>
-              <div class="form-group form-button row">
-                <div class=" col-sm-12  row">
-                  <label class="col-sm-6"></label>
-                  <input class="col-sm-6 form-submit" type="submit" name="signup" id="addPetButton" value="Add Pet"/>
-                </div>
+<!--              <div class="form-group form-button row">-->
+<!--                <div class=" col-sm-12  row">-->
+<!--                  <label class="col-sm-6">-->
+<!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--                  </label>-->
+<!--                  <input class="col-sm-6 form-submit" type="submit" name="signup" id="addPetButton" value="Add Pet"/>-->
+<!--                </div>-->
+<!--              </div>-->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" type="submit" name="signup" id="addPetButton">Add pet</button>
               </div>
             </form>
           </div>
