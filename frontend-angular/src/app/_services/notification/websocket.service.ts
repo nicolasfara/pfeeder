@@ -10,7 +10,7 @@ import {environment} from '../../../environments/environment';
 export class WebsocketService {
   private url = 'http://' + environment.apiBaseUrl + ':3001';
   private token = localStorage.getItem('access_token');
-  private socket: any;
+  private readonly socket: any;
 
   constructor() {
     this.socket = io(this.url, {
@@ -28,6 +28,11 @@ export class WebsocketService {
         observer.next(data);
       });
     });
+  }
+  disconnect(){
+    if (this.socket){
+      this.socket.close();
+    }
   }
 
 }

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {User} from '../../_models/User';
-import {Observable, throwError} from 'rxjs';
+import {Observable, Subject, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
@@ -15,6 +15,7 @@ export class AuthService {
   endpoint = '';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
+  private closeConnection$ = new Subject<void>();
 
 
   constructor(
@@ -27,7 +28,10 @@ export class AuthService {
       this.endpoint = 'http://' + environment.apiBaseUrl + '/api';
     }
   }
-
+  /* For real time update */
+  get closeConnection() {
+    return this.closeConnection$;
+  }
   // Change Password
   changePassword(changePassword: ChangePsw): Observable<any> {
     const api = `${this.endpoint}/users/password`;
@@ -66,6 +70,8 @@ export class AuthService {
   }
 
   doLogout() {
+    this.closeConnection$.next();
+    window.location.reload();
     this.router.navigate(['/homepage']).then();
   }
 
