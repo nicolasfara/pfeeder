@@ -77,4 +77,12 @@ export class ProfileComponent implements OnInit {
   openChangePassword() {
     this.openPsw = true;
   }
+
+  back() {
+    this.openPsw = false;
+  }
+
+  backProfile() {
+    this.router.navigate(['/dashboard']).then();
+  }
 }

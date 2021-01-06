@@ -1,16 +1,17 @@
 <app-navbar></app-navbar>
 <div class="main">
-  <section  class="sign-in">
+  <section class="sign-in">
     <div class="container">
       <div class="signin-content">
         <div class="signup-image">
-          <figure><img src="{{currentUser.profile.picture}}"  *ngIf="currentUser"  alt="sing up image">
+          <figure><img src="{{currentUser.profile.picture}}" *ngIf="currentUser" alt="sing up image">
           </figure>
           <h5 class="form-title text-center">Your gravatar</h5>
         </div>
         <div class="signin-form">
 
-          <form *ngIf="!openPsw" [formGroup]="editProfileForm" (ngSubmit)="editProfile(editProfileForm)" class="register-form" id="login-form">
+          <form *ngIf="!openPsw" [formGroup]="editProfileForm" (ngSubmit)="editProfile(editProfileForm)"
+                class="register-form" id="login-form">
             <h2 class="form-title text-primary">Profile</h2>
             <div class="form-group row">
               <div class=" col-sm-12 row">
@@ -22,47 +23,57 @@
             <div class="form-group row">
               <div class=" col-sm-12 row">
                 <label class="col-sm-6" for="lastName">Last Name</label>
-                <input class="col-sm-6"  type="text" name="lastName" id="lastName" formControlName="lastName"
+                <input class="col-sm-6" type="text" name="lastName" id="lastName" formControlName="lastName"
                        *ngIf="currentUser" placeholder="{{currentUser.profile.lastName}}"/>
               </div>
             </div>
             <div class="form-group row">
               <div class=" col-sm-12 row">
                 <label class="col-sm-6" for="email">Email</label>
-                <input class="col-sm-6"  *ngIf="currentUser" type="email" name="email" id="email" formControlName="email" placeholder="{{currentUser.email}}"/>
+                <input class="col-sm-6" *ngIf="currentUser" type="email" name="email" id="email" formControlName="email"
+                       placeholder="{{currentUser.email}}"/>
               </div>
             </div>
-            <div class="form-button">
 
-                <div class="col-sm-4">
-                  <input type="submit" name="signup" id="changeProfile" class="form-submit" value="Save profile"/>
-                </div>
-                <div class="col-sm-4">
-                  <input type="submit" name="signup" id="changePassword"  class="form-submit" (click)="openChangePassword()" value="Change password"/>
-                </div>
-
+            <div class="modal-footer row" style="border-top: 0 none;">
+              <button type="button" class="btn btn-primary" type="submit" name="signup" id="changeProfile">Save profile
+              </button>
+              <button type="button" class="btn btn-primary" type="submit" (click)="openChangePassword()" name="signup"
+                      id="changePassword">Change password
+              </button>
             </div>
-
+            <div class="modal-footer" style="border-top: 0 none;">
+              <button type="button" class="btn btn-secondary" (click)="backProfile()" data-dismiss="modal">Back</button>
+            </div>
           </form>
-          <form *ngIf="openPsw"  [formGroup]="changePasswordForm" (ngSubmit)="changePassword()" class="password-form" id="password-form">
+          <form *ngIf="openPsw" [formGroup]="changePasswordForm" (ngSubmit)="changePassword()" class="password-form"
+                id="password-form">
             <h3 class="form-title text-primary">Change password</h3>
-            <div class="form-group">
-              <label for="oldPassword"><i class="zmdi zmdi-lock"></i></label>
-              <input type="password" name="oldPassword" formControlName="oldPassword" id="oldPassword"
-                     placeholder="Current Password"/>
+            <div class="form-group row">
+              <div class=" col-sm-12 row">
+                <label class="col-sm-6" for="oldPassword">Current psw</label>
+                <input class="col-sm-6" type="password" name="oldPassword" id="oldPassword" formControlName="oldPassword"
+                       placeholder="Current Psw"/>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="password"><i class="zmdi zmdi-lock"></i></label>
-              <input type="password" name="password" formControlName="password" id="password"
-                     placeholder="New Password"/>
+            <div class="form-group row">
+              <div class=" col-sm-12 row">
+                <label class="col-sm-6" for="password">New psw</label>
+                <input class="col-sm-6" type="password" name="password" id="password" formControlName="password"
+                       placeholder="New Psw"/>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="confirmPassword"><i class="zmdi zmdi-lock"></i></label>
-              <input type="password" name="confirmPassword" formControlName="confirmPassword" id="confirmPassword"
-                     placeholder="Confirm new Password"/>
+            <div class="form-group row">
+              <div class=" col-sm-12 row">
+                <label class="col-sm-6" for="confirmPassword">Confirm psw</label>
+                <input class="col-sm-6" type="password" name="confirmPassword" id="confirmPassword" formControlName="confirmPassword"
+                       placeholder="Confirm Psw"/>
+              </div>
             </div>
-            <div class="form-group form-button">
-              <input type="submit" name="signup" id="signup" class="form-submit" value="Change password"/>
+            <div class="modal-footer" style="border-top: 0 none;">
+              <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>
+              <button type="button" class="btn btn-primary" type="submit" name="signup" id="signup">Change password
+              </button>
             </div>
           </form>
 
