@@ -3,9 +3,6 @@ import {DataService} from '../../../_services/data/data.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Fodder} from '../../../_models/Fodder';
 
-// TODO mettere a posto visualizzazione da mobile
-
-
 @Component({
   selector: 'app-showfodder',
   templateUrl: './showfodder.component.html',

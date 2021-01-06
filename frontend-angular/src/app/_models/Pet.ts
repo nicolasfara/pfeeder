@@ -1,4 +1,4 @@
-import {Fodder} from "./Fodder";
+import {Fodder} from './Fodder';
 
 export class Pet {
   // tslint:disable-next-line:variable-name

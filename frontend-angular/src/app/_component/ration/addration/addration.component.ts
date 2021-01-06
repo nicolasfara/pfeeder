@@ -1,10 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {first} from 'rxjs/operators';
-import {AuthService} from '../../../_services/auth/auth.service';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Pet} from '../../../_models/Pet';
-import {Fodder} from '../../../_models/Fodder';
 import {DataService} from '../../../_services/data/data.service';
 
 declare var $: any;
@@ -14,8 +11,7 @@ declare var $: any;
   templateUrl: './addration.component.html',
   styleUrls: ['./addration.component.scss']
 })
-// TODO VALIDATION FORM
-// TODO PATCH RATION
+
 export class AddrationComponent implements OnInit {
 
   pets: Pet[] = [];

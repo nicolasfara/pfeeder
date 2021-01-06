@@ -71,8 +71,9 @@ export class AuthService {
 
   doLogout() {
     this.closeConnection$.next();
-    window.location.reload();
-    this.router.navigate(['/homepage']).then();
+    window.open('homepage', '_self');
+    // this.router.navigate(['/homepage']).then();
+    // window.location.reload();
   }
 
   // get User

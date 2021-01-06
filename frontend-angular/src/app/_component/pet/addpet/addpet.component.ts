@@ -5,6 +5,7 @@ import {first} from 'rxjs/operators';
 import {DataService} from '../../../_services/data/data.service';
 import {Fodder} from '../../../_models/Fodder';
 import {Pet} from '../../../_models/Pet';
+
 declare var $: any;
 
 @Component({
@@ -47,6 +48,7 @@ export class AddpetComponent implements OnInit {
 
     });
   }
+
   get f() {
     return this.addPetForm.controls;
   }
@@ -94,6 +96,7 @@ export class AddpetComponent implements OnInit {
   getFodder(): void {
     this.service.getFodder().then(fodders => this.fodders = fodders);
   }
+
   getPet(): void {
     this.service.getPets()
       .subscribe(
@@ -106,9 +109,11 @@ export class AddpetComponent implements OnInit {
       );
   }
 }
-$(window).on('pop', () =>{
+
+$(window).on('pop', () => {
   $('#AddPet').modal('hide');
 });
+
 function buf2hex(buffer) { // buffer is an ArrayBuffer
   return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
 }
