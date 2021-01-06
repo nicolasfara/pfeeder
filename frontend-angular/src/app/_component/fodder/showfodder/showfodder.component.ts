@@ -31,20 +31,20 @@ export class ShowfodderComponent implements OnInit {
     });
   }
 
-  EditFodder(fodderform) {
+  EditFodder(fodderForm) {
     this.showEditProduct = true;
     this.modalTitle = 'Update fodder';
-    this.currentFodderName = fodderform.name;
+    this.currentFodderName = fodderForm.name;
     this.updateFodderForm = this.fb.group({
-      name: fodderform.name,
-      companyName: fodderform.companyName,
-      price: fodderform.price,
-      weight: fodderform.weight,
-      kcal: fodderform.nutritionFacts.kcal,
-      proteins: fodderform.nutritionFacts.proteins,
-      fats: fodderform.nutritionFacts.fats,
-      vitamins: fodderform.nutritionFacts.vitamins,
-      carbohydrates: fodderform.nutritionFacts.carbohydrates
+      name: fodderForm.name,
+      companyName: fodderForm.companyName,
+      price: fodderForm.price,
+      weight: fodderForm.weight,
+      kcal: fodderForm.nutritionFacts.kcal,
+      proteins: fodderForm.nutritionFacts.proteins,
+      fats: fodderForm.nutritionFacts.fats,
+      vitamins: fodderForm.nutritionFacts.vitamins,
+      carbohydrates: fodderForm.nutritionFacts.carbohydrates
     });
   }
 
@@ -56,7 +56,7 @@ export class ShowfodderComponent implements OnInit {
     const updateFodder = updateFodderForm.value;
     const fodderID: Fodder[] = this.fodders.filter(x => x.name === this.currentFodderName);
     // @ts-ignore
-    this.service.patchFodder(buf2hex(fodderID[0]._id.id.data), updateFodder)
+    this.service.patchFodder(fodderID[0]._id.id.data, updateFodder)
       .subscribe(() => {
           this.showEditProduct = false;
         },
@@ -67,8 +67,8 @@ export class ShowfodderComponent implements OnInit {
         })
       );
   }
-}
 
-function buf2hex(buffer) { // buffer is an ArrayBuffer
-  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
+  back() {
+    this.showEditProduct = false;
+  }
 }

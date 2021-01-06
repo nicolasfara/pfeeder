@@ -59,7 +59,7 @@ export class AddrationComponent implements OnInit {
     }
     const petId: Pet[] = this.pets.filter(x => x.name === this.addRationForm.value.petId);
     // @ts-ignore
-    this.dataService.addRation(this.addRationForm.value, buf2hex(petId[0]._id.id.data))
+    this.dataService.addRation(this.addRationForm.value, petId[0]._id.id.data)
       .subscribe(() => {
           $('#AddRation').modal('hide');
         },
@@ -69,8 +69,4 @@ export class AddrationComponent implements OnInit {
           throw error;
         }));
   }
-}
-
-function buf2hex(buffer) { // buffer is an ArrayBuffer
-  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
 }

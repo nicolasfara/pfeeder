@@ -25,6 +25,7 @@
             ],
             "styles": [
               "src/app/_component/utilities/styles.scss",
+              "node_modules/aos/dist/aos.css",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/@fortawesome/fontawesome-free-webfonts/css/fontawesome.css",
               "node_modules/@fortawesome/fontawesome-free-webfonts/css/fa-regular.css",
@@ -33,6 +34,7 @@
 
             ],
             "scripts": [
+              "node_modules/aos/dist/aos.js",
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.js"
             ]

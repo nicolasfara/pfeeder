@@ -67,7 +67,7 @@ export class AddpetComponent implements OnInit {
     const fodderID: Fodder[] = this.fodders.filter(x => x.name === this.addPetForm.get('currentFodder').value);
     this.addPetForm.patchValue({
       // @ts-ignore
-      currentFodder: buf2hex(fodderID[0]._id.id.data)
+      currentFodder: this.service.buf2hex(fodderID[0]._id.id.data)
     });
     console.log(this.addPetForm.value);
     this.authService.addPet(this.addPetForm.value).subscribe(() => {
@@ -86,7 +86,7 @@ export class AddpetComponent implements OnInit {
     const selectedPet = this.pets.find(x => x.name === this.addPetForm.get('name').value);
     console.log(this.addPetForm.value);
     // @ts-ignore
-    this.authService.patchPet(this.addPetForm.value, buf2hex(selectedPet.id.id.data)).pipe(first())
+    this.authService.patchPet(this.addPetForm.value, selectedPet.id.id.data).pipe(first())
       .subscribe(
         data => {
           $('#AddPet').modal('hide');
@@ -113,7 +113,3 @@ export class AddpetComponent implements OnInit {
 $(window).on('pop', () => {
   $('#AddPet').modal('hide');
 });
-
-function buf2hex(buffer) { // buffer is an ArrayBuffer
-  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
-}

@@ -40,17 +40,17 @@ export class ShowpetComponent implements OnInit {
       this.getFodder();
     });
   }
-  EditPet(petform) {
+  EditPet(petForm) {
     this.showEditPet = true;
     this.modalTitle = 'Update pet';
-    this.currentPetName = petform.name;
-    console.log(petform.petType);
+    this.currentPetName = petForm.name;
+
     this.editPetForm = this.fb.group({
-      name: petform.name,
-      age: petform.age,
-      weight: petform.weight,
-      petType: petform.petType,
-      breed: petform.breed,
+      name: petForm.name,
+      age: petForm.age,
+      weight: petForm.weight,
+      petType: petForm.petType,
+      breed: petForm.breed,
     });
   }
   getPet(): void {
@@ -78,7 +78,7 @@ export class ShowpetComponent implements OnInit {
       breed: updatePet.breed
     };
     // @ts-ignore
-    this.service.patchPet(pet, buf2hex(petID[0]._id.id.data))
+    this.service.patchPet(pet, petID[0]._id.id.data)
       .subscribe(() => {
           this.showEditPet = false;
         },
@@ -103,7 +103,7 @@ export class ShowpetComponent implements OnInit {
   deletePet() {
 
     // @ts-ignore
-    this.service.deletePet(buf2hex(this.currentPet._id.id.data))
+    this.service.deletePet(this.currentPet._id.id.data)
       .subscribe(() => {
           this.deletePopUp = false;
           this.currentPet = null;
@@ -117,6 +117,3 @@ export class ShowpetComponent implements OnInit {
   }
 }
 
-function buf2hex(buffer) { // buffer is an ArrayBuffer
-  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
-}

@@ -55,7 +55,7 @@ export class ShowrationComponent implements OnInit {
     const rationID: Ration[] = this.rations.filter(x => x.name === this.currentRationName);
 
     // @ts-ignore
-    this.dataService.patchRation(buf2hex(rationID[0]._id.id.data), updateRation)
+    this.dataService.patchRation(rationID[0]._id.id.data, updateRation)
       .subscribe(() => {
           this.showEditRation = false;
         },
@@ -74,7 +74,7 @@ export class ShowrationComponent implements OnInit {
   deleteRation(){
 
     // @ts-ignore
-    this.dataService.deleteRation(buf2hex(this.currentRation._id.id.data))
+    this.dataService.deleteRation(this.currentRation._id.id.data)
       .subscribe(() => {
           this.deletePopUp = false;
           this.currentRation = null;
@@ -91,8 +91,4 @@ export class ShowrationComponent implements OnInit {
     this.deletePopUp = false;
     this.currentRation = null;
   }
-}
-
-function buf2hex(buffer) { // buffer is an ArrayBuffer
-  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
 }

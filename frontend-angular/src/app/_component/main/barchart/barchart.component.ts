@@ -46,11 +46,11 @@ export class BarchartComponent implements OnInit {
       this.pets.forEach(value => this.pieChartLabels.push(value.name));
       this.pets.forEach(value => {
         // @ts-ignore
-        this.dataService.getFeed(buf2hex(value._id.id.data)).subscribe((f: Feed) => {
+        this.dataService.getFeed(value._id.id.data).subscribe((f: Feed) => {
           this.feeds = f;
         });
         // @ts-ignore
-        this.dataService.getCostPet(buf2hex(value._id.id.data)).subscribe((cost: number) => {
+        this.dataService.getCostPet(value._id.id.data).subscribe((cost: number) => {
           if (cost) {
             this.pieChartData[this.pets.indexOf(value)] = cost;
           }
@@ -59,8 +59,4 @@ export class BarchartComponent implements OnInit {
     });
   }
 
-}
-
-function buf2hex(buffer) {
-  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Pet} from '../../../_models/Pet';
 import {DataService} from '../../../_services/data/data.service';
 import {Fodder} from '../../../_models/Fodder';
@@ -21,7 +21,8 @@ export class SwitchfodderComponent implements OnInit {
   currentPetName: string;
   modalTitle = 'Pet associate to fodder';
 
-  constructor(private dataService: DataService, public fb: FormBuilder) { }
+  constructor(private dataService: DataService, public fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.getPet();
@@ -31,6 +32,7 @@ export class SwitchfodderComponent implements OnInit {
       this.getFodder();
     });
   }
+
   getPet(): void {
     this.dataService.getPets().subscribe(
       (pet: Pet[]) => {
@@ -48,7 +50,7 @@ export class SwitchfodderComponent implements OnInit {
     this.showEditPetFodder = true;
     this.currentPetName = pet.name;
     this.editFodderPetForm = this.fb.group({
-      name : pet.name,
+      name: pet.name,
       currentFodder: pet.currentFodder.name
     });
   }
@@ -62,12 +64,13 @@ export class SwitchfodderComponent implements OnInit {
     const petID: Pet[] = this.pets.filter(x => x.name === this.currentPetName);
     const fodderID: Fodder[] = this.fodders.filter(x => x.name === this.currentFodderPet.currentFodder);
 
+
     const fodderUpdate = {
       // @ts-ignore
-      fodderId: buf2hex(fodderID[0]._id.id.data)
+      fodderId: this.dataService.buf2hex(fodderID[0]._id.id.data)
     };
     // @ts-ignore
-    this.dataService.patchFodderPet(buf2hex(petID[0]._id.id.data), fodderUpdate)
+    this.dataService.patchFodderPet(petID[0]._id.id.data, fodderUpdate)
       .subscribe(() => {
           this.showEditPetFodder = false;
         },
@@ -78,8 +81,4 @@ export class SwitchfodderComponent implements OnInit {
         })
       );
   }
-}
-
-function buf2hex(buffer) { // buffer is an ArrayBuffer
-  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
 }

@@ -44,7 +44,7 @@ export class DoughnutComponent implements OnInit {
       this.pets = data;
       this.pets.forEach(value => this.pieChartLabels.splice(this.pets.indexOf(value), 0, value.name));
       // @ts-ignore
-      this.pets.forEach((value: Pet) => this.dataService.getFeed(buf2hex(value._id.id.data))
+      this.pets.forEach((value: Pet) => this.dataService.getFeed(value._id.id.data)
         .subscribe((feeds: Feed[]) => {
           this.feed = feeds;
           if (this.feed.length > 0) {
@@ -63,8 +63,4 @@ export class DoughnutComponent implements OnInit {
         throw error;
       }));
   }
-}
-
-function buf2hex(buffer) { // buffer is an ArrayBuffer
-  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
 }

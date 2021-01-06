@@ -57,7 +57,7 @@ export class DataService {
 
   // patchFodder
   patchFodder(fodderID, fodder: Fodder): Observable<any> {
-    const api = `${this.endpoint}` + '/fodders/' + fodderID;
+    const api = `${this.endpoint}` + '/fodders/' + this.buf2hex(fodderID);
     return this.httpClient.patch(api, fodder)
       .pipe(
         map((result: any) => {
@@ -77,7 +77,7 @@ export class DataService {
 
   /* Pet API */
   public getFodderByPet(petId: string): Observable<any> {
-    return this.httpClient.get(this.endpoint + '/pets/' + petId + '/fodder').pipe(
+    return this.httpClient.get(this.endpoint + '/pets/' + this.buf2hex(petId) + '/fodder').pipe(
       map((result: any) => {
         return result;
       }),
@@ -85,7 +85,7 @@ export class DataService {
     );
   }
   deletePet(petId: string): Observable<any> {
-    return this.httpClient.delete(this.endpoint + '/pets/' + petId)
+    return this.httpClient.delete(this.endpoint + '/pets/' + this.buf2hex(petId))
       .pipe(
         map((result: any) => {
           return result || {};
@@ -130,7 +130,7 @@ export class DataService {
   }
 
   patchFodderPet(petId: string, fodderId): Observable<any> {
-    const api = `${this.endpoint}/pets/` + petId + '/fodder';
+    const api = `${this.endpoint}/pets/` + this.buf2hex(petId) + '/fodder';
     return this.httpClient.patch(api, fodderId)
       .pipe(
         map((result: any) => {
@@ -149,7 +149,7 @@ export class DataService {
 
   // patch
   patchPet(pet: Pet, id: string): Observable<any> {
-    const api = `${this.endpoint}/pets/` + id;
+    const api = `${this.endpoint}/pets/` + this.buf2hex(id);
     return this.httpClient.patch(api, pet)
       .pipe(
         map((result: any) => {
@@ -174,7 +174,7 @@ export class DataService {
   }
 
   patchRation(rationID, ration): Observable<any> {
-    const api = `${this.endpoint}/rations/` + rationID;
+    const api = `${this.endpoint}/rations/` + this.buf2hex(rationID);
     return this.httpClient.patch(api, ration)
       .pipe(
         map((result: any) => {
@@ -191,7 +191,7 @@ export class DataService {
       );
   }
   public getRationByID(petID: string): Observable<Ration> {
-    return this.httpClient.get(this.endpoint + '/rations/' + petID).pipe(
+    return this.httpClient.get(this.endpoint + '/rations/' + this.buf2hex(petID)).pipe(
       map((result: Ration) => {
         return result;
       }),
@@ -199,7 +199,7 @@ export class DataService {
     );
   }
   deleteRation(rationId: string): Observable<any> {
-      return this.httpClient.delete(this.endpoint + '/rations/' + rationId)
+      return this.httpClient.delete(this.endpoint + '/rations/' + this.buf2hex(rationId))
         .pipe(
           map((result: any) => {
             return result || {};
@@ -216,7 +216,7 @@ export class DataService {
   }
   // addRation
   addRation(ration: Ration, id: string): Observable<any> {
-    const api = `${this.endpoint}/rations/` + id;
+    const api = `${this.endpoint}/rations/` + this.buf2hex(id);
     return this.httpClient.post(api, ration)
       .pipe(
         map((result: any) => {
@@ -237,7 +237,7 @@ export class DataService {
   /** API to get cost for a particular pet */
 
   public getCostPet(id: string) {
-    return this.httpClient.get(this.endpoint + '/feeds/' + id + '/cost')
+    return this.httpClient.get(this.endpoint + '/feeds/' + this.buf2hex(id) + '/cost')
       .pipe(
         map((result: Ration) => {
           return result;
@@ -248,7 +248,7 @@ export class DataService {
 
   /** API to get feed for a particular pet */
   public getFeed(id: string) {
-    return this.httpClient.get(this.endpoint + '/feeds/' + id)
+    return this.httpClient.get(this.endpoint + '/feeds/' + this.buf2hex(id))
       .pipe(
         map((result: Feed[]) => {
           return result;
@@ -267,6 +267,9 @@ export class DataService {
     }
     return throwError(errorMessage);
   }
-
+   buf2hex(buffer) { // buffer is an ArrayBuffer
+    return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
+  }
 
 }
+
