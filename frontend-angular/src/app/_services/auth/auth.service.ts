@@ -73,6 +73,9 @@ export class AuthService {
     this.closeConnection$.next();
     window.open('homepage', '_self');
     // this.router.navigate(['/homepage']).then();
+    this.closeConnection$.next();
+    window.localStorage.clear(); // clear all localstorage
+    window.localStorage.removeItem('access_token'); // remove one item
     // window.location.reload();
   }
 
