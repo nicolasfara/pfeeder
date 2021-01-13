@@ -1,6 +1,6 @@
 # PFeeder
 
-![image](https://pbs.twimg.com/profile_images/700245619097628672/bYPoQT2P_400x400.png)
+![image](./logo.png)
 
 PFeeder è un servizio web che consente di rimanere connessi monitorando il programma alimentare e le porzioni di cibo dei propri animali domestici.
 Il sistema mira a offrire un servizio di monitoraggio dello stato di salute degli animali domestici permettendo di tener traccia delle calorie assunte e gestire le porzioni che il dispenser dovrà erogare; inoltre permette di controllare i costi che vengono sostenuti per il singolo animale offrendo una vista delle informazioni.
