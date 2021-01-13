@@ -22,7 +22,7 @@ Le seguenti tecnologie sono **obligatorie** per poter utilizzare il sistema:
 
 Il progetto viene fornito con un file `docker-compose.yml` in modo da avere un sistema pronto per l'uso.
 
-> `$ docker-compose --build`
+> `$ docker-compose --build`  
 > `$ docker-compose up -d`
 
 Visitare il sito su `localhost`
