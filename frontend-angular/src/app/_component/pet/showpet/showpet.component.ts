@@ -115,5 +115,9 @@ export class ShowpetComponent implements OnInit {
         })
       );
   }
+
+  back() {
+    this.showEditPet = false;
+  }
 }
 

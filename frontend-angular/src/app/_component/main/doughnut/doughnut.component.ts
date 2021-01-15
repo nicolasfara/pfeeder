@@ -16,7 +16,7 @@ export class DoughnutComponent implements OnInit {
   }
 
   pets: Pet[];
-  feed: Feed[];
+  feed = [];
   public pieChartLabels: string[] = [];
   public pieChartData: number[] = [];
   public pieChartType = 'pie';
@@ -39,28 +39,36 @@ export class DoughnutComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.getPets();
+    // this.getPets();
     this.dataService.getPets().subscribe((data: Pet[]) => {
       this.pets = data;
-      this.pets.forEach(value => this.pieChartLabels.splice(this.pets.indexOf(value), 0, value.name));
-      // @ts-ignore
-      this.pets.forEach((value: Pet) => this.dataService.getFeed(value._id.id.data)
-        .subscribe((feeds: Feed[]) => {
-          this.feed = feeds;
-          if (this.feed.length > 0) {
-            this.feed.forEach(value1 => this.pieChartData[this.pets.indexOf(value)] = value1.kcal);
-          }
-        }));
+      this.pets.forEach(value => {
+        this.pieChartLabels.splice(this.pets.indexOf(value), 0, value.name);
+      });
+      const currentFeeds = [];
+      this.pets.forEach(value => {
+        // @ts-ignore
+        this.dataService.getFeed(value._id.id.data)
+          .subscribe((feeds: Feed[]) => {
+            currentFeeds.push(feeds.reduce((sum, current) => sum + current.kcal, 0));
+          });
+      });
+      this.feed = currentFeeds;
+    });
+    console.log(this.feed);
+    this.feed.forEach(value1 => {
+      this.pieChartData.push(value1);
     });
   }
 
-  getPets() {
-    this.dataService.getPets().subscribe((pet: Pet[]) => {
-        this.pets = pet;
-      },
-      (error => {
-        console.error('error caught in component');
-        throw error;
-      }));
-  }
+  //
+  // getPets() {
+  //   this.dataService.getPets().subscribe((pet: Pet[]) => {
+  //       this.pets = pet;
+  //     },
+  //     (error => {
+  //       console.error('error caught in component');
+  //       throw error;
+  //     }));
+  // }
 }

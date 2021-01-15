@@ -50,4 +50,8 @@ export class RegisterComponent implements OnInit {
         throw error;
       }));
   }
+
+  back() {
+    this.router.navigate(['homepage']).then();
+  }
 }

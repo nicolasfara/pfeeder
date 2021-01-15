@@ -35,6 +35,9 @@ export class AddrationComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPets();
+    this.dataService.refreshNeeded.subscribe(() => {
+      this.getPets();
+    });
   }
 
   get f() {
@@ -68,5 +71,9 @@ export class AddrationComponent implements OnInit {
           this.errorMessage = error;
           throw error;
         }));
+  }
+
+  back() {
+
   }
 }

@@ -81,4 +81,8 @@ export class SwitchfodderComponent implements OnInit {
         })
       );
   }
+
+  back() {
+    this.showEditPetFodder = false;
+  }
 }

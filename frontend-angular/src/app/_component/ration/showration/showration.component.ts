@@ -91,4 +91,8 @@ export class ShowrationComponent implements OnInit {
     this.deletePopUp = false;
     this.currentRation = null;
   }
+
+  back() {
+    this.showEditRation = false;
+  }
 }
