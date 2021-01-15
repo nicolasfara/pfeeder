@@ -1,118 +1,49 @@
-# MEVN Stack REST API
+# PFeeder
 
-## Technologies
+![image](./logo.png)
 
-This project uses:
-Mongo, Express, VueJS, Node
+PFeeder è un servizio web che consente di rimanere connessi monitorando il programma alimentare e le porzioni di cibo dei propri animali domestici.
+Il sistema mira a offrire un servizio di monitoraggio dello stato di salute degli animali domestici permettendo di tener traccia delle calorie assunte e gestire le porzioni che il dispenser dovrà erogare; inoltre permette di controllare i costi che vengono sostenuti per il singolo animale offrendo una vista delle informazioni.
 
-## Requirements
+In particolare l'utente potrà aggiungere e modificare informazioni riguardanti: animali, mangimi, razioni; il tutto accedendo ad una propria area riservata.
 
-This project will require:
-* Node >=7.0
-* MongoDB
+## Getting Started
 
-## Installation
+Queste istruzioni forniscono una copia del progetto attivo e funzionante sul tuo computer locale per scopi di sviluppo e test. Vedere la distribuzione per le note su come distribuire il progetto su un sistema in produzione.
 
-To install this project simply clone or download the repo:
+### Prerequisiti
 
-`git clone https://github.com/abdullahtariq91/mevn-rest-api.git <dir name>`
+Le seguenti tecnologie sono **obligatorie** per poter utilizzare il sistema:
 
-`cd <dir name>`
+1. [Docker](https://www.docker.com/)
+2. [Docker compose](https://github.com/docker/compose)
 
-`npm install`
+## Deployment
 
-`cp .env.example .env` then add in your local Mongo URI **Changing the PORT variable in the .env will require you to change it in the `views/config/http.js` file.**
+Il progetto viene fornito con un file `docker-compose.yml` in modo da avere un sistema pronto per l'uso.
 
-### Setup/Development
+> `$ docker-compose --build`  
+> `$ docker-compose up -d`
 
-The server will require you to be running a local instance of MongoDB.
+Visitare il sito su `localhost`
+Per visitare il sito in produzione accedere a `pfeeder.nicolasfarabegoli.it`
 
-To use this project you can run
+## Realizzato con
 
-`npm run dev:serve`
+* [NodeJS]()
+* [OpenAPI]()
+* [AngularJS]()
+* [Express]()
+* [MongoDB]()
+* [Redis]()
+* [Socket.io]()
 
-and
+## Autori
 
-`npm run dev:client`
+* **Martina Cavallucci** - *Frontend*
+* **Nicolas Farabegoli** - *Backend*
 
-in separate terminal instances. This will allow hot reloading of both changes to the server and changes to the client.
+## Licenza
 
-The credentials for the super admin are `Email: super@admin.com` `Password: 123456`.
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
-### Project Structure
-
-##### Backend
-
-`/src`
-
-`--/controllers/`-- Contains controllers for the API
-
-`--/database/`
-
-`----/models/`-- Contains the models
-
-`--/middleware/`-- Contains middleware for catching errors and ACL permissions
-
-`--/libs/`
-
-`----/authentication.js`-- Checks for user authentication
-
-`----/common.js`-- Contains common functions used by the API
-
-`----/sockets.js`-- Contains functionality for socket io
-
-`--/routes/`
-
-`----/api.js`-- Routes for the API
-
-`----/user.js`-- Routes specific to the user resource
-
-`----/secret.js`-- Routes to check for admin permissions (RBAC)
-
-`----/login.js`-- Routes to login and logout
-
-##### Frontend
-
-`/views`
-
-`--/config/http.js`-- Axios config for local request
-
-`--/pages/`-- Pages for login, home, and users
-
-`--/router/index.js`-- Config for vue-router
-
-`--/App.vue`
-
-`--/main.js`
-
-`--/index.html`-- The file returned to user
-
-### Routes
-
-All endpoints are behind the `/api` endpoint.
-
-#### `GET`
-`/users` - returns a list of all users inside of an array called `data`.
-
-`/secret` - returns a message only the admin can view.
-
-`/users/:id` - where `:id` is the id of a `user` resource. The resource is then returned in JSON format.
-
-#### `POST`
-`/users` - Creates a new `user` resource based on the payload of the request.
-
-`/login` - Logs in the user.
-
-`/login/logout` - Logs out the user and removes socket connection.
-
-#### `DELETE`
-`/users/:id` - Delete a user resouce matching the `:id` specified.
-
-#### `PUT`
-`/users` - Update a user based on the payload of the request
-
-##
-
-The Client can be accessed by hitting the document root:
-
-`localhost:8080/` Will send you to the application.
