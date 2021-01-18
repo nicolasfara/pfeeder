@@ -85,4 +85,8 @@ export class LoginComponent implements OnInit {
           throw error;
         }));
   }
+
+  back() {
+    this.router.navigate(['homepage']).then();
+  }
 }

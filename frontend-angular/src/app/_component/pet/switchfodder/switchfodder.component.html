@@ -69,14 +69,18 @@
               <div *ngIf="errorMessage" class="alert alert-danger">
                 <strong>Error!</strong> {{'Error in add new pet'}}
               </div>
-              <div class="form-group form-button row">
-                <div class="col-sm-6"></div>
-                <div class="col-sm-6">
-                  <input class="form-submit" type="submit" name="signup" id="saveFodderPetButton"
-                         value="Save Foddet to pet"/>
-                </div>
+<!--              <div class="form-group form-button row">-->
+<!--                <div class="col-sm-6"></div>-->
+<!--                <div class="col-sm-6">-->
+<!--                  <input class="form-submit" type="submit" name="signup" id="saveFodderPetButton"-->
+<!--                         value="Save Foddet to pet"/>-->
+<!--                </div>-->
+<!--              </div>-->
+              <div class="modal-footer" style="border-top: 0 none;">
+                <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>
+                <button type="button" class="btn btn-primary" type="submit" name="saveFPet" id="saveFPet">Save Foddet to pet
+                </button>
               </div>
-
             </form>
           </div>
         </div>
