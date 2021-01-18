@@ -42,6 +42,21 @@ export class FeedController {
         return this.feedRepository.getFeedsByPetInDays(Types.ObjectId(petId), days)
     }
 
+    @Get('/:petId/kcal')
+    @Authorized()
+    @OpenAPI({ security: [{ bearerAuth: [] }] })
+    public async getKcalByPet(
+        @CurrentUser() user: UserDocument,
+        @Param('petId') petId: string
+    ): Promise<number> {
+        const feeds = await this.feedRepository.findMany({ _id: petId })
+        if (feeds.length > 0) {
+            return feeds.map(f => f.kcal).reduce((acc, curr) => acc + curr)
+        } else {
+            throw new HttpError(404, `Unable to find feeds for this pet. No kcal available`)
+        }
+    }
+
     @Get('/:petId/cost')
     @Authorized()
     @OpenAPI({ security: [{ bearerAuth: [] }]})
