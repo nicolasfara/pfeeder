@@ -248,9 +248,9 @@ export class DataService {
 
   /** API to get feed for a particular pet */
   public getFeed(id: string) {
-    return this.httpClient.get(this.endpoint + '/feeds/' + this.buf2hex(id))
+    return this.httpClient.get(this.endpoint + '/feeds/' + this.buf2hex(id) + '/kcal')
       .pipe(
-        map((result: Feed[]) => {
+        map((result: number) => {
           return result;
         }),
         catchError(this.handleError)

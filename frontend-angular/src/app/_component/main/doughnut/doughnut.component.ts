@@ -45,30 +45,35 @@ export class DoughnutComponent implements OnInit {
       this.pets.forEach(value => {
         this.pieChartLabels.splice(this.pets.indexOf(value), 0, value.name);
       });
-      const currentFeeds = [];
+      // const currentFeeds = [];
       this.pets.forEach(value => {
         // @ts-ignore
         this.dataService.getFeed(value._id.id.data)
-          .subscribe((feeds: Feed[]) => {
-            currentFeeds.push(feeds.reduce((sum, current) => sum + current.kcal, 0));
+          .subscribe((kcal: number) => {
+            // currentFeeds.push(feeds.reduce((sum, current) => sum + current.kcal, 0));
+            // currentFeeds.push(kcal);
+            // this.pieChartData.push(kcal);
+            this.pieChartData.splice(this.pets.indexOf(value), 0, kcal);
           });
       });
-      this.feed = currentFeeds;
+      // console.log(currentFeeds);
+      // this.feed = currentFeeds;
+      // });
+      // console.log(this.feed);
+      // this.feed.forEach(value1 => {
+      //
+      // });
     });
-    console.log(this.feed);
-    this.feed.forEach(value1 => {
-      this.pieChartData.push(value1);
-    });
-  }
 
-  //
-  // getPets() {
-  //   this.dataService.getPets().subscribe((pet: Pet[]) => {
-  //       this.pets = pet;
-  //     },
-  //     (error => {
-  //       console.error('error caught in component');
-  //       throw error;
-  //     }));
-  // }
+    //
+    // getPets() {
+    //   this.dataService.getPets().subscribe((pet: Pet[]) => {
+    //       this.pets = pet;
+    //     },
+    //     (error => {
+    //       console.error('error caught in component');
+    //       throw error;
+    //     }));
+    // }
+  }
 }

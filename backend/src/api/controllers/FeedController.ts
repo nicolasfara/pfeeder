@@ -49,7 +49,7 @@ export class FeedController {
         @CurrentUser() user: UserDocument,
         @Param('petId') petId: string
     ): Promise<number> {
-        const feeds = await this.feedRepository.findMany({ _id: petId })
+        const feeds = await this.feedRepository.findMany({ petId: Types.ObjectId(petId) })
         if (feeds.length > 0) {
             return feeds.map(f => f.kcal).reduce((acc, curr) => acc + curr)
         } else {
