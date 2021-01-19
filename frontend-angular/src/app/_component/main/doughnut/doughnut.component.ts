@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {DataService} from '../../../_services/data/data.service';
 import {Pet} from '../../../_models/Pet';
-import {Feed} from '../../../_models/Feed';
 import {Color} from 'ng2-charts';
 
 @Component({
@@ -38,8 +37,6 @@ export class DoughnutComponent implements OnInit {
 
 
   ngOnInit(): void {
-
-    // this.getPets();
     this.dataService.getPets().subscribe((data: Pet[]) => {
       this.pets = data;
       this.pets.forEach(value => {
@@ -56,24 +53,6 @@ export class DoughnutComponent implements OnInit {
             this.pieChartData.splice(this.pets.indexOf(value), 0, kcal);
           });
       });
-      // console.log(currentFeeds);
-      // this.feed = currentFeeds;
-      // });
-      // console.log(this.feed);
-      // this.feed.forEach(value1 => {
-      //
-      // });
     });
-
-    //
-    // getPets() {
-    //   this.dataService.getPets().subscribe((pet: Pet[]) => {
-    //       this.pets = pet;
-    //     },
-    //     (error => {
-    //       console.error('error caught in component');
-    //       throw error;
-    //     }));
-    // }
   }
 }

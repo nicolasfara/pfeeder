@@ -1,4 +1,5 @@
-<div id="AllRation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="overflow: auto">
+<div id="AllRation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" style="overflow: auto">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -70,49 +71,42 @@
           <div class="col-md-10 mx-auto">
             <form [formGroup]="updateRationForm" (ngSubmit)="updateRation(updateRationForm)" class="register-form"
                   id="register-form">
-              <div class="form-group row">
-                <div class=" col-sm-12 row">
-                  <label class="col-sm-6" for="name">Ration Name</label>
-                  <input class="col-sm-6" type="text" name="name" id="name" formControlName="name"
-                         placeholder="Ration Name"/>
-                </div>
+              <div class="form-row">
+
+                <label class="col-md-6 col-form-label " for="name">Ration Name</label>
+                <input class="col-md-6" type="text" name="name" id="name" formControlName="name"
+                       placeholder="Ration Name"/>
               </div>
-              <div class="form-group row">
-                <div class=" col-sm-12 row">
-                  <label class="col-sm-6" for="ration">Ration quantity</label>
-                  <input class="col-sm-6" type="number" name="ration" id="ration" formControlName="ration"
-                         placeholder="Quantity"/>
-                </div>
+              <br>
+              <div class="form-row">
+
+                <label class="col-md-6 col-form-label " for="ration">Ration quantity</label>
+                <input class="col-md-6" type="number" name="ration" id="ration" formControlName="ration"
+                       placeholder="Quantity"/>
               </div>
-              <div class="form-group row">
-                <div class=" col-sm-12 row">
-                  <label class="col-sm-6" for="minutes">Ration minutes</label>
-                  <input class="col-sm-6" type="number" name="minutes" id="minutes" formControlName="minutes"
-                         placeholder="Minutes"/>
-                </div>
+              <br>
+              <div class="form-row">
+
+                <label class="col-md-6 col-form-label " for="minutes">Ration minutes</label>
+                <input class="col-md-6" type="number" name="minutes" id="minutes" formControlName="minutes"
+                       placeholder="Minutes"/>
               </div>
-              <div class="form-group row">
-                <div class=" col-sm-12 row">
-                  <label class="col-sm-6" for="hours">Ration hours</label>
-                  <input class="col-sm-6" type="number" name="hours" id="hours" formControlName="hours"
-                         placeholder="Hours"/>
-                </div>
+              <br>
+              <div class="form-row">
+
+                <label class="col-md-6 col-form-label " for="hours">Ration hours</label>
+                <input class="col-md-6" type="number" name="hours" id="hours" formControlName="hours"
+                       placeholder="Hours"/>
               </div>
+              <br>
               <div *ngIf="errorMessage" class="alert alert-danger">
                 <strong>Error!</strong> {{'Error in patch fodder'}}
               </div>
-<!--              <div class="form-group form-button  row">-->
-<!--                <div class="col-sm-6"></div>-->
-<!--                <div class="col-sm-6">-->
-<!--                  <input type="submit" name="signup" id="updateRationButton" class="form-submit " value="Update Ration"/>-->
-<!--                </div>-->
-<!--              </div>-->
               <div class="modal-footer" style="border-top: 0 none;">
                 <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>
                 <button type="button" class="btn btn-primary" type="submit" name="savePet" id="savePet">Update Ration
                 </button>
               </div>
-
             </form>
           </div>
         </div>

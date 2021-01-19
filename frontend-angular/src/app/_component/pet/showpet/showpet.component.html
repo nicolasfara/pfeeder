@@ -57,56 +57,46 @@
       </div>
       <div *ngIf="showEditPet" class="modal-body">
         <div class="row">
-          <div class=" mx-auto">
+          <div class="col-md-10 mx-auto">
             <form [formGroup]="editPetForm" (ngSubmit)="updatePet(editPetForm)" class="register-form"
                   id="register-form">
-              <div class="form-group row">
-                <div class=" col-sm-12 row">
-                  <label class="col-sm-6" for="name">Pet Name</label>
-                  <input class="col-sm-6" type="text" name="name" id="name" formControlName="name"
+              <div class="form-row">
+                  <label class="col-md-6 col-form-label" for="name">Pet Name</label>
+                  <input class="col-md-6" type="text" name="name" id="name" formControlName="name"
                          placeholder="Pet's Name"/>
                 </div>
-              </div>
-              <div class="form-group row ">
-                <div class="col-sm-12  row">
-                  <label class="col-sm-6" for="weight">Weight</label>
-                  <input class="col-sm-6" type="number" name="weight" id="weight" formControlName="weight"
+            <br>
+              <div class="form-row">
+                  <label class="col-md-6 col-form-label" for="weight">Weight</label>
+                  <input class="col-md-6" type="number" name="weight" id="weight" formControlName="weight"
                          placeholder="Weight"/>
                 </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-12  row">
-                  <label class="col-sm-6" for="age">Age</label>
-                  <input class="col-sm-6" type="number" name="age" id="age" formControlName="age" placeholder="Age"/>
+              <br>
+              <div class="form-row">
+
+                  <label class="col-md-6 col-form-label6" for="age">Age</label>
+                  <input class="col-md-6" type="number" name="age" id="age" formControlName="age" placeholder="Age"/>
                 </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-12  row">
-                  <label class="col-sm-6" for="petType">Pet type</label>
-                  <select formControlName="petType" class=" col-sm-6 form-control" id="petType">
+            <br>
+              <div class="form-row">
+                  <label class="col-md-6 col-form-label" for="petType">Pet type</label>
+                  <select formControlName="petType" class=" col-md-6 col-form-label form-control" id="petType">
                     <option *ngFor="let o of petType">
                       {{o}}
                     </option>
                   </select>
                 </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-12  row">
-                  <label class="col-sm-6" for="breed">Breed</label>
-                  <input class="col-sm-6" type="text" name="breed" formControlName="breed" id="breed"
+              <br>
+              <div class="form-row">
+
+                  <label class="col-md-6 col-form-label" for="breed">Breed</label>
+                  <input class="col-md-6 col-form-label" type="text" name="breed" formControlName="breed" id="breed"
                          placeholder="Breed"/>
                 </div>
-              </div>
+              <br>
               <div *ngIf="errorMessage" class="alert alert-danger">
                 <strong>Error!</strong> {{'Error in add new pet'}}
               </div>
-<!--              <div class="form-group form-button row">-->
-<!--                <div class="col-sm-6"></div>-->
-<!--                <div class="col-sm-6">-->
-<!--                  <input class="form-submit" type="submit" name="signup" id="savePetButton"-->
-<!--                         value="Save Pet"/>-->
-<!--                </div>-->
-<!--              </div>-->
               <div class="modal-footer" style="border-top: 0 none;">
                 <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>
                 <button type="button" class="btn btn-primary" type="submit" name="savePet" id="savePet">Save Pet

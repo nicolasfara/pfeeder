@@ -40,7 +40,6 @@ export class BarchartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.dataService.getPets().subscribe((data: Pet[]) => {
       this.pets = data;
       this.pets.forEach(value => this.pieChartLabels.push(value.name));
