@@ -13,7 +13,10 @@ export class RegisterComponent implements OnInit {
   signupForm: FormGroup;
   errorMessage;
   submitted = false;
-
+  gender = [
+    'male',
+    'female'
+  ];
   constructor(
     public fb: FormBuilder,
     public authService: AuthService,
@@ -41,14 +44,20 @@ export class RegisterComponent implements OnInit {
     if (this.signupForm.invalid) {
       return;
     }
-    this.authService.signUp(this.signupForm.value).subscribe(() => {
-        this.router.navigate(['/login']);
-      },
-      (error => {
-        console.error('error caught in component');
-        this.errorMessage = error;
-        throw error;
-      }));
+    if (this.signupForm.get('gender').value === 'gender') {
+      console.error('error caught in component');
+      this.errorMessage = 'Error select gender';
+    } else {
+
+      this.authService.signUp(this.signupForm.value).subscribe(() => {
+          this.router.navigate(['/login']);
+        },
+        (error => {
+          console.error('error caught in component');
+          this.errorMessage = error;
+          throw error;
+        }));
+    }
   }
 
   back() {

@@ -57,19 +57,25 @@ export class AddrationComponent implements OnInit {
   addRation() {
     this.submitted = true;
     this.errorMessage = '';
-    if (this.addRationForm.invalid) {
+    if (this.addRationForm.invalid ) {
       return;
     }
-    const petId: Pet[] = this.pets.filter(x => x.name === this.addRationForm.value.petId);
-    // @ts-ignore
-    this.dataService.addRation(this.addRationForm.value, petId[0]._id.id.data)
-      .subscribe(() => {
-          $('#AddRation').modal('hide');
-        },
-        (error => {
-          console.error('error caught in component');
-          this.errorMessage = error;
-          throw error;
-        }));
-  }
+    if (this.addRationForm.value.petId === 'pets'){
+      console.error('error caught in component');
+      this.errorMessage = 'Wrong pet selected';
+    }else{
+
+      const petId: Pet[] = this.pets.filter(x => x.name === this.addRationForm.value.petId);
+      // @ts-ignore
+      this.dataService.addRation(this.addRationForm.value, petId[0]._id.id.data)
+        .subscribe(() => {
+            $('#AddRation').modal('hide');
+          },
+          (error => {
+            console.error('error caught in component');
+            this.errorMessage = error;
+            throw error;
+          }));
+    }
+    }
 }

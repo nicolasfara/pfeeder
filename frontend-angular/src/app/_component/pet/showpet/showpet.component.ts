@@ -71,27 +71,32 @@ export class ShowpetComponent implements OnInit {
   }
 
   updatePet(updatePetForm) {
-    const updatePet = updatePetForm.value;
-    const petID: Pet[] = this.pets.filter(x => x.name === this.currentPetName);
-    console.log(updatePet);
-    const pet = {
-      name: updatePet.name,
-      weight: updatePet.weight,
-      age: updatePet.age,
-      petType: updatePet.petType,
-      breed: updatePet.breed
-    };
-    // @ts-ignore
-    this.service.patchPet(pet, petID[0]._id.id.data)
-      .subscribe(() => {
-          this.showEditPet = false;
-        },
-        (error => {
-          console.error('error caught in component');
-          this.errorMessage = error;
-          throw error;
-        })
-      );
+    if (updatePetForm.get('petType').value === '') {
+      console.error('error caught in component');
+      this.errorMessage = 'Wrong selection';
+    } else {
+      const updatePet = updatePetForm.value;
+      const petID: Pet[] = this.pets.filter(x => x.name === this.currentPetName);
+      console.log(updatePet);
+      const pet = {
+        name: updatePet.name,
+        weight: updatePet.weight,
+        age: updatePet.age,
+        petType: updatePet.petType,
+        breed: updatePet.breed
+      };
+      // @ts-ignore
+      this.service.patchPet(pet, petID[0]._id.id.data)
+        .subscribe(() => {
+            this.showEditPet = false;
+          },
+          (error => {
+            console.error('error caught in component');
+            this.errorMessage = error;
+            throw error;
+          })
+        );
+    }
   }
 
   deletePetPopUp(pet: Pet) {

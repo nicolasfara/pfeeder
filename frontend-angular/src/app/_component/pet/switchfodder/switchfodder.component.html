@@ -59,6 +59,7 @@
                   <label class="col-sm-6" for="currentFodder">Current Fodder Name:</label>
                   <select [(ngModel)]="selectedOption" formControlName="currentFodder" class=" col-sm-6 form-control"
                           id="currentFodder">
+                    <option value="">Choose a fodder</option>
                     <option *ngFor="let o of fodders">
                       {{o.name}}
                     </option>
@@ -68,7 +69,7 @@
               </div>
 
               <div *ngIf="errorMessage" class="alert alert-danger">
-                <strong>Error!</strong> {{'Error in add new pet'}}
+                <strong>Error!</strong> {{'Error in add switch fodder to pet'}}
               </div>
               <div class="modal-footer" style="border-top: 0 none;">
                 <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>

@@ -60,6 +60,7 @@
               <div class="form-row">
                 <label class="col-md-6 col-form-label" for="petType">Pet type</label>
                 <select formControlName="petType" class=" col-sm-6 form-control" id="petType">
+                  <option value="">Choose a pet type</option>
                   <option *ngFor="let o of petType" [ngClass]="{ 'is-invalid': submitted && f.petType.errors }">
                     {{o}}
                   </option>
@@ -86,11 +87,11 @@
                 <label class="col-sm-6" for="currentFodder">Current Fodder Name:</label>
                 <select [(ngModel)]="selectedOption" formControlName="currentFodder" class=" col-sm-6 form-control"
                         id="currentFodder">
+                  <option value="">Choose a fodder</option>
                   <option *ngFor="let o of fodders">
                     {{o.name}}
                   </option>
                 </select>
-                <!-- error block NON VA NON SO XK -->
                 <div *ngIf="submitted && f.currentFodder.errors?.required">
                   <sup>*</sup>Current Fodder Name is required
                 </div>

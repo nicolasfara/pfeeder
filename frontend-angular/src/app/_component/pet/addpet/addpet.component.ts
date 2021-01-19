@@ -64,20 +64,27 @@ export class AddpetComponent implements OnInit {
     if (this.addPetForm.invalid) {
       return;
     }
-    const fodderID: Fodder[] = this.fodders.filter(x => x.name === this.addPetForm.get('currentFodder').value);
-    this.addPetForm.patchValue({
-      // @ts-ignore
-      currentFodder: this.service.buf2hex(fodderID[0]._id.id.data)
-    });
-    console.log(this.addPetForm.value);
-    this.authService.addPet(this.addPetForm.value).subscribe(() => {
-        $('#AddPet').modal('hide');
-      },
-      (error => {
-        console.error('error caught in component');
-        this.errorMessage = error;
-        throw error;
-      }));
+
+    if (this.addPetForm.get('currentFodder').value === 'Select Fodder' || this.addPetForm.get('petType').value === ' ') {
+      console.error('error caught in component');
+      this.errorMessage = 'Wrong selection';
+    } else {
+      const fodderID: Fodder[] = this.fodders.filter(x => x.name === this.addPetForm.get('currentFodder').value);
+      this.addPetForm.patchValue({
+        // @ts-ignore
+        currentFodder: this.service.buf2hex(fodderID[0]._id.id.data)
+      });
+      console.log(this.addPetForm.value);
+      this.authService.addPet(this.addPetForm.value).subscribe(() => {
+          $('#AddPet').modal('hide');
+        },
+        (error => {
+          console.error('error caught in component');
+          this.errorMessage = error;
+          throw error;
+        }));
+    }
+
   }
 
 

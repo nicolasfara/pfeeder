@@ -57,14 +57,14 @@
               <div class="form-row">
 
                 <label class="col-md-6 col-form-label " for="#petName">Pet Name</label>
-                <select formControlName="petId" class=" col-md-6 form-control" id="#petName">
+                <select formControlName="petId" class=" col-md-6 form-control" id="#petName" ngModel="pets">
+                  <option value="">Choose a pet</option>
                   <option *ngFor="let o of pets">
                     {{o.name}}
                   </option>
                 </select>
               </div>
-
-
+              <br>
               <div *ngIf="errorMessage" class="alert alert-danger">
                 <strong>Error!</strong> {{'Error in add new ration'}}
               </div>

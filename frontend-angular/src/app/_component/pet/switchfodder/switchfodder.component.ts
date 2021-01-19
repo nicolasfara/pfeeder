@@ -60,26 +60,31 @@ export class SwitchfodderComponent implements OnInit {
   }
 
   updatePetFodder(editFodderPetForm: FormGroup) {
-    this.currentFodderPet = editFodderPetForm.value;
-    const petID: Pet[] = this.pets.filter(x => x.name === this.currentPetName);
-    const fodderID: Fodder[] = this.fodders.filter(x => x.name === this.currentFodderPet.currentFodder);
+    if (this.editFodderPetForm.get('currentFodder').value === 'Select Fodder') {
+      console.error('error caught in component');
+      this.errorMessage = 'Wrong selection';
+    } else {
+      this.currentFodderPet = editFodderPetForm.value;
+      const petID: Pet[] = this.pets.filter(x => x.name === this.currentPetName);
+      const fodderID: Fodder[] = this.fodders.filter(x => x.name === this.currentFodderPet.currentFodder);
 
 
-    const fodderUpdate = {
+      const fodderUpdate = {
+        // @ts-ignore
+        fodderId: this.dataService.buf2hex(fodderID[0]._id.id.data)
+      };
       // @ts-ignore
-      fodderId: this.dataService.buf2hex(fodderID[0]._id.id.data)
-    };
-    // @ts-ignore
-    this.dataService.patchFodderPet(petID[0]._id.id.data, fodderUpdate)
-      .subscribe(() => {
-          this.showEditPetFodder = false;
-        },
-        (error => {
-          console.error('error caught in component');
-          this.errorMessage = error;
-          throw error;
-        })
-      );
+      this.dataService.patchFodderPet(petID[0]._id.id.data, fodderUpdate)
+        .subscribe(() => {
+            this.showEditPetFodder = false;
+          },
+          (error => {
+            console.error('error caught in component');
+            this.errorMessage = error;
+            throw error;
+          })
+        );
+    }
   }
 
   back() {

@@ -23,13 +23,25 @@
                 <div *ngIf="form.lastName.errors.required">Last name is required</div>
               </div>
             </div>
+
             <div class="form-group">
-              <label for="gender" style="display: none"></label>
-              <input type="text" formControlName="gender" placeholder="Gender" name="gender" id="gender"
-                     [ngClass]="{ 'is-invalid': submitted && form.gender.errors }"/>
-              <div *ngIf="submitted && form.email.errors" class="invalid-feedback">
-                <div *ngIf="form.gender.errors.required">Gender is required</div>
-              </div>
+
+              <label class="col-form-label " for="gender" style="display: none"></label>
+              <select formControlName="gender"  id="gender" class="form-control" ngModel="gender">
+                <option value="">Choose a gender</option>
+                <option *ngFor="let o of gender">
+                  {{o}}
+                </option>
+              </select>
+
+
+<!--              -->
+<!--              <label for="gender" style="display: none"></label>-->
+<!--              <input type="text" formControlName="gender" placeholder="Gender" name="gender" id="gender"-->
+<!--                     [ngClass]="{ 'is-invalid': submitted && form.gender.errors }"/>-->
+<!--              <div *ngIf="submitted && form.email.errors" class="invalid-feedback">-->
+<!--                <div *ngIf="form.gender.errors.required">Gender is required</div>-->
+<!--              </div>-->
             </div>
             <div class="form-group">
               <label for="email" style="display: none"></label>

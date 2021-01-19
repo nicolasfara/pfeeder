@@ -82,6 +82,7 @@
               <div class="form-row">
                 <label class="col-md-6 col-form-label" for="petType">Pet type</label>
                 <select formControlName="petType" class=" col-md-6 col-form-label form-control" id="petType">
+                  <option value="">Choose a pet type</option>
                   <option *ngFor="let o of petType">
                     {{o}}
                   </option>
@@ -96,7 +97,7 @@
               </div>
               <br>
               <div *ngIf="errorMessage" class="alert alert-danger">
-                <strong>Error!</strong> {{'Error in add new pet'}}
+                <strong>Error!</strong> {{'Error in update pet'}}
               </div>
               <div class="modal-footer" style="border-top: 0 none;">
                 <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>
