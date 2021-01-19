@@ -1,4 +1,3 @@
-<!-- Modal HTML Markup -->
 <div id="AddFodder" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true" style="overflow: auto">
   <div class="modal-dialog modal-lg">
@@ -29,7 +28,7 @@
               <label class="control-label" for="kcal">Kcal</label>
             </div>
             <div class="col-3">
-              <input  type="number" name="kcal" id="kcal" formControlName="kcal" placeholder="Kcal"
+              <input type="number" name="kcal" id="kcal" formControlName="kcal" placeholder="Kcal"
                      [ngClass]="{ 'is-invalid': submitted && f.kcal.errors }"/>
               <div *ngIf="submitted && f.kcal.errors" class="invalid-feedback text-center">
                 <div *ngIf="f.kcal.errors.required"> Kilocalories is required</div>
@@ -43,7 +42,7 @@
               <label class="control-label" for="companyName">Company Name</label>
             </div>
             <div class="col-3">
-              <input  type="text" name="companyName" id="companyName" formControlName="companyName"
+              <input type="text" name="companyName" id="companyName" formControlName="companyName"
                      placeholder="Company Name" [ngClass]="{ 'is-invalid': submitted && f.companyName.errors }"/>
               <div *ngIf="submitted && f.companyName.errors" class="invalid-feedback text-center">
                 <div *ngIf="f.companyName.errors.required">Company name is required</div>
@@ -53,7 +52,7 @@
               <label class="control-label" for="proteins">Proteins</label>
             </div>
             <div class="col-3">
-              <input  type="number" name="proteins" id="proteins" formControlName="proteins"
+              <input type="number" name="proteins" id="proteins" formControlName="proteins"
                      placeholder="Proteins"
                      [ngClass]="{ 'is-invalid': submitted && f.proteins.errors }"/>
               <div *ngIf="submitted && f.proteins.errors" class="invalid-feedback text-center">
@@ -69,7 +68,7 @@
               <label class="control-label" for="price">Price</label>
             </div>
             <div class="col-3">
-              <input  type="number" name="price" id="price" formControlName="price"
+              <input type="number" name="price" id="price" formControlName="price"
                      placeholder="Price"
                      [ngClass]="{ 'is-invalid': submitted && f.price.errors }"/>
               <div *ngIf="submitted && f.price.errors" class="invalid-feedback text-center">
@@ -81,7 +80,7 @@
               <label class="control-label" for="fats">Fats</label>
             </div>
             <div class="col-3">
-              <input  type="number" name="fats" id="fats" formControlName="fats" placeholder="Fats"
+              <input type="number" name="fats" id="fats" formControlName="fats" placeholder="Fats"
                      [ngClass]="{ 'is-invalid': submitted && f.fats.errors }"/>
               <div *ngIf="submitted && f.fats.errors" class="invalid-feedback text-center">
                 <div *ngIf="f.fats.errors.required">Fats is required</div>
@@ -95,7 +94,7 @@
               <label class="control-label" for="weight">Weight</label>
             </div>
             <div class="col-3">
-              <input  type="number" name="weight" id="weight" formControlName="weight"
+              <input type="number" name="weight" id="weight" formControlName="weight"
                      placeholder="Weight"
                      [ngClass]="{ 'is-invalid': submitted && f.weight.errors }"/>
               <div *ngIf="submitted && f.weight.errors" class="invalid-feedback text-center">
@@ -107,7 +106,7 @@
               <label class="control-label" for="vitamins">Vitamins</label>
             </div>
             <div class="col-3">
-              <input  type="number" name="vitamins" id="vitamins" formControlName="vitamins"
+              <input type="number" name="vitamins" id="vitamins" formControlName="vitamins"
                      placeholder="Vitamins"
                      [ngClass]="{ 'is-invalid': submitted && f.vitamins.errors }"/>
               <div *ngIf="submitted && f.vitamins.errors" class="invalid-feedback text-center">
@@ -140,7 +139,7 @@
           </div>
           <div class="modal-footer" style="border-top: 0 none;">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" type="submit" name="addFodd" id="addFodd">Add Fodder
+            <button type="submit" class="btn btn-primary" name="addFodderButton" id="addFodderButton">Add Fodder
             </button>
           </div>
         </form>

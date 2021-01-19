@@ -72,8 +72,4 @@ export class AddrationComponent implements OnInit {
           throw error;
         }));
   }
-
-  back() {
-
-  }
 }

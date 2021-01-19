@@ -42,14 +42,10 @@ export class DoughnutComponent implements OnInit {
       this.pets.forEach(value => {
         this.pieChartLabels.splice(this.pets.indexOf(value), 0, value.name);
       });
-      // const currentFeeds = [];
       this.pets.forEach(value => {
         // @ts-ignore
         this.dataService.getFeed(value._id.id.data)
           .subscribe((kcal: number) => {
-            // currentFeeds.push(feeds.reduce((sum, current) => sum + current.kcal, 0));
-            // currentFeeds.push(kcal);
-            // this.pieChartData.push(kcal);
             this.pieChartData.splice(this.pets.indexOf(value), 0, kcal);
           });
       });

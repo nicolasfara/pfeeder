@@ -12,7 +12,8 @@
           <h2 class="form-title text-primary">Sign in</h2>
           <form [formGroup]="signInForm" (ngSubmit)="loginUser()" class="register-form" id="login-form">
             <div class="form-group">
-              <input type="email" formControlName="email" placeholder="Your Email" name="email" id="email"
+              <label for="email2" style="display: none"></label>
+              <input type="email" formControlName="email" placeholder="Your Email" name="email" id="email2"
                      [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
               <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                 <div *ngIf="f.email.errors.required">Email is required</div>
@@ -20,7 +21,8 @@
               </div>
             </div>
             <div class="form-group">
-              <input type="password" placeholder="Password" formControlName="password"
+              <label for="password" style="display: none"></label>
+              <input type="password" placeholder="Password" formControlName="password" id="password"
                      [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
               <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                 <div *ngIf="f.password.errors.required">Password is required</div>
@@ -33,12 +35,9 @@
             <div class="form-group form-button">
               <a href="#" (click)="openForgot()" data-toggle="modal">Forgot my password</a>
             </div>
-<!--            <div class="form-group form-button">-->
-<!--              <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>-->
-<!--            </div>-->
             <div class="modal-footer" style="border-top: 0 none;">
               <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>
-              <button type="button" class="btn btn-primary" type="submit" name="signing" id="signing">Login
+              <button type="submit" class="btn btn-primary" name="signing" id="signing">Login
               </button>
             </div>
           </form>
@@ -66,13 +65,16 @@
                   <fieldset>
                     <form [formGroup]="forgotPswForm" (ngSubmit)="forgotPsw()" class="register-form" id="forgot">
                       <div class="form-group">
+                        <label for="email" style="display: none"></label>
                         <input class="form-control input-lg" placeholder="E-mail Address" name="email" type="email"
+                               id="email"
                                formControlName="email">
                       </div>
-<!--                      <input type="submit" class="form-submit" value=""/>-->
                       <div class="modal-footer" style="border-top: 0 none;">
-                        <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>
-                        <button type="button" class="btn btn-primary" type="submit" name="savePsw" id="savePsw">Send My Password
+                        <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back
+                        </button>
+                        <button type="submit" class="btn btn-primary" name="savePsw" id="savePsw">Send My
+                          Password
                         </button>
                       </div>
                     </form>
@@ -104,13 +106,16 @@
                   <fieldset>
                     <form [formGroup]="resetPswForm" (ngSubmit)="resetPassword()" class="register-form" id="reset">
                       <div class="form-group">
-                        <input type="password" placeholder="New Password" formControlName="password"
+                        <label for="password2" style="display: none"></label>
+                        <input type="password" placeholder="New Password" formControlName="password" id="password2"
                                [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
                         <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                           <div *ngIf="f.password.errors.required">Password is required</div>
                           <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
                         </div>
+                        <label for="confirmPassword" style="display: none"></label>
                         <input type="password" placeholder="Confirm password" formControlName="confirmPassword"
+                               id="confirmPassword"
                                [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
                         <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
                           <div *ngIf="f.confirmPassword.errors.required">Password is required</div>
@@ -118,10 +123,10 @@
                         </div>
                       </div>
 
-<!--                      <input type="submit" class="form-submit" value=""/>-->
                       <div class="modal-footer" style="border-top: 0 none;">
-                        <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>
-                        <button type="button" class="btn btn-primary" type="submit" name="chPsw" id="chPsw">Reset
+                        <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back
+                        </button>
+                        <button type="submit" class="btn btn-primary" name="chPsw" id="chPsw">Reset
                         </button>
                       </div>
                     </form>

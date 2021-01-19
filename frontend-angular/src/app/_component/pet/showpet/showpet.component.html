@@ -1,4 +1,5 @@
-<div id="AllPet" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="overflow: auto">
+<div id="AllPet" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+     style="overflow: auto">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -61,45 +62,45 @@
             <form [formGroup]="editPetForm" (ngSubmit)="updatePet(editPetForm)" class="register-form"
                   id="register-form">
               <div class="form-row">
-                  <label class="col-md-6 col-form-label" for="name">Pet Name</label>
-                  <input class="col-md-6" type="text" name="name" id="name" formControlName="name"
-                         placeholder="Pet's Name"/>
-                </div>
-            <br>
+                <label class="col-md-6 col-form-label" for="name">Pet Name</label>
+                <input class="col-md-6" type="text" name="name" id="name" formControlName="name"
+                       placeholder="Pet's Name"/>
+              </div>
+              <br>
               <div class="form-row">
-                  <label class="col-md-6 col-form-label" for="weight">Weight</label>
-                  <input class="col-md-6" type="number" name="weight" id="weight" formControlName="weight"
-                         placeholder="Weight"/>
-                </div>
+                <label class="col-md-6 col-form-label" for="weight">Weight</label>
+                <input class="col-md-6" type="number" name="weight" id="weight" formControlName="weight"
+                       placeholder="Weight"/>
+              </div>
               <br>
               <div class="form-row">
 
-                  <label class="col-md-6 col-form-label6" for="age">Age</label>
-                  <input class="col-md-6" type="number" name="age" id="age" formControlName="age" placeholder="Age"/>
-                </div>
-            <br>
+                <label class="col-md-6 col-form-label6" for="age">Age</label>
+                <input class="col-md-6" type="number" name="age" id="age" formControlName="age" placeholder="Age"/>
+              </div>
+              <br>
               <div class="form-row">
-                  <label class="col-md-6 col-form-label" for="petType">Pet type</label>
-                  <select formControlName="petType" class=" col-md-6 col-form-label form-control" id="petType">
-                    <option *ngFor="let o of petType">
-                      {{o}}
-                    </option>
-                  </select>
-                </div>
+                <label class="col-md-6 col-form-label" for="petType">Pet type</label>
+                <select formControlName="petType" class=" col-md-6 col-form-label form-control" id="petType">
+                  <option *ngFor="let o of petType">
+                    {{o}}
+                  </option>
+                </select>
+              </div>
               <br>
               <div class="form-row">
 
-                  <label class="col-md-6 col-form-label" for="breed">Breed</label>
-                  <input class="col-md-6 col-form-label" type="text" name="breed" formControlName="breed" id="breed"
-                         placeholder="Breed"/>
-                </div>
+                <label class="col-md-6 col-form-label" for="breed">Breed</label>
+                <input class="col-md-6 col-form-label" type="text" name="breed" formControlName="breed" id="breed"
+                       placeholder="Breed"/>
+              </div>
               <br>
               <div *ngIf="errorMessage" class="alert alert-danger">
                 <strong>Error!</strong> {{'Error in add new pet'}}
               </div>
               <div class="modal-footer" style="border-top: 0 none;">
                 <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>
-                <button type="button" class="btn btn-primary" type="submit" name="savePet" id="savePet">Save Pet
+                <button type="submit" class="btn btn-primary"  name="savePet" id="savePet">Save Pet
                 </button>
               </div>
 

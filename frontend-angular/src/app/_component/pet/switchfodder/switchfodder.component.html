@@ -1,4 +1,5 @@
-<div id="PetFodder" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="overflow: auto">
+<div id="PetFodder" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" style="overflow: auto">
   <div class="modal-dialog modal-xl">
 
     <div class="modal-content">
@@ -8,39 +9,39 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-        <div *ngIf="!showEditPetFodder"  class="card border-left-primary shadow h-100 py-2">
-          <div class="card-header">
-            <div class="row no-gutters align-items-center">
-              <div class="table-responsive">
-                <table mdbtable class="card-table table">
-                  <thead>
-                  <tr>
-                    <th scope="col">Pet Name</th>
-                    <th scope="col">Current Fodder</th>
-                    <th scope="col">Company Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col"> Edit</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor="let pet of pets">
-                    <td class="petName">{{pet.name}}</td>
-                    <td class="currentFodder">{{pet.currentFodder.name}}</td>
-                    <td class="currentFodder">{{pet.currentFodder.companyName}}</td>
-                    <td class="currentFodder">{{pet.currentFodder.price}}</td>
-                    <td>
-                      <a class="collapse-item" (click)="editPetFodder(pet)"> <i
-                        class="fas fa-fw fa-cog">
+      <div *ngIf="!showEditPetFodder" class="card border-left-primary shadow h-100 py-2">
+        <div class="card-header">
+          <div class="row no-gutters align-items-center">
+            <div class="table-responsive">
+              <table mdbtable class="card-table table">
+                <thead>
+                <tr>
+                  <th scope="col">Pet Name</th>
+                  <th scope="col">Current Fodder</th>
+                  <th scope="col">Company Name</th>
+                  <th scope="col">Price</th>
+                  <th scope="col"> Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let pet of pets">
+                  <td class="petName">{{pet.name}}</td>
+                  <td class="currentFodder">{{pet.currentFodder.name}}</td>
+                  <td class="currentFodder">{{pet.currentFodder.companyName}}</td>
+                  <td class="currentFodder">{{pet.currentFodder.price}}</td>
+                  <td>
+                    <a class="collapse-item" (click)="editPetFodder(pet)"> <i
+                      class="fas fa-fw fa-cog">
 
-                      </i></a>
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
+                    </i></a>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
+      </div>
       <div *ngIf="showEditPetFodder" class="modal-body">
         <div class="row">
           <div class=" mx-auto">
@@ -50,10 +51,10 @@
                 <div class=" col-sm-12 row">
                   <label class="col-sm-6" for="name">Pet Name</label>
                   <input class="col-sm-6" type="text" name="name" id="name" formControlName="name"
-                         placeholder="Pet's Name" />
+                         placeholder="Pet's Name"/>
                 </div>
               </div>
-                 <div class="form-group row">
+              <div class="form-group row">
                 <div class=" col-sm-12  row">
                   <label class="col-sm-6" for="currentFodder">Current Fodder Name:</label>
                   <select [(ngModel)]="selectedOption" formControlName="currentFodder" class=" col-sm-6 form-control"
@@ -69,16 +70,9 @@
               <div *ngIf="errorMessage" class="alert alert-danger">
                 <strong>Error!</strong> {{'Error in add new pet'}}
               </div>
-<!--              <div class="form-group form-button row">-->
-<!--                <div class="col-sm-6"></div>-->
-<!--                <div class="col-sm-6">-->
-<!--                  <input class="form-submit" type="submit" name="signup" id="saveFodderPetButton"-->
-<!--                         value="Save Foddet to pet"/>-->
-<!--                </div>-->
-<!--              </div>-->
               <div class="modal-footer" style="border-top: 0 none;">
                 <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>
-                <button type="button" class="btn btn-primary" type="submit" name="saveFPet" id="saveFPet">Save Foddet to pet
+                <button type="submit" class="btn btn-primary" name="saveFPet" id="saveFPet">Save Fodder to pet
                 </button>
               </div>
             </form>

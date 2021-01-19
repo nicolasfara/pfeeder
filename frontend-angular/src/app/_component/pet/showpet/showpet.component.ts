@@ -4,7 +4,6 @@ import {DataService} from '../../../_services/data/data.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Fodder} from '../../../_models/Fodder';
 
-declare var $: any;
 
 @Component({
   selector: 'app-showpet',
@@ -17,8 +16,8 @@ export class ShowpetComponent implements OnInit {
   showEditPet = false;
   public editPetForm: FormGroup;
   private currentPetName: string;
-   errorMessage: string;
-   fodders: Fodder[] = [];
+  errorMessage: string;
+  fodders: Fodder[] = [];
   selectedOption = 'Select Fodder';
   selectPet = 'Select Pet';
 
@@ -29,6 +28,7 @@ export class ShowpetComponent implements OnInit {
   ];
   deletePopUp = false;
   private currentPet: Pet;
+
   constructor(private service: DataService, public fb: FormBuilder) {
   }
 
@@ -40,6 +40,7 @@ export class ShowpetComponent implements OnInit {
       this.getFodder();
     });
   }
+
   EditPet(petForm) {
     this.showEditPet = true;
     this.modalTitle = 'Update pet';
@@ -53,6 +54,7 @@ export class ShowpetComponent implements OnInit {
       breed: petForm.breed,
     });
   }
+
   getPet(): void {
     this.service.getPets().subscribe((pet: Pet[]) => {
         this.pets = pet;
@@ -63,10 +65,12 @@ export class ShowpetComponent implements OnInit {
       }));
 
   }
+
   getFodder(): void {
     this.service.getFodder().then(fodders => this.fodders = fodders);
   }
-  updatePet(updatePetForm ) {
+
+  updatePet(updatePetForm) {
     const updatePet = updatePetForm.value;
     const petID: Pet[] = this.pets.filter(x => x.name === this.currentPetName);
     console.log(updatePet);

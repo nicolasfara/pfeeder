@@ -88,7 +88,7 @@ export class AddpetComponent implements OnInit {
     // @ts-ignore
     this.authService.patchPet(this.addPetForm.value, selectedPet.id.id.data).pipe(first())
       .subscribe(
-        data => {
+        () => {
           $('#AddPet').modal('hide');
         });
   }

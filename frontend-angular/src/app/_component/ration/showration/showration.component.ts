@@ -38,15 +38,15 @@ export class ShowrationComponent implements OnInit {
       }));
   }
 
-  editRation(rationform: Ration) {
+  editRation(rationForm: Ration) {
     this.showEditRation = true;
     this.modalTitle = 'Update ration';
-    this.currentRationName = rationform.name;
+    this.currentRationName = rationForm.name;
     this.updateRationForm = this.fb.group({
-      name: rationform.name,
-      hours: new Date(rationform.time).getHours(),
-      minutes: new Date(rationform.time).getMinutes(),
-      ration: rationform.ration
+      name: rationForm.name,
+      hours: new Date(rationForm.time).getHours(),
+      minutes: new Date(rationForm.time).getMinutes(),
+      ration: rationForm.ration
     });
   }
 
@@ -71,7 +71,8 @@ export class ShowrationComponent implements OnInit {
     this.deletePopUp = true;
     this.currentRation = ration;
   }
-  deleteRation(){
+
+  deleteRation() {
 
     // @ts-ignore
     this.dataService.deleteRation(this.currentRation._id.id.data)

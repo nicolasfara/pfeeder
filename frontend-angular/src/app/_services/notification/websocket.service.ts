@@ -29,8 +29,9 @@ export class WebsocketService {
       });
     });
   }
-  disconnect(){
-    if (this.socket){
+
+  disconnect() {
+    if (this.socket) {
       this.socket.close();
     }
   }

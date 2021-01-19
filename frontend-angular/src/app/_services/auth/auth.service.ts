@@ -12,30 +12,48 @@ import {environment} from '../../../environments/environment';
 })
 
 export class AuthService {
-  endpoint = '';
-  headers = new HttpHeaders().set('Content-Type', 'application/json');
-  currentUser = {};
-  private closeConnection$ = new Subject<void>();
 
 
   constructor(
     private http: HttpClient,
     public router: Router
   ) {
-    if (environment.apiBaseUrl === 'localhost'){
+    if (environment.apiBaseUrl === 'localhost') {
       this.endpoint = 'http://' + environment.apiBaseUrl + ':3000/api';
-    }else{
+    } else {
       this.endpoint = 'http://' + environment.apiBaseUrl + '/api';
     }
   }
+
   /* For real time update */
   get closeConnection() {
     return this.closeConnection$;
   }
+
+  get isLoggedIn(): boolean {
+    const authToken = localStorage.getItem('access_token');
+    return (authToken !== null);
+  }
+
+  endpoint = '';
+  headers = new HttpHeaders().set('Content-Type', 'application/json');
+  currentUser = {};
+  private closeConnection$ = new Subject<void>();
+
+  private static handleError(error: HttpErrorResponse) {
+    let errorMessage: string;
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    return throwError(errorMessage);
+  }
+
   // Change Password
   changePassword(changePassword: ChangePsw): Observable<any> {
     const api = `${this.endpoint}/users/password`;
-    return this.http.post(api, changePassword).pipe(catchError(this.handleError));
+    return this.http.post(api, changePassword).pipe(catchError(AuthService.handleError));
   }
 
 
@@ -45,7 +63,7 @@ export class AuthService {
       map((result: any) => {
         return result || {};
       }),
-      catchError(this.handleError)
+      catchError(AuthService.handleError)
     );
   }
 
@@ -56,7 +74,7 @@ export class AuthService {
         localStorage.setItem('access_token', result.token);
         return result || {};
       }),
-      catchError(this.handleError)
+      catchError(AuthService.handleError)
     );
   }
 
@@ -64,19 +82,12 @@ export class AuthService {
     return localStorage.getItem('access_token');
   }
 
-  get isLoggedIn(): boolean {
-    const authToken = localStorage.getItem('access_token');
-    return (authToken !== null);
-  }
-
   doLogout() {
     this.closeConnection$.next();
     window.open('homepage', '_self');
-    // this.router.navigate(['/homepage']).then();
     this.closeConnection$.next();
     window.localStorage.clear(); // clear all localstorage
     window.localStorage.removeItem('access_token'); // remove one item
-    // window.location.reload();
   }
 
   // get User
@@ -85,7 +96,7 @@ export class AuthService {
       map((res: User) => {
         return res;
       }),
-      catchError(this.handleError)
+      catchError(AuthService.handleError)
     );
   }
 
@@ -96,46 +107,39 @@ export class AuthService {
       map((res: Response) => {
         return res || {};
       }),
-      catchError(this.handleError)
+      catchError(AuthService.handleError)
     );
   }
 
+  patchUser(usr: User) {
+    return this.http.patch(this.endpoint + '/users', usr)
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError(AuthService.handleError)
+      );
+  }
+
   forgotPsw(email): Observable<string> {
-    return  this.http.post(this.endpoint + '/users/forgot', email)
+    return this.http.post(this.endpoint + '/users/forgot', email)
       .pipe(
         map((res: string) => {
           return res;
         }),
-        catchError(this.handleError)
+        catchError(AuthService.handleError)
       );
   }
 
   resetPsw(token: string, psw): Observable<any> {
-    return  this.http.post(this.endpoint + '/users/reset/' + token, psw)
+    return this.http.post(this.endpoint + '/users/reset/' + token, psw)
       .pipe(
         map((res: any) => {
           return res;
         }),
-        catchError(this.handleError)
+        catchError(AuthService.handleError)
       );
-  }
-  handleError(error: HttpErrorResponse) {
-    let errorMessage: string;
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    return throwError(errorMessage);
   }
 
-  patchUser(usr: User) {
-    return  this.http.patch(this.endpoint + '/users' , usr)
-      .pipe(
-        map((res: any) => {
-          return res;
-        }),
-        catchError(this.handleError)
-      );
-  }
+
 }

@@ -15,30 +15,30 @@
             <h2 class="form-title text-primary">Profile</h2>
             <div class="form-row">
 
-                <label class="col-md-6 col-form-label" for="firstName">First Name</label>
-                <input class="col-md-6" type="text" name="firstName" id="firstName" formControlName="firstName"
-                       *ngIf="currentUser" placeholder="{{currentUser.profile.firstName}}"/>
-              </div>
-          <br>
-            <div class="form-row">
-
-                <label class="col-md-6 col-form-label" for="lastName">Last Name</label>
-                <input class="col-md-6" type="text" name="lastName" id="lastName" formControlName="lastName"
-                       *ngIf="currentUser" placeholder="{{currentUser.profile.lastName}}"/>
-              </div>
+              <label class="col-md-6 col-form-label" for="firstName">First Name</label>
+              <input class="col-md-6" type="text" name="firstName" id="firstName" formControlName="firstName"
+                     *ngIf="currentUser" placeholder="{{currentUser.profile.firstName}}"/>
+            </div>
             <br>
             <div class="form-row">
 
-                <label class="col-md-6 col-form-label" for="email">Email</label>
-                <input class="col-md-6" *ngIf="currentUser" type="email" name="email" id="email" formControlName="email"
-                       placeholder="{{currentUser.email}}"/>
-              </div>
+              <label class="col-md-6 col-form-label" for="lastName">Last Name</label>
+              <input class="col-md-6" type="text" name="lastName" id="lastName" formControlName="lastName"
+                     *ngIf="currentUser" placeholder="{{currentUser.profile.lastName}}"/>
+            </div>
+            <br>
+            <div class="form-row">
+
+              <label class="col-md-6 col-form-label" for="email">Email</label>
+              <input class="col-md-6" *ngIf="currentUser" type="email" name="email" id="email" formControlName="email"
+                     placeholder="{{currentUser.email}}"/>
+            </div>
 
             <br>
             <div class="modal-footer row" style="border-top: 0 none;">
-              <button type="button" class="btn btn-primary" type="submit" name="signup" id="changeProfile">Save profile
+              <button type="submit" class="btn btn-primary" name="signup" id="changeProfile">Save profile
               </button>
-              <button type="button" class="btn btn-primary" type="submit" (click)="openChangePassword()" name="signup"
+              <button type="button" class="btn btn-primary" (click)="openChangePassword()" name="signup"
                       id="changePassword">Change password
               </button>
             </div>
@@ -52,28 +52,29 @@
             <h3 class="form-title text-primary">Change password</h3>
             <div class="form-row">
 
-                <label class="col-md-6 col-form-label" for="oldPassword">Current psw</label>
-                <input class="col-md-6" type="password" name="oldPassword" id="oldPassword" formControlName="oldPassword"
-                       placeholder="Current Psw"/>
-              </div>
+              <label class="col-md-6 col-form-label" for="oldPassword">Current psw</label>
+              <input class="col-md-6" type="password" name="oldPassword" id="oldPassword" formControlName="oldPassword"
+                     placeholder="Current Psw"/>
+            </div>
             <br>
             <div class="form-row">
 
-                <label class="col-md-6 col-form-label" for="password">New psw</label>
-                <input class="col-md-6" type="password" name="password" id="password" formControlName="password"
-                       placeholder="New Psw"/>
-              </div>
+              <label class="col-md-6 col-form-label" for="password">New psw</label>
+              <input class="col-md-6" type="password" name="password" id="password" formControlName="password"
+                     placeholder="New Psw"/>
+            </div>
             <br>
             <div class="form-row">
 
-                <label class="col-md-6 col-form-label" for="confirmPassword">Confirm psw</label>
-                <input class="col-md-6" type="password" name="confirmPassword" id="confirmPassword" formControlName="confirmPassword"
-                       placeholder="Confirm Psw"/>
-              </div>
+              <label class="col-md-6 col-form-label" for="confirmPassword">Confirm psw</label>
+              <input class="col-md-6" type="password" name="confirmPassword" id="confirmPassword"
+                     formControlName="confirmPassword"
+                     placeholder="Confirm Psw"/>
+            </div>
             <br>
             <div class="modal-footer" style="border-top: 0 none;">
               <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>
-              <button type="button" class="btn btn-primary" type="submit" name="signup" id="signup">Change password
+              <button type="submit" class="btn btn-primary" name="signup" id="signup">Change password
               </button>
             </div>
           </form>

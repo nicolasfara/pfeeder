@@ -6,20 +6,16 @@ import {Observable, Subject, throwError} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {Ration} from '../../_models/Ration';
-import {Feed} from '../../_models/Feed';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  endpoint = '';
-  private refreshNeeded$ = new Subject<void>();
-
   constructor(private httpClient: HttpClient) {
-    if (environment.apiBaseUrl === 'localhost'){
+    if (environment.apiBaseUrl === 'localhost') {
       this.endpoint = 'http://' + environment.apiBaseUrl + ':3000/api';
-    }else{
+    } else {
       this.endpoint = 'http://' + environment.apiBaseUrl + '/api';
     }
   }
@@ -29,11 +25,25 @@ export class DataService {
     return this.refreshNeeded$;
   }
 
+  endpoint = '';
+  private refreshNeeded$ = new Subject<void>();
+
+  /** Function to handle error in server request */
+  private static handleError(error: HttpErrorResponse) {
+    let errorMessage: string;
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    return throwError(errorMessage);
+  }
+
   /* Fodder API */
   public getFodder(): Promise<any> {
     return this.httpClient.get(this.endpoint + '/fodders').pipe()
       .toPromise().then(res => res as Fodder[])
-      .catch(this.handleError);
+      .catch(DataService.handleError);
   }
 
   // addFodder
@@ -48,8 +58,8 @@ export class DataService {
           next: () => {
             this.refreshNeeded$.next();
           },
-          error: error => {
-            catchError(this.handleError);
+          error: () => {
+            catchError(DataService.handleError);
           }
         })
       );
@@ -67,8 +77,8 @@ export class DataService {
           next: () => {
             this.refreshNeeded$.next();
           },
-          error: error => {
-            catchError(this.handleError);
+          error: () => {
+            catchError(DataService.handleError);
           }
         })
       );
@@ -81,9 +91,10 @@ export class DataService {
       map((result: any) => {
         return result;
       }),
-      catchError(this.handleError)
+      catchError(DataService.handleError)
     );
   }
+
   deletePet(petId: string): Observable<any> {
     return this.httpClient.delete(this.endpoint + '/pets/' + this.buf2hex(petId))
       .pipe(
@@ -94,18 +105,19 @@ export class DataService {
           next: () => {
             this.refreshNeeded$.next();
           },
-          error: error => {
-            catchError(this.handleError);
+          error: () => {
+            catchError(DataService.handleError);
           }
         })
       );
   }
+
   public getPets(): Observable<Pet[]> {
     return this.httpClient.get(this.endpoint + '/pets').pipe(
       map((result: Pet[]) => {
         return result;
       }),
-      catchError(this.handleError)
+      catchError(DataService.handleError)
     );
   }
 
@@ -121,8 +133,8 @@ export class DataService {
           next: () => {
             this.refreshNeeded$.next();
           },
-          error: error => {
-            catchError(this.handleError);
+          error: () => {
+            catchError(DataService.handleError);
           }
         })
       );
@@ -140,8 +152,8 @@ export class DataService {
           next: () => {
             this.refreshNeeded$.next();
           },
-          error: error => {
-            catchError(this.handleError);
+          error: () => {
+            catchError(DataService.handleError);
           }
         })
       );
@@ -159,8 +171,8 @@ export class DataService {
           next: () => {
             this.refreshNeeded$.next();
           },
-          error: error => {
-            catchError(this.handleError);
+          error: () => {
+            catchError(DataService.handleError);
           }
         })
       );
@@ -184,36 +196,39 @@ export class DataService {
           next: () => {
             this.refreshNeeded$.next();
           },
-          error: error => {
-            catchError(this.handleError);
+          error: () => {
+            catchError(DataService.handleError);
           }
         })
       );
   }
+
   public getRationByID(petID: string): Observable<Ration> {
     return this.httpClient.get(this.endpoint + '/rations/' + this.buf2hex(petID)).pipe(
       map((result: Ration) => {
         return result;
       }),
-      catchError(this.handleError)
+      catchError(DataService.handleError)
     );
   }
+
   deleteRation(rationId: string): Observable<any> {
-      return this.httpClient.delete(this.endpoint + '/rations/' + this.buf2hex(rationId))
-        .pipe(
-          map((result: any) => {
-            return result || {};
-          }),
-          tap({
-            next: () => {
-              this.refreshNeeded$.next();
-            },
-            error: error => {
-              catchError(this.handleError);
-            }
-          })
-        );
+    return this.httpClient.delete(this.endpoint + '/rations/' + this.buf2hex(rationId))
+      .pipe(
+        map((result: any) => {
+          return result || {};
+        }),
+        tap({
+          next: () => {
+            this.refreshNeeded$.next();
+          },
+          error: () => {
+            catchError(DataService.handleError);
+          }
+        })
+      );
   }
+
   // addRation
   addRation(ration: Ration, id: string): Observable<any> {
     const api = `${this.endpoint}/rations/` + this.buf2hex(id);
@@ -226,8 +241,8 @@ export class DataService {
           next: () => {
             this.refreshNeeded$.next();
           },
-          error: error => {
-            catchError(this.handleError);
+          error: () => {
+            catchError(DataService.handleError);
           }
         })
       );
@@ -242,7 +257,7 @@ export class DataService {
         map((result: Ration) => {
           return result;
         }),
-        catchError(this.handleError)
+        catchError(DataService.handleError)
       );
   }
 
@@ -253,21 +268,11 @@ export class DataService {
         map((result: number) => {
           return result;
         }),
-        catchError(this.handleError)
+        catchError(DataService.handleError)
       );
   }
 
-  /** Function to handle error in server request */
-  private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Unknown error!';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    return throwError(errorMessage);
-  }
-   buf2hex(buffer) { // buffer is an ArrayBuffer
+  buf2hex(buffer) { // buffer is an ArrayBuffer
     return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
   }
 

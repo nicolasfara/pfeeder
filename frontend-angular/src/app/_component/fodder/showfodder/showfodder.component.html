@@ -59,13 +59,11 @@
                   <input type="text" name="name" id="name" formControlName="name"
                          placeholder="Fodder Name"/>
                 </div>
-
                 <div class="col-3">
                   <label class="control-label" for="kcal">Kcal</label>
                 </div>
                 <div class="col-3">
                   <input type="number" name="kcal" id="kcal" formControlName="kcal" placeholder="Kcal"/>
-
                 </div>
               </div>
 
@@ -82,9 +80,7 @@
                 </div>
                 <div class="col-3">
                   <input type="number" name="proteins" id="proteins" formControlName="proteins"
-                         placeholder="Proteins"
-                  />
-
+                         placeholder="Proteins"/>
                 </div>
               </div>
 
@@ -95,17 +91,13 @@
                 </div>
                 <div class="col-3">
                   <input type="number" name="price" id="price" formControlName="price"
-                         placeholder="Price"
-                  "/>
-
+                         placeholder="Price"/>
                 </div>
                 <div class="col-3">
                   <label class="control-label" for="fats">Fats</label>
                 </div>
                 <div class="col-3">
-                  <input type="number" name="fats" id="fats" formControlName="fats" placeholder="Fats"
-                  "/>
-
+                  <input type="number" name="fats" id="fats" formControlName="fats" placeholder="Fats"/>
                 </div>
               </div>
 
@@ -115,18 +107,14 @@
                 </div>
                 <div class="col-3">
                   <input type="number" name="weight" id="weight" formControlName="weight"
-                         placeholder="Weight"
-                  "/>
-
+                         placeholder="Weight"/>
                 </div>
                 <div class="col-3">
                   <label class="control-label" for="vitamins">Vitamins</label>
                 </div>
                 <div class="col-3">
                   <input type="number" name="vitamins" id="vitamins" formControlName="vitamins"
-                         placeholder="Vitamins"
-                  "/>
-
+                         placeholder="Vitamins"/>
                 </div>
               </div>
               <div class="form-row">
@@ -140,75 +128,16 @@
                 <div class="col-3">
                   <input type="number" name="carbohydrates" id="carbohydrates"
                          formControlName="carbohydrates"
-                         placeholder="Carbohydrates"
-                  />
+                         placeholder="Carbohydrates"/>
 
                 </div>
               </div>
-              <!--              <div class="form-group row">-->
-              <!--                <div class="col-sm-6 row">-->
-              <!--                  <label class="col-sm-6" for="name">Fodder Name</label>-->
-              <!--                  <input class="col-sm-6" type="text" name="name" id="name" formControlName="name"-->
-              <!--                         placeholder="Fodder's Name"/>-->
-              <!--                </div>-->
-              <!--                <div class="col-sm-6 row">-->
-              <!--                  <label class="col-sm-6" for="kcal">Kcal</label>-->
-              <!--                  <input class="col-sm-6" type="number" name="kcal" id="kcal" formControlName="kcal"-->
-              <!--                         placeholder="Kcal" />-->
-              <!--                </div>-->
-              <!--              </div>-->
-              <!--              <div class="form-group row">-->
-              <!--                <div class="col-sm-6 row">-->
-              <!--                  <label class="col-sm-6" for="companyName">Company Name</label>-->
-              <!--                  <input class="col-sm-6" type="text" name="companyName" id="companyName" formControlName="companyName"-->
-              <!--                         placeholder="Company Name" />-->
-              <!--                </div>-->
-              <!--                <div class="col-sm-6 row">-->
-              <!--                  <label class="col-sm-6" for="proteins">Proteins</label>-->
-              <!--                  <input class="col-sm-6" type="number" name="proteins" id="proteins" formControlName="proteins"-->
-              <!--                         placeholder="Proteins" />-->
-              <!--                </div>-->
-              <!--              </div>-->
-              <!--              <div class="form-group row">-->
-              <!--                <div class="col-sm-6 row">-->
-              <!--                  <label class="col-sm-6" for="price">Price</label>-->
-              <!--                  <input class="col-sm-6" type="number" name="price" id="price" formControlName="price"-->
-              <!--                         placeholder="Price" />-->
-              <!--                </div>-->
-              <!--                <div class="col-sm-6 row">-->
-              <!--                  <label class="col-sm-6" for="fats">Fats</label>-->
-              <!--                  <input class="col-sm-6" type="number" name="fats" id="fats" formControlName="fats"-->
-              <!--                         placeholder="Fats" />-->
-              <!--                </div>-->
-              <!--              </div>-->
-              <!--              <div class="form-group row">-->
-              <!--                <div class="col-sm-6 row">-->
-              <!--                  <label class="col-sm-6" for="weight">Weight</label>-->
-              <!--                  <input class="col-sm-6" type="number" name="weight" id="weight" formControlName="weight"-->
-              <!--                         placeholder="Weight" />-->
-              <!--                </div>-->
-              <!--                <div class="col-sm-6 row">-->
-              <!--                  <label class="col-sm-6" for="name">Vitamins</label>-->
-              <!--                  <input class="col-sm-6" type="number" name="vitamins" id="vitamins" formControlName="vitamins"-->
-              <!--                         placeholder="Vitamins" />-->
-              <!--                </div>-->
-              <!--              </div>-->
-              <!--              <div class="form-group row">-->
-              <!--                <div class="col-sm-6 row">-->
-              <!--                </div>-->
-              <!--                <div class="col-sm-6 row">-->
-              <!--                  <label class="col-sm-6" for="carbohydrates">Carbohydrates</label>-->
-              <!--                  <input class="col-sm-6" type="number" name="carbohydrates" id="carbohydrates"-->
-              <!--                         formControlName="carbohydrates"-->
-              <!--                         placeholder="Carbohydrates" />-->
-              <!--                </div>-->
-              <!--              </div>-->
               <div *ngIf="errorMessage" class="alert alert-danger">
                 <strong>Error!</strong> {{'Error in patch fodder'}}
               </div>
               <div class="modal-footer" style="border-top: 0 none;">
                 <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>
-                <button type="button" class="btn btn-primary" type="submit" name="addFodderButton" id="addFodderButton">
+                <button type="submit" class="btn btn-primary" name="addFodderButton" id="addFodderButton">
                   Update Fodder
                 </button>
               </div>
@@ -216,8 +145,8 @@
           </div>
         </div>
       </div>
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+    </div>
+  </div>
 </div>
 
 
