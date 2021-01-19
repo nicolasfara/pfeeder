@@ -37,6 +37,17 @@ export class DoughnutComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.fillDoughnut();
+    this.dataService.refreshNeeded.subscribe(() => {
+      this.pets = [];
+      this.feed = [];
+      this.pieChartLabels = [];
+      this.pieChartData = [];
+      this.fillDoughnut();
+    });
+  }
+
+  fillDoughnut() {
     this.dataService.getPets().subscribe((data: Pet[]) => {
       this.pets = data;
       this.pets.forEach(value => {
