@@ -5,6 +5,7 @@ services:
   angular:
     environment:
     - API_BASE_URL=backend
+    - TZ=Europe/Rome
     build: ./frontend-angular
     ports:
       - "4200:4200"
@@ -15,6 +16,7 @@ services:
       - "3000:3000"
       - "3001:3001"
     environment:
+      - TZ=Europe/Rome
       - APP_NAME=pfeeder
       - JWT_SECRET=PUT_HERE_YOUR_JWT_SECRET
       - MONGO_HOST=database
@@ -31,7 +33,8 @@ services:
 
   database:
     image: mongo
-    #environment:
+    environment:
+      - TZ=Europe/Rome
     #  - MONGO_INITDB_DATABASE=pfeeder
     #  - MONGO_NON_ROOT_USERNAME=pfeeder_admin
     #  - MONGO_NON_ROOT_PASSWORD=pfeeder
@@ -42,6 +45,8 @@ services:
 
   redis:
     image: redis
+    environment:
+      - TZ=Europe/Rome
     volumes:
       - redis-vol:/data
     ports:
