@@ -64,6 +64,9 @@
             <div *ngIf="errorMessage" class="alert alert-danger">
               <strong>Error!</strong> {{'Error on create profile'}}
             </div>
+            <div *ngIf="errorMessage2" class="alert alert-danger">
+              <strong>Error!</strong> {{'User already exist!'}}
+            </div>
             <div class="modal-footer" style="border-top: 0 none;">
               <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>
               <button type="submit" class="btn btn-primary"  name="signup" id="signup">Register

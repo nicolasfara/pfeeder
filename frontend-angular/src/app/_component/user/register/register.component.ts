@@ -12,6 +12,7 @@ export class RegisterComponent implements OnInit {
 
   signupForm: FormGroup;
   errorMessage;
+  errorMessage2;
   submitted = false;
   gender = [
     'male',
@@ -41,12 +42,13 @@ export class RegisterComponent implements OnInit {
   async registerUser() {
     this.submitted = true;
     this.errorMessage = '';
+    this.errorMessage2 = '';
     if (this.signupForm.invalid) {
       return;
     }
     if (this.signupForm.get('gender').value === 'gender') {
       console.error('error caught in component');
-      this.errorMessage = 'Error select gender';
+      this.errorMessage2 = 'Error select gender';
     } else {
 
       this.authService.signUp(this.signupForm.value).subscribe(() => {

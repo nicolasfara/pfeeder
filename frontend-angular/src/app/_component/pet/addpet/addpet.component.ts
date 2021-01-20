@@ -44,7 +44,7 @@ export class AddpetComponent implements OnInit {
       idealWeight: ['', Validators.required, Validators.minLength(1), Validators.pattern('^[0-9]*$')],
       petType: ['', Validators.required],
       breed: ['', Validators.required],
-      currentFodder: ['', Validators.required],
+      currentFodder: ['', Validators.required]
 
     });
   }
@@ -55,7 +55,10 @@ export class AddpetComponent implements OnInit {
 
   ngOnInit(): void {
     this.getFodder();
-    this.getPet();
+    // this.getPet();
+    this.service.refreshNeeded.subscribe(() => {
+      this.getFodder();
+    });
   }
 
   addPet() {
@@ -88,33 +91,33 @@ export class AddpetComponent implements OnInit {
   }
 
 
-  savePet() {
-    this.addPetForm.removeControl('currentFodder');
-    const selectedPet = this.pets.find(x => x.name === this.addPetForm.get('name').value);
-    console.log(this.addPetForm.value);
-    // @ts-ignore
-    this.authService.patchPet(this.addPetForm.value, selectedPet.id.id.data).pipe(first())
-      .subscribe(
-        () => {
-          $('#AddPet').modal('hide');
-        });
-  }
+  // savePet() {
+  //   this.addPetForm.removeControl('currentFodder');
+  //   const selectedPet = this.pets.find(x => x.name === this.addPetForm.get('name').value);
+  //   console.log(this.addPetForm.value);
+  //   // @ts-ignore
+  //   this.authService.patchPet(this.addPetForm.value, selectedPet.id.id.data).pipe(first())
+  //     .subscribe(
+  //       () => {
+  //         $('#AddPet').modal('hide');
+  //       });
+  // }
 
   getFodder(): void {
     this.service.getFodder().then(fodders => this.fodders = fodders);
   }
 
-  getPet(): void {
-    this.service.getPets()
-      .subscribe(
-        pets => {
-          this.pets = pets;
-        },
-        error => {
-          alert(error);
-        }
-      );
-  }
+  // getPet(): void {
+  //   this.service.getPets()
+  //     .subscribe(
+  //       pets => {
+  //         this.pets = pets;
+  //       },
+  //       error => {
+  //         alert(error);
+  //       }
+  //     );
+  // }
 }
 
 $(window).on('pop', () => {

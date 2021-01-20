@@ -33,16 +33,7 @@
                 </div>
               </div>
               <br>
-              <div class="form-row">
-                <label class="col-md-6 col-form-label " for="minutes">Ration minutes</label>
-                <input class="col-md-6" type="number" name="minutes" id="minutes" formControlName="minutes"
-                       placeholder="Minutes"
-                       [ngClass]="{ 'is-invalid': submitted && f.minutes.errors }"/>
-                <div *ngIf="submitted && f.minutes.errors" class="invalid-feedback">
-                  <div *ngIf="f.minutes.errors.required">Minutes is required</div>
-                </div>
-              </div>
-              <br>
+
               <div class="form-row">
 
                 <label class="col-md-6 col-form-label " for="hours">Ration hours</label>
@@ -51,6 +42,16 @@
                        [ngClass]="{ 'is-invalid': submitted && f.hours.errors }"/>
                 <div *ngIf="submitted && f.hours.errors" class="invalid-feedback">
                   <div *ngIf="f.hours.errors.required">Hours is required</div>
+                </div>
+              </div>
+              <br>
+              <div class="form-row">
+                <label class="col-md-6 col-form-label " for="minutes">Ration minutes</label>
+                <input class="col-md-6" type="number" name="minutes" id="minutes" formControlName="minutes"
+                       placeholder="Minutes"
+                       [ngClass]="{ 'is-invalid': submitted && f.minutes.errors }"/>
+                <div *ngIf="submitted && f.minutes.errors" class="invalid-feedback">
+                  <div *ngIf="f.minutes.errors.required">Minutes is required</div>
                 </div>
               </div>
               <br>
