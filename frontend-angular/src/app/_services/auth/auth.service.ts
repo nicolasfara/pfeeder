@@ -140,6 +140,4 @@ export class AuthService {
         catchError(AuthService.handleError)
       );
   }
-
-
 }

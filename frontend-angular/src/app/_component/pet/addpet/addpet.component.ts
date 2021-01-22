@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {first} from 'rxjs/operators';
 import {DataService} from '../../../_services/data/data.service';
 import {Fodder} from '../../../_models/Fodder';
 import {Pet} from '../../../_models/Pet';
@@ -55,7 +54,6 @@ export class AddpetComponent implements OnInit {
 
   ngOnInit(): void {
     this.getFodder();
-    // this.getPet();
     this.service.refreshNeeded.subscribe(() => {
       this.getFodder();
     });
@@ -90,34 +88,9 @@ export class AddpetComponent implements OnInit {
 
   }
 
-
-  // savePet() {
-  //   this.addPetForm.removeControl('currentFodder');
-  //   const selectedPet = this.pets.find(x => x.name === this.addPetForm.get('name').value);
-  //   console.log(this.addPetForm.value);
-  //   // @ts-ignore
-  //   this.authService.patchPet(this.addPetForm.value, selectedPet.id.id.data).pipe(first())
-  //     .subscribe(
-  //       () => {
-  //         $('#AddPet').modal('hide');
-  //       });
-  // }
-
   getFodder(): void {
     this.service.getFodder().then(fodders => this.fodders = fodders);
   }
-
-  // getPet(): void {
-  //   this.service.getPets()
-  //     .subscribe(
-  //       pets => {
-  //         this.pets = pets;
-  //       },
-  //       error => {
-  //         alert(error);
-  //       }
-  //     );
-  // }
 }
 
 $(window).on('pop', () => {

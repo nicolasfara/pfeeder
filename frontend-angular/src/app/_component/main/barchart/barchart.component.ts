@@ -65,7 +65,7 @@ export class BarchartComponent implements OnInit {
           if (cost) {
             this.pieChartData[this.pets.indexOf(value)] = cost;
           }
-        }, error => {
+        }, () => {
           this.pieChartData = [];
         });
       });

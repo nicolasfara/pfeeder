@@ -59,7 +59,7 @@ export class DoughnutComponent implements OnInit {
           .subscribe((kcal: number) => {
             this.pieChartData.splice(this.pets.indexOf(value), 0, kcal);
           },
-            error => {
+            () => {
             this.pieChartData = [];
             });
       });
