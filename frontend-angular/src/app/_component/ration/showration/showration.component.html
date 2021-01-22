@@ -1,0 +1,116 @@
+<div id="AllRation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" style="overflow: auto">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="form-title text-primary">{{modalTitle}}</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div *ngIf="!showEditRation && !deletePopUp" class="modal-body">
+        <div class="table-responsive">
+          <table mdbtable class="card-table table">
+            <thead>
+            <tr>
+              <th scope="col">Pet Name</th>
+              <th scope="col">Ration Name</th>
+              <th scope="col">Hour of ration</th>
+              <th scope="col">Minutes of ration</th>
+              <th scope="col">Grams per ration</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let ration of rations; let i=index">
+              <td class="petName">{{ration.petId.name}}</td>
+              <td class="rationName">{{ration.name}}</td>
+              <td class="rationHour"
+                  *ngIf="ration?.time else elsePerfId">{{ ration.time | date: 'h'}}</td>
+              <ng-template #elsePerfId>
+                <td> -</td>
+              </ng-template>
+              <td class="rationMin"
+                  *ngIf="ration?.time else elsePerfId">{{ ration.time | date: 'mm' }}</td>
+              <ng-template #elsePerfId>
+                <td> -</td>
+              </ng-template>
+              <td class="petRationGrams" *ngIf="ration.ration; else elsePerf"> {{ration.ration }}g
+              </td>
+              <ng-template #elsePerf>
+                <td> -</td>
+              </ng-template>
+              <td>
+                <a class="collapse-item" (click)="editRation(ration)"> <i
+                  class="fas fa-fw fa-cog"></i></a>
+              </td>
+              <td>
+                <a class="collapse-item" (click)="deleteRationPopUp(ration)"><i class="far fa-trash-alt"></i></a>
+              </td>
+
+            </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </div><!-- /.modal-content -->
+      <div *ngIf="deletePopUp" class="modal-body">
+        <div class="modal-header">
+          <h3 class="text-center">Are you sure?</h3>
+        </div>
+
+        <p>Do you really want to delete these ration? This process cannot be undone.</p>
+        <button class="btn btn-secondary" type="button" style="margin-right: 10px" (click)="cancelOperation()">Cancel
+        </button>
+        <button class="btn btn-primary" (click)="deleteRation()">Delete ration</button>
+      </div>
+
+      <div *ngIf="showEditRation" class="modal-body">
+        <div class="row">
+          <div class="col-md-10 mx-auto">
+            <form [formGroup]="updateRationForm" (ngSubmit)="updateRation(updateRationForm)" class="register-form"
+                  id="register-form">
+              <div class="form-row">
+
+                <label class="col-md-6 col-form-label " for="name">Ration Name</label>
+                <input class="col-md-6" type="text" name="name" id="name" formControlName="name"
+                       placeholder="Ration Name"/>
+              </div>
+              <br>
+              <div class="form-row">
+
+                <label class="col-md-6 col-form-label " for="ration">Ration quantity</label>
+                <input class="col-md-6" type="number" name="ration" id="ration" formControlName="ration"
+                       placeholder="Quantity"/>
+              </div>
+              <br>
+              <div class="form-row">
+
+                <label class="col-md-6 col-form-label " for="minutes">Ration minutes</label>
+                <input class="col-md-6" type="number" name="minutes" id="minutes" formControlName="minutes"
+                       placeholder="Minutes"/>
+              </div>
+              <br>
+              <div class="form-row">
+
+                <label class="col-md-6 col-form-label " for="hours">Ration hours</label>
+                <input class="col-md-6" type="number" name="hours" id="hours" formControlName="hours"
+                       placeholder="Hours"/>
+              </div>
+              <br>
+              <div *ngIf="errorMessage" class="alert alert-danger">
+                <strong>Error!</strong> {{'Error in patch fodder'}}
+              </div>
+              <div class="modal-footer" style="border-top: 0 none;">
+                <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>
+                <button type="submit" class="btn btn-primary" name="savePet" id="savePet">Update Ration
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+</div>

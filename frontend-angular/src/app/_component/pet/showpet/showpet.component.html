@@ -1,0 +1,114 @@
+<div id="AllPet" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+     style="overflow: auto">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="form-title text-primary text-center">{{modalTitle}}</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div *ngIf="!showEditPet && !deletePopUp" class="modal-body ">
+        <div class="table-responsive">
+          <table mdbtable class="card-table table">
+            <thead>
+            <tr>
+              <th scope="col">Pet Name</th>
+              <th scope="col">Weight</th>
+              <th scope="col">Ideal weight</th>
+              <th scope="col">Age</th>
+              <th scope="col">Pet type</th>
+              <th scope="col">Breed</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let pet of pets; let i=index">
+              <td class="name">{{pet.name}}</td>
+              <td class="weight">{{pet.weight}} kg</td>
+              <td class="idealWeight">{{pet.idealWeight}} kg</td>
+              <td class="age">{{pet.age}} years</td>
+              <td class="petType">{{pet.petType.toString()}}</td>
+              <td class="breed">{{pet.breed}}</td>
+              <td>
+                <a class="collapse-item" (click)="EditPet(pet)"> <i
+                  class="fas fa-fw fa-cog">
+
+                </i></a>
+              </td>
+              <td>
+                <a class="collapse-item" (click)="deletePetPopUp(pet)"><i class="far fa-trash-alt"></i></a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div><!-- /.modal-content -->
+      <div *ngIf="deletePopUp" class="modal-body">
+        <div class="modal-header">
+          <h3 class="text-center">Are you sure?</h3>
+        </div>
+
+        <p>Do you really want to delete these pet? This process cannot be undone.</p>
+        <br>
+        <button class="btn btn-secondary" type="button" style="margin-right: 10px" (click)="cancelOperation()">Cancel
+        </button>
+        <button class="btn btn-primary" (click)="deletePet()">Delete pet</button>
+      </div>
+      <div *ngIf="showEditPet" class="modal-body">
+        <div class="row">
+          <div class="col-md-10 mx-auto">
+            <form [formGroup]="editPetForm" (ngSubmit)="updatePet(editPetForm)" class="register-form"
+                  id="register-form">
+              <div class="form-row">
+                <label class="col-md-6 col-form-label" for="name">Pet Name</label>
+                <input class="col-md-6" type="text" name="name" id="name" formControlName="name"
+                       placeholder="Pet's Name"/>
+              </div>
+              <br>
+              <div class="form-row">
+                <label class="col-md-6 col-form-label" for="weight">Weight</label>
+                <input class="col-md-6" type="number" name="weight" id="weight" formControlName="weight"
+                       placeholder="Weight"/>
+              </div>
+              <br>
+              <div class="form-row">
+
+                <label class="col-md-6 col-form-label6" for="age">Age</label>
+                <input class="col-md-6" type="number" name="age" id="age" formControlName="age" placeholder="Age"/>
+              </div>
+              <br>
+              <div class="form-row">
+                <label class="col-md-6 col-form-label" for="petType">Pet type</label>
+                <select formControlName="petType" class=" col-md-6 col-form-label form-control" id="petType">
+                  <option value="">Choose a pet type</option>
+                  <option *ngFor="let o of petType">
+                    {{o}}
+                  </option>
+                </select>
+              </div>
+              <br>
+              <div class="form-row">
+
+                <label class="col-md-6 col-form-label" for="breed">Breed</label>
+                <input class="col-md-6 col-form-label" type="text" name="breed" formControlName="breed" id="breed"
+                       placeholder="Breed"/>
+              </div>
+              <br>
+              <div *ngIf="errorMessage" class="alert alert-danger">
+                <strong>Error!</strong> {{'Error in update pet'}}
+              </div>
+              <div class="modal-footer" style="border-top: 0 none;">
+                <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>
+                <button type="submit" class="btn btn-primary"  name="savePet" id="savePet">Save Pet
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+</div>

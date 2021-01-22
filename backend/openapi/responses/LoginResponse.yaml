@@ -1,5 +1,0 @@
-description: respode with JWT token for authentication.
-content:
-  application/json:
-    schema:
-      $ref: "../schemas/LoginUserRes.yaml"

@@ -1,0 +1,28 @@
+image: node:14
+before_script:
+  - cd backend
+  - yarn install
+
+cache:
+  key: $CI_PROJECT_ID
+  policy: pull
+  untracked: true
+
+install:
+  stage: test
+  script: echo "Warming the cache"
+  cache:
+    key: $CI_PROJECT_ID
+    policy: pull-push
+    paths:
+      - .yarn
+      - node_modules
+      - 'packages/*/node_modules'
+
+lint:
+  stage: test
+  script: yarn run start lint
+
+build:
+  stage: build
+  script: yarn run start build

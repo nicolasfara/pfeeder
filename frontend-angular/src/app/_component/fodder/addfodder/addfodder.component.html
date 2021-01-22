@@ -1,0 +1,152 @@
+<div id="AddFodder" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" style="overflow: auto">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="form-title text-primary">Add fodder</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addFodderForm" (ngSubmit)="addFodder()">
+
+          <div class="form-row">
+            <div class="col-3">
+              <label class="control-label" for="name">Fodder Name</label>
+            </div>
+            <div class="col-3">
+              <input type="text" name="name" id="name" formControlName="name"
+                     placeholder="Fodder Name"
+                     [ngClass]="{ 'is-invalid': submitted && f.name.errors }"/>
+              <div *ngIf="submitted && f.name.errors" class="invalid-feedback text-center">
+                <div *ngIf="f.name.errors.required">Name is required</div>
+              </div>
+            </div>
+          <br>
+            <div class="col-3">
+              <label class="control-label" for="kcal">Kcal</label>
+            </div>
+            <div class="col-3">
+              <input type="number" name="kcal" id="kcal" formControlName="kcal" placeholder="Kcal"
+                     [ngClass]="{ 'is-invalid': submitted && f.kcal.errors }"/>
+              <div *ngIf="submitted && f.kcal.errors" class="invalid-feedback text-center">
+                <div *ngIf="f.kcal.errors.required"> Kilocalories is required</div>
+                <div *ngIf="f.kcal.errors" class="text-danger">Number Only</div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="form-row">
+            <div class="col-3">
+              <label class="control-label" for="companyName">Company Name</label>
+            </div>
+            <div class="col-3">
+              <input type="text" name="companyName" id="companyName" formControlName="companyName"
+                     placeholder="Company Name" [ngClass]="{ 'is-invalid': submitted && f.companyName.errors }"/>
+              <div *ngIf="submitted && f.companyName.errors" class="invalid-feedback text-center">
+                <div *ngIf="f.companyName.errors.required">Company name is required</div>
+              </div>
+            </div>
+            <div class="col-3">
+              <label class="control-label" for="proteins">Proteins</label>
+            </div>
+            <div class="col-3">
+              <input type="number" name="proteins" id="proteins" formControlName="proteins"
+                     placeholder="Proteins"
+                     [ngClass]="{ 'is-invalid': submitted && f.proteins.errors }"/>
+              <div *ngIf="submitted && f.proteins.errors" class="invalid-feedback text-center">
+                <div *ngIf="f.proteins.errors.required">Proteins is required</div>
+                <div *ngIf="f.proteins.errors" class="text-danger">Number Only</div>
+              </div>
+            </div>
+          </div>
+
+          <br>
+          <div class="form-row">
+            <div class="col-3">
+              <label class="control-label" for="price">Price</label>
+            </div>
+            <div class="col-3">
+              <input type="number" name="price" id="price" formControlName="price"
+                     placeholder="Price"
+                     [ngClass]="{ 'is-invalid': submitted && f.price.errors }"/>
+              <div *ngIf="submitted && f.price.errors" class="invalid-feedback text-center">
+                <div *ngIf="f.price.errors.required">Price is required</div>
+                <div *ngIf="f.price.errors" class="text-danger">Number Only</div>
+              </div>
+            </div>
+            <div class="col-3">
+              <label class="control-label" for="fats">Fats</label>
+            </div>
+            <div class="col-3">
+              <input type="number" name="fats" id="fats" formControlName="fats" placeholder="Fats"
+                     [ngClass]="{ 'is-invalid': submitted && f.fats.errors }"/>
+              <div *ngIf="submitted && f.fats.errors" class="invalid-feedback text-center">
+                <div *ngIf="f.fats.errors.required">Fats is required</div>
+                <div *ngIf="f.fats.errors" class="text-danger">Number Only</div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="form-row">
+            <div class="col-3">
+              <label class="control-label" for="weight">Weight</label>
+            </div>
+            <div class="col-3">
+              <input type="number" name="weight" id="weight" formControlName="weight"
+                     placeholder="Weight"
+                     [ngClass]="{ 'is-invalid': submitted && f.weight.errors }"/>
+              <div *ngIf="submitted && f.weight.errors" class="invalid-feedback text-center">
+                <div *ngIf="f.weight.errors.required">Weight is required</div>
+                <div *ngIf="f.weight.errors" class="text-danger">Number Only</div>
+              </div>
+            </div>
+            <div class="col-3">
+              <label class="control-label" for="vitamins">Vitamins</label>
+            </div>
+            <div class="col-3">
+              <input type="number" name="vitamins" id="vitamins" formControlName="vitamins"
+                     placeholder="Vitamins"
+                     [ngClass]="{ 'is-invalid': submitted && f.vitamins.errors }"/>
+              <div *ngIf="submitted && f.vitamins.errors" class="invalid-feedback text-center">
+                <div *ngIf="f.vitamins.errors.required">Vitamins is required</div>
+                <div *ngIf="f.vitamins.errors" class="text-danger">Number Only</div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="form-row">
+            <div class="col-3">
+            </div>
+            <div class="col-3">
+            </div>
+            <div class="col-3">
+              <label class="control-label" for="carbohydrates">Carbohydrates</label>
+            </div>
+            <div class="col-3">
+              <input type="number" name="carbohydrates" id="carbohydrates"
+                     formControlName="carbohydrates"
+                     placeholder="Carbohydrates"
+                     [ngClass]="{ 'is-invalid': submitted && f.carbohydrates.errors }"/>
+              <div *ngIf="submitted && f.carbohydrates.errors" class="invalid-feedback text-center">
+                <div *ngIf="f.carbohydrates.errors.required">Carbohydrates is required</div>
+                <div *ngIf="f.carbohydrates.errors" class="text-danger">Number Only</div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="errorMessage" class="alert alert-danger">
+            <strong>Error!</strong> {{'Error in add new fodder'}}
+          </div>
+          <div class="modal-footer" style="border-top: 0 none;">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" name="addFodderButton" id="addFodderButton">Add Fodder
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+

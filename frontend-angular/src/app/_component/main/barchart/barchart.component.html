@@ -1,0 +1,8 @@
+<div class="container">
+  <canvas baseChart *ngIf="feeds && pieChartLabels && pieChartData"
+          [data]="pieChartData"
+          [labels]="pieChartLabels"
+          [colors]="colors"
+          [chartType]="pieChartType"
+          [legend]="barChartLegend"></canvas>
+</div>

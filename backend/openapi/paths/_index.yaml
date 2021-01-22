@@ -1,7 +1,0 @@
-/signup:
-  post:
-    $ref: "./signupUser.yaml"
-
-/login:
-  post:
-    $ref: "./loginUser.yaml"

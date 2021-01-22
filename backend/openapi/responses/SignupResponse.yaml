@@ -1,5 +1,0 @@
-description: result on signup a new user
-content:
-  application/json:
-    schema:
-      $ref: "../schemas/SignUpUserRes.yaml"

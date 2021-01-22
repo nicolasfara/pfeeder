@@ -1,0 +1,153 @@
+<div id="AllFodder" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" style="overflow: auto">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="form-title text-primary">{{modalTitle}}</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div *ngIf="!showEditProduct" class="modal-body">
+        <div class="table-responsive">
+          <table mdbtable class="card-table table">
+            <thead>
+            <tr>
+              <th scope="col">Fodder Name</th>
+              <th scope="col">Company Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Weight</th>
+              <th scope="col">Kcal</th>
+              <th scope="col">Proteins</th>
+              <th scope="col">Fats</th>
+              <th scope="col">Vitamins</th>
+              <th scope="col">Carbohydrates</th>
+              <th scope="col">Edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let fodder of fodders">
+              <td class="name">{{fodder.name}}</td>
+              <td class="companyName">{{fodder.companyName}}</td>
+              <td class="price">{{fodder.price}}</td>
+              <td class="weight">{{fodder.weight}} kg</td>
+              <td class="kcal">{{fodder.nutritionFacts.kcal}}</td>
+              <td class="proteins">{{fodder.nutritionFacts.proteins}}</td>
+              <td class="fats">{{fodder.nutritionFacts.fats}}</td>
+              <td class="vitamins">{{fodder.nutritionFacts.vitamins}}</td>
+              <td class="carbohydrates">{{fodder.nutritionFacts.carbohydrates}}</td>
+              <td>
+                <a class="collapse-item" (click)="EditFodder(fodder)"> <i
+                  class="fas fa-fw fa-cog"></i></a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div><!-- /.modal-content -->
+      <div *ngIf="showEditProduct" class="modal-body">
+        <div class="row">
+          <div class="col-md-10 mx-auto">
+            <form [formGroup]="updateFodderForm" (ngSubmit)="updateFodder(updateFodderForm)" class="register-form"
+                  id="register-form">
+              <div class="form-row">
+                <div class="col-3">
+                  <label class="control-label" for="name">Fodder Name</label>
+                </div>
+                <div class="col-3">
+                  <input type="text" name="name" id="name" formControlName="name"
+                         placeholder="Fodder Name"/>
+                </div>
+                <div class="col-3">
+                  <label class="control-label" for="kcal">Kcal</label>
+                </div>
+                <div class="col-3">
+                  <input type="number" name="kcal" id="kcal" formControlName="kcal" placeholder="Kcal"/>
+                </div>
+              </div>
+              <br>
+              <div class="form-row">
+                <div class="col-3">
+                  <label class="control-label" for="companyName">Company Name</label>
+                </div>
+                <div class="col-3">
+                  <input type="text" name="companyName" id="companyName" formControlName="companyName"
+                         placeholder="Company Name"/>
+                </div>
+                <div class="col-3">
+                  <label class="control-label" for="proteins">Proteins</label>
+                </div>
+                <div class="col-3">
+                  <input type="number" name="proteins" id="proteins" formControlName="proteins"
+                         placeholder="Proteins"/>
+                </div>
+              </div>
+
+              <br>
+              <div class="form-row">
+                <div class="col-3">
+                  <label class="control-label" for="price">Price</label>
+                </div>
+                <div class="col-3">
+                  <input type="number" name="price" id="price" formControlName="price"
+                         placeholder="Price"/>
+                </div>
+                <div class="col-3">
+                  <label class="control-label" for="fats">Fats</label>
+                </div>
+                <div class="col-3">
+                  <input type="number" name="fats" id="fats" formControlName="fats" placeholder="Fats"/>
+                </div>
+              </div>
+              <br>
+              <div class="form-row">
+                <div class="col-3">
+                  <label class="control-label" for="weight">Weight</label>
+                </div>
+                <div class="col-3">
+                  <input type="number" name="weight" id="weight" formControlName="weight"
+                         placeholder="Weight"/>
+                </div>
+                <div class="col-3">
+                  <label class="control-label" for="vitamins">Vitamins</label>
+                </div>
+                <div class="col-3">
+                  <input type="number" name="vitamins" id="vitamins" formControlName="vitamins"
+                         placeholder="Vitamins"/>
+                </div>
+              </div>
+              <br>
+              <div class="form-row">
+                <div class="col-3">
+                </div>
+                <div class="col-3">
+                </div>
+                <div class="col-3">
+                  <label class="control-label" for="carbohydrates">Carbohydrates</label>
+                </div>
+                <div class="col-3">
+                  <input type="number" name="carbohydrates" id="carbohydrates"
+                         formControlName="carbohydrates"
+                         placeholder="Carbohydrates"/>
+
+                </div>
+              </div>
+              <div *ngIf="errorMessage" class="alert alert-danger">
+                <strong>Error!</strong> {{'Error in patch fodder'}}
+              </div>
+              <div class="modal-footer" style="border-top: 0 none;">
+                <button type="button" class="btn btn-secondary" (click)="back()" data-dismiss="modal">Back</button>
+                <button type="submit" class="btn btn-primary" name="addFodderButton" id="addFodderButton">
+                  Update Fodder
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
