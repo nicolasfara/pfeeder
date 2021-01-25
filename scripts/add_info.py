@@ -16,12 +16,12 @@ from asyncio_mqtt import Client
 
 # TODO("Converti i parametri affinche' siano validi")
 payload = {
-    "deviceId":"2a19abbcdddcb24596785bb5",
+    "deviceId":"8fcd9208fcf25442420b96f3",
     "message": "your pet has just finished eating!"
 }
 
 async def main():
-    async with Client("localhost") as client:
+    async with Client("pfeeder.nicolasfarabegoli.it") as client:
         msg = json.dumps(payload)
         await client.publish('/pfeeder/info', msg, qos=1)
 
