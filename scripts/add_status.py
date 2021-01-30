@@ -16,7 +16,7 @@ from asyncio_mqtt import Client
 
 # TODO("Converti i parametri affinche' siano validi")
 payload = {
-    "deviceId":"2a19abbcdddcb24596785bb5",
+    "deviceId":"54beb59b38ee99724bd29cd2",
     "message": "In 5 days the feed will run out!"
 }
 

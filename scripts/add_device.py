@@ -20,13 +20,13 @@ credential={
 }
 
 async def main():
-    base_url="pfeeder.nicolasfarabegoli.it/api"
+    base_url="localhost/api"
     async with aiohttp.ClientSession() as session:
-        async with session.post(url=f"https://{base_url}/users/login", json=credential) as resp:
+        async with session.post(url=f"http://{base_url}/users/login", json=credential) as resp:
             res = await resp.json()
             token = res['token']
         headers={'Authorization': f"Bearer {token}"}
-        async with session.post(url=f"https://{base_url}/users/device", headers=headers) as resp:
+        async with session.post(url=f"http://{base_url}/users/device", headers=headers) as resp:
             device_id = await resp.json()
             print(device_id)
             if resp.status == 200:

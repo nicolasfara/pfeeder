@@ -16,11 +16,11 @@ from asyncio_mqtt import Client
 
 # TODO("Converti i parametri affinche' siano validi")
 payload = {
-    "deviceId":"2a19abbcdddcb24596785bb5",
+    "deviceId":"54beb59b38ee99724bd29cd2",
     "petName":"Sissi",
     "quantity": "50",
     "kcal":"500",
-    "fodderId":"5f7add3d69502ec8a12a4e48"
+    "fodderId":"600742458a1123002467dab8"
 }
 
 async def main():
