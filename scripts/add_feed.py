@@ -17,7 +17,7 @@ from asyncio_mqtt import Client
 # TODO("Converti i parametri affinche' siano validi")
 payload = {
     "deviceId":"54beb59b38ee99724bd29cd2",
-    "petName":"Sissi",
+    "petName":"Filippo",
     "quantity": "50",
     "kcal":"500",
     "fodderId":"600742458a1123002467dab8"
